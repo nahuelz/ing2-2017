@@ -1,0 +1,59 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="./?action=home">Nombre</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        	<ul class="nav navbar-nav navbar-right">
+				{% if user %}
+	                <li class="dropdown">
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Favores<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">Favores que me postule</a>
+							</li>
+							<li>
+								<a href="#">Favores que solicite</a>
+							</li>
+						</ul>
+	                </li>
+
+					<li class="dropdown">
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Calificaciones<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">Calificaciones recibidas</a>
+							</li>
+							<li>
+								<a href="#">Calificaciones enviadas</a>
+							</li>
+						</ul>
+	                </li>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.nombre }}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="./?action=miCuenta">Mi cuenta</a>
+								</li>
+								<li>
+									<a href="./?action=cerrarSesion">Cerrar sesión</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				{% else %}
+                	<ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="./?action=login">Ingresar</a>
+                        </li>
+                    </ul>
+                {% endif %}
+	            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>

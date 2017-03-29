@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	{% block head %}
+		{% include 'header.html.twig' %}
+	{% endblock %}
+
+	<title> {% block title %}{% endblock %} </title>
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+			<header style="height: 50px">
+				{% include 'nav.html.twig' %}
+			</header>
+			<div class="row">
+				{% if message %}
+					<div class="alert alert-info" style="margin-bottom: -50px;">
+				 		<strong>{{ message }}</strong>
+					</div>
+				{% endif %}
+
+				{% block container %}{% endblock %}
+			</div>
+		</div>
+</body>
+	</div>
+	<footer>
+		{% block footer %} {% endblock %}
+	</footer>
+</html>
+
+
