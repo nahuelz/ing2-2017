@@ -109,10 +109,12 @@ class UsuarioController {
                     if ($user->getEmail() == $userMod->getEmail()){
                         if ($user->getCreditos() == $userMod->getCreditos()){
                             Usuario::getInstance()->modificarUsuario($userMod->getNombre(), $userMod->getApellido(), $userMod->getTelefono(), $userMod->getEmail());
-                            Session::getInstance()->destroy();
-                            ResourceController::getInstance()->home(Message::getMessage(6));
+                            /*Session::getInstance()->destroy();
+                            ResourceController::getInstance()->home(Message::getMessage(6));*/
+                            $session = Session::getInstance();
+                            $session->usuario = $userMod;
+                            $this->miCuenta(Message::getMessage(6));
                         }else{
-                            print_r($user->getCreditos());
                             $this->miCuenta(Message::getMessage(9));
                         }  
                     }else{
@@ -124,6 +126,45 @@ class UsuarioController {
             }else{
                 $this->miCuenta(Message::getMessage(5));
             }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
+    /*
+    ** DESHABILITAR CUENTA
+    */
+    public function deshabilitarCuenta($args = []){
+        if($this->usuarioLogeado()){
+            $args = array_merge($args, ['user' => $this->usuarioLogeado()]);
+            $view = new deshabilitarCuenta();
+            $view->show($args);
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
+    /*
+    ** DESHABILITAR CUENTA ACTION
+    */
+    public function deshabilitarCuentaAction($args = []){
+        if($this->usuarioLogeado()){
+            Usuario::getInstance()->deshabilitarUsuario($this->usuarioLogeado()->getEmail());
+            Session::getInstance()->destroy();
+            ResourceController::getInstance()->home();
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
+    /*
+    ** CREDITOS
+    */
+    public function creditos($args = []){
+        if($this->usuarioLogeado()){
+            $args = array_merge($args, ['user' => $this->usuarioLogeado()]);
+            $view = new Creditos();
+            $view->show($args);
         }else{
             ResourceController::getInstance()->home();
         }

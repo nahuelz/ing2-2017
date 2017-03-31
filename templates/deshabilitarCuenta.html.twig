@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block container %}
+<div class="container">    
+    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="text-center">¿Esta seguro que desea deshabilitar su cuenta?<br>La misma podra habilitarse nuevamente iniciando sesion</div>
+            </div>
+
+            <div class="panel-body" >                               
+                <a href="./?action=deshabilitarCuentaAction"><button id="btn-signup" class="btn btn-danger center-block">Deshabilitar Cuenta</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

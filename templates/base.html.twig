@@ -16,9 +16,15 @@
 			</header>
 			<div class="row">
 				{% if message %}
-					<div class="alert alert-info" style="margin-bottom: -50px;">
-				 		<strong>{{ message }}</strong>
-					</div>
+					{% if tipo == 'success' %}
+						<div class="alert alert-success" style="margin-bottom: -50px;">
+							<strong>{{ message }}</strong>
+						</div>
+					{% else %}
+						<div class="alert alert-warning" style="margin-bottom: -50px;">
+					 		<strong>{{ message }}</strong>
+						</div>
+					{% endif %}
 				{% endif %}
 
 				{% block container %}{% endblock %}

@@ -17,6 +17,7 @@ class Usuario extends PDORepository {
     protected $password;
     protected $creditos;
     protected $esAdmin;
+    protected $habilitado;
 
     public static function getInstance() {
 
@@ -27,7 +28,7 @@ class Usuario extends PDORepository {
         return self::$instance;
     }
 
-    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null){
+    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null, $habilitado = null){
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -38,6 +39,7 @@ class Usuario extends PDORepository {
             $this->creditos = $creditos;
         }
         $this->esAdmin = 0;
+        $this->habilitado = 1;
 
         return $this;
     }
@@ -102,6 +104,14 @@ class Usuario extends PDORepository {
         return $this->esAdmin;
     }
 
+    public function setHabilitado($habilitado){
+        $this->habilitado = $habilitado;
+    }
+
+    public function getHabilitado(){
+        return $this->habilitado;
+    }
+
     public function registrarUsuario($usuario){
         $mapper = function($row) {};
 
@@ -145,6 +155,18 @@ class Usuario extends PDORepository {
     public function modificarUsuario($nombre, $apellido, $telefono, $email){
         $mapper=function($row){};
         $answer = $this->queryList("UPDATE usuario SET nombre=?, apellido =?,telefono=? WHERE email = ?", [$nombre, $apellido, $telefono, $email], $mapper);
+        return $answer;
+    }
+
+    public function deshabilitarUsuario($email){
+        $mapper=function($row){};
+        $answer = $this->queryList("UPDATE usuario SET habilitado=? WHERE email = ?", [0, $email], $mapper);
+        return $answer;
+    }
+
+    public function habilitarUsuario($email){
+        $mapper=function($rwo){};
+        $answer = $this->queryList("UPDATE usuario SET habilitado=? WHERE email = ?", [1, $email], $mapper);
         return $answer;
     }
 }

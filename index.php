@@ -17,6 +17,8 @@ require_once('view/Home.php');
 require_once('view/Login.php');
 require_once('view/Registro.php');
 require_once('view/MiCuenta.php');
+require_once('view/DeshabilitarCuenta.php');
+require_once('view/Creditos.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -27,6 +29,9 @@ if (isset($_GET["action"])){
         case 'registro' : { UsuarioController::getInstance()->registro(); break; }
         case 'registroAction': { UsuarioController::getInstance()->registroAction(); break; }
         case 'miCuenta': { UsuarioController::getInstance()->miCuenta(); break; }
+        case 'deshabilitarCuenta': { UsuarioController::getInstance()->deshabilitarCuenta(); break; }
+        case 'deshabilitarCuentaAction': { UsuarioController::getInstance()->deshabilitarCuentaAction(); break; }
+        case 'creditos': { UsuarioController::getInstance()->creditos(); break; }
         case 'editarCuenta': { UsuarioController::getInstance()->editarCuenta(); break; }
         case 'cerrarSesion': { UsuarioController::getInstance()->cerrarSesion(); break; }
 
