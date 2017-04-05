@@ -11,3 +11,12 @@
     background-size: cover;
     -o-background-size: cover;
 }
+
+.oblique{
+    font-style: oblique;
+}
+
+.searchFav{
+    font-size: 14px;
+    margin-top: 1%;
+}
