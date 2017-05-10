@@ -2,6 +2,7 @@
 /* CONTROLLER */
 require_once('controller/ResourceController.php');
 require_once('controller/UsuarioController.php');
+require_once('controller/FavorController.php');
 
 
 /* MODEL */
@@ -9,6 +10,8 @@ require_once('model/PDORepository.php');
 require_once('model/Usuario.php');
 require_once('model/Message.php');
 require_once('model/Session.php');
+require_once('model/Categoria.php');
+require_once('model/Favor.php');
 
 
 /* VIEW */
@@ -19,6 +22,7 @@ require_once('view/Registro.php');
 require_once('view/MiCuenta.php');
 require_once('view/DeshabilitarCuenta.php');
 require_once('view/Creditos.php');
+require_once('view/AltaFavor.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -34,6 +38,10 @@ if (isset($_GET["action"])){
         case 'creditos': { UsuarioController::getInstance()->creditos(); break; }
         case 'editarCuenta': { UsuarioController::getInstance()->editarCuenta(); break; }
         case 'cerrarSesion': { UsuarioController::getInstance()->cerrarSesion(); break; }
+
+        /* FAVOR */
+        case 'altaFavor': { FavorController::getInstance()->altaFavor(); break; }
+        case 'altaFavorAction': { FavorController::getInstance()->altaFavorAction(); break; }
 
         default: { ResourceController::getInstance()->home(); break; }
     }

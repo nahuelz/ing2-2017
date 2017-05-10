@@ -28,7 +28,7 @@ class Usuario extends PDORepository {
         return self::$instance;
     }
 
-    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null, $habilitado = null){
+    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null, $esAdmin = null, $habilitado = null){
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -37,9 +37,21 @@ class Usuario extends PDORepository {
         $this->telefono = $telefono;
         if ($creditos != null){
             $this->creditos = $creditos;
+        }else{
+            $this->creditos = 0;
         }
-        $this->esAdmin = 0;
-        $this->habilitado = 1;
+
+        if ($esAdmin != null){
+            $this->esAdmin = $esAdmin;
+        }else{
+            $this->esAdmin = 0;
+        }
+
+        if ($habilitado != null){
+            $this->habilitado = $habilitado;
+        }else{
+            $this->habilitado = 1;
+        }
 
         return $this;
     }
@@ -140,7 +152,7 @@ class Usuario extends PDORepository {
 
     public function logear($email, $pass) {
         $mapper = function($row) {
-            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['esAdmin']);
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['esAdmin'], $row['habilitado']);
             return $resource;
         };
 

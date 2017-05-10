@@ -20,7 +20,7 @@ class Message {
             case 4:
                 return ['message' => 'Ya exite una cuenta registrada con ese email', 'tipo' => 'warning'];
             case 5:
-                return ['message' => 'Error, debe completar todos los campos.', 'tipo' => 'warning'];
+                return ['message' => 'Error, los campos no se validaron correctamente.', 'tipo' => 'warning'];
             case 6:
                 return ['message' => 'Datos modificados correctamente', 'tipo' => 'success'];
             case 7:
@@ -29,6 +29,8 @@ class Message {
                 return ['message' => 'Error, password incorrecto', 'tipo' => 'warning'];
             case 9:
                 return ['message' => 'Error, no puedes modificar los creditos desde aqui', 'tipo' => 'warning'];
+            case 10:
+                return ['message' => 'Publicacion creada', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

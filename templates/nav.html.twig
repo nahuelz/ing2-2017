@@ -1,13 +1,23 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	<div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="./?action=home">Chain of Favours</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        	<ul class="nav navbar-nav navbar-right">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="./?action=home">Chain of Favours</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
 				{% if user %}
-	                <li class="dropdown">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Favores<b class="caret"></b></a>
+					{% if user.esAdmin %}
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorias<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Alta categoria</a>
+								</li>
+							</ul>
+						</li>
+					{% endif %}
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Favores<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
 								<a href="#">Favores que me postule</a>
@@ -15,8 +25,11 @@
 							<li>
 								<a href="#">Favores que solicite</a>
 							</li>
+							<li>
+								<a href="./?action=altaFavor">Solicitar un nuevo favor</a>
+							</li>
 						</ul>
-	                </li>
+					</li>
 
 					<li class="dropdown">
 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Calificaciones<b class="caret"></b></a>
