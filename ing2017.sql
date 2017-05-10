@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2017 a las 13:15:22
+-- Tiempo de generación: 11-05-2017 a las 00:09:39
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -19,6 +19,44 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ing2017`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categoria`
+--
+
+CREATE TABLE `categoria` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `habilitada` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`id`, `nombre`, `habilitada`) VALUES
+(1, 'nombreCategoria1', 1),
+(2, 'nombreCategoria2', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `favor`
+--
+
+CREATE TABLE `favor` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `categoria` int(11) NOT NULL,
+  `localidad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha_publicacion` date NOT NULL,
+  `cerrada` int(1) NOT NULL,
+  `imagen` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -50,6 +88,18 @@ INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `email`, `password`, `telefon
 --
 
 --
+-- Indices de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `favor`
+--
+ALTER TABLE `favor`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -59,6 +109,16 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla `favor`
+--
+ALTER TABLE `favor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
