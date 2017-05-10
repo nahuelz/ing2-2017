@@ -10,7 +10,7 @@ class Message {
     public static function getMessage($message) {
         switch ($message) {
             case 0:
-                return ['message' => 'Ups! No tiene permiso para acceder a ese lugar.', 'tipo' => 'warning'];
+                return ['message' => 'Ups! No tiene permiso para acceder a este lugar.', 'tipo' => 'warning'];
             case 1:
                 return ['message' => 'El usuario o la contraseña son incorrectas.', 'tipo' => 'warning'];
             case 2:
@@ -18,7 +18,7 @@ class Message {
             case 3:
                 return ['message' => 'Se ha registrado exitosamente.', 'tipo' => 'success'];
             case 4:
-                return ['message' => 'Ya exite una cuenta registrada con ese email', 'tipo' => 'warning'];
+                return ['message' => 'Ya exite una cuenta registrada con este email', 'tipo' => 'warning'];
             case 5:
                 return ['message' => 'Error, los campos no se validaron correctamente.', 'tipo' => 'warning'];
             case 6:

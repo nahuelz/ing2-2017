@@ -124,12 +124,12 @@ class Usuario extends PDORepository {
         return $this->habilitado;
     }
 
-    public function registrarUsuario($usuario){
+    public function registrarUsuario($nombre, $apellido, $email, $password, $telefono){
         $mapper = function($row) {};
 
-        if (!$this->existeEmail($usuario->getEmail())) {
-            $sql = "INSERT INTO usuario (nombre, apellido, email, password, telefono, creditos, esAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $values = [$usuario->getNombre(), $usuario->getApellido(), $usuario->getEmail(), $usuario->getPassword(), $usuario->getTelefono(), 1, $usuario->getEsAdmin()];
+        if (!$this->existeEmail($email)) {
+            $sql = "INSERT INTO usuario (nombre, apellido, email, password, telefono, creditos, esAdmin, habilitado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $values = [$nombre, $apellido, $email, $password, $telefono, 1, 0, 1];
             $this->queryList($sql, $values, $mapper);
             return Message::getMessage(3);
         }

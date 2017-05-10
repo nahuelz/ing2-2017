@@ -71,9 +71,13 @@ class UsuarioController {
         if (!$this->usuarioLogeado()){
             if ( (isset($_POST['email']) AND isset($_POST['nombre']) AND isset($_POST['apellido']) AND isset($_POST['telefono']) AND isset($_POST['password'])) AND ( !empty($_POST['email']) AND !empty($_POST['nombre']) AND !empty($_POST['apellido']) AND !empty(['telefono']) AND !empty(['password'])))
             {
+                $nombre = $_POST['nombre'];
+                $apellido = $_POST['apellido'];
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $telefono = $_POST['telefono'];
 
-    			$usuario = new Usuario($_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono']);
-    			$msg = $usuario->registrarUsuario($usuario);
+    			$msg = Usuario::getInstance()->registrarUsuario($nombre, $apellido, $email, $password, $telefono);
                 ResourceController::getInstance()->home($msg);
     		} else {
     			$this->registro(Message::getMessage(5));
