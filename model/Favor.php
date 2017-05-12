@@ -41,13 +41,78 @@ class Favor extends PDORepository {
         return $this;
     }
 
-     public function setId($id){
+    public function setId($id){
         $this->id = $id;
     }
 
     public function getId(){
         return $this->id;
     }
+
+    public function setUsuarioId($usuarioId){
+        $this->usuarioId = $usuarioId;
+    }
+
+    public function getUsuarioId(){
+        return $this->usuarioId;
+    }
+
+    public function setTitulo($titulo){
+        $this->titulo = $titulo;
+    }
+
+    public function getTitulo(){
+        return $this->titulo;
+    }
+
+    public function setDescripcion($descripcion){
+        $this->descripcion = $descripcion;
+    }
+
+    public function getDescripcion(){
+        return $this->descripcion;
+    }
+
+    public function setCategoriaId($categoriaId){
+        $this->categoriaId = $categoriaId;
+    }
+
+    public function getCategoriaId(){
+        return $this->categoriaId;
+    }
+
+    public function setLocalidad($localidad){
+        $this->localidad = $localidad;
+    }
+
+    public function getLocalidad(){
+        return $this->localidad;
+    }
+
+    public function setFechaPublicacion($fechaPublicacion){
+        $this->fechaPublicacion = $fechaPublicacion;
+    }
+
+    public function getFechapublicacion(){
+        return $this->fechaPublicacion;
+    }
+
+    public function setCerrada($cerrada){
+        $this->cerrada = $cerrada;
+    }
+
+    public function getCerrada(){
+        return $this->cerrada;
+    }
+
+    public function setImagen($imagen){
+        $this->imagen = $imagen;
+    }
+
+    public function getImagen(){
+        return $this->imagen;
+    }
+
 
     public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
@@ -56,6 +121,15 @@ class Favor extends PDORepository {
         $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0, $imagen];
         $this->queryList($sql, $values, $mapper);
         return (Message::getMessage(10));
+    }
+
+    public function obtenerFavores(){
+         $mapper = function($row) {
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            return $resource;
+        };
+        $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=0;", [], $mapper);
+        return ($answer);
     }
 
 }

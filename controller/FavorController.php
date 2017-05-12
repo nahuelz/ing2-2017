@@ -45,7 +45,7 @@ class FavorController {
                 $fecha = Date('Y-m-d');
                 $nombreImagen = '';
                 $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
-                if (isset($_FILES['imagen'])){
+                if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
                     if ($this->validarImagen()){
                         $imagen = $this->procesarImagen();
                         $nombreImagen = $_FILES['imagen']['name'];
