@@ -31,6 +31,8 @@ class Message {
                 return ['message' => 'Error, no puedes modificar los creditos desde aqui', 'tipo' => 'warning'];
             case 10:
                 return ['message' => 'Publicacion creada', 'tipo' => 'success'];
+            case 11:
+                return ['message' => 'Error, seleccione una imagen valida', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

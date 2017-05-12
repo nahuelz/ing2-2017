@@ -53,10 +53,12 @@ class FavorController {
                 }else{
                     $msg = Message::getMessage(5);
                 }
-                $this->altaFavor($msg);
             }else{
-                ResourceController::getInstance()->home();
+                $msg = Message::getMessage(11);
             }
+            $this->altaFavor($msg);
+        }else{
+            ResourceController::getInstance()->home();
         }
     }
     
