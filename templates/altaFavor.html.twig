@@ -8,7 +8,7 @@
 	                </div>
 
                 	<div class="panel-body" >
-                      <form id="favorForm" class="form-horizontal" role="form" method="POST" action="./?action=altaFavorAction">  
+                      <form id="favorForm" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="./?action=altaFavorAction">  
 
                             <div class="form-group">
                                   <label for="titulo" class="col-md-3 control-label">Titulo</label>
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                   <label for="imagen" class="col-md-3 control-label">Imagen</label>
                                   <div class="col-md-9">
-                                        <input type="file" class="form-control" name="imagen">
+                                        <input type="file" class="form-control" id="imagen" name="imagen">
                                   </div>
                             </div> 		                      
 

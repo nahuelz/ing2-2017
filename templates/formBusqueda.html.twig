@@ -1,27 +1,23 @@
-<form class="navbar-form navbar-left col-md-12" method="POST" id="searchForm" action="" role="search">
-<nav class="navbar">
-	<h1 class="page-header">
-        Favores
-    </h1>
-        <div class="form-group">
-        	<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título" >
-            <input type="text" class="form-control" name="localida" id="localidad" placeholder="Localidad" >
-            <input type="hidden" class="form-control" name="capacidad" id="capacidad" placeholder="Capacidad" hidden>
-            <select class="form-control" name="categoria" id="categoria">
-                <option value="">Categoria</option>
-                <option value="">Nombre categoria</option>
-            </select>
-            <input type="hidden" class="form-control" name="datefilter" id="fechas" value="" placeholder="Fecha" hidden="" />
-            <input type="hidden" name="desde" id="desde" value="">
-            <input type="hidden" name="hasta" id="hasta" value="">
-        </div>
-        <button class="btn btn-info">Buscar</button>
-        {#<button id="btnCleanSearch" type="reset" disabled class="btn btn-warning" data-path="">Limpiar</button>#}
-        <legend class="oblique searchFav" >La búsqueda puede ser por título, tipo, localidad y capacidad.</legend>
-    </nav>
-</form>
-<div>
-    {% if favores is defined %}
-
-    {% endif %}
+<div class="barraBusqueda">
+    <form class="navbar-form navbar-left col-md-12" method="POST" id="searchForm" action="" role="search" style="left: 20%">
+    <nav class="navbar">
+    	<h1 class="page-header"></h1>
+            <div class="form-group">
+            	<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título" >
+                <input type="text" class="form-control" name="localida" id="localidad" placeholder="Localidad" >
+                <input type="hidden" class="form-control" name="capacidad" id="capacidad" placeholder="Capacidad" hidden>
+                <select class="form-control" name="categoria">
+                    {% for categoria in categorias %}
+                         <option value="{{categoria.id}}">{{categoria.nombre}}</option>
+                    {% endfor %}         
+                </select>
+                <input type="hidden" class="form-control" name="datefilter" id="fechas" value="" placeholder="Fecha" hidden="" />
+                <input type="hidden" name="desde" id="desde" value="">
+                <input type="hidden" name="hasta" id="hasta" value="">
+            </div>
+            <button class="btn btn-info">Buscar</button>
+            {#<button id="btnCleanSearch" type="reset" disabled class="btn btn-warning" data-path="">Limpiar</button>#}
+            <legend class="oblique searchFav" >La búsqueda puede ser por título, tipo, localidad y capacidad.</legend>
+        </nav>
+    </form>
 </div>

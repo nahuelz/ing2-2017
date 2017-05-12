@@ -18,11 +18,13 @@ class ResourceController {
 	** HOME:
 	*/
     public function home($args = []) {
+        $categorias = Categoria::getInstance()->categoriasHabilitadas();
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
+            $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias]);
             $view = new Home();
             $view->show($args);
         }else{
+            $args = array_merge($args, ['categorias' => $categorias]);
             $view = new Home();
             $view->show($args);
         }

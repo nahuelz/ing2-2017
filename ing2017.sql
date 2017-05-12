@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-05-2017 a las 00:09:39
+-- Tiempo de generación: 12-05-2017 a las 18:38:15
 -- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 7.1.1
+-- Versión de PHP: 7.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -55,8 +55,15 @@ CREATE TABLE `favor` (
   `localidad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_publicacion` date NOT NULL,
   `cerrada` int(1) NOT NULL,
-  `imagen` blob
+  `imagen` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `favor`
+--
+
+INSERT INTO `favor` (`id`, `usuario_id`, `titulo`, `descripcion`, `categoria`, `localidad`, `fecha_publicacion`, `cerrada`, `imagen`) VALUES
+(10, 1, 'asdasdasfaf', 'asfasfasf', 1, 'Azul', '2017-05-12', 0, '17862503_1636126096416315_1315970996329994303_n.jpg');
 
 -- --------------------------------------------------------
 
@@ -81,7 +88,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `email`, `password`, `telefono`, `creditos`, `esAdmin`, `habilitado`) VALUES
-(1, 'Admin', 'Admin', 'admin@admin', 'admin', '123456789', '999', '1', 0);
+(1, 'Admin', 'Admin', 'admin@admin', 'admin', '123456789', '999', '1', 1);
 
 --
 -- Índices para tablas volcadas
@@ -118,7 +125,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `favor`
 --
 ALTER TABLE `favor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --

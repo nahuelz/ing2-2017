@@ -49,11 +49,11 @@ class Favor extends PDORepository {
         return $this->id;
     }
 
-    public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha){
+    public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
 
-        $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, cerrada) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0];
+        $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, cerrada, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0, $imagen];
         $this->queryList($sql, $values, $mapper);
         return (Message::getMessage(10));
     }
