@@ -55,19 +55,30 @@ class comentario extends PDORepository {
         return $this->idFavor;
     }
 
-    public function setComentario($comenario){
-        $this->comenario = $comenario;
+    public function setComentario($comentario){
+        $this->comentario = $comentario;
     }
 
-    public function getIdComentario(){
+    public function getComentario(){
         return $this->comentario;
     }
 
 
-     public function altaComentario($idUsuario, $idFavor, $comentario){
+    public function altaComentario($idUsuario, $idFavor, $comentario){
             $mapper = function($row) {};
             $sql = "INSERT INTO comentario (idUsuario, idFavor, comentario) VALUES (?, ?, ?)";
             $values = [$idUsuario, $idFavor, $comentario];
             $this->queryList($sql, $values, $mapper);
-        }
+            $msg=Message::getMessage(12);
+            FavorController::getInstance()->verDetalle($msg);
+    }
+
+    public function verComentario($id) {
+         $mapper = function($row) {
+            $resource = new Comentario($row['id'], $row['idUsuario'], $row['idFavor'], $row['comentario']);
+            return $resource;
+        };
+        $answer = $this->queryList("SELECT * FROM comentario WHERE idFavor=? ",[$id], $mapper);
+        return ($answer);
+    }
     }

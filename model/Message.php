@@ -33,6 +33,8 @@ class Message {
                 return ['message' => 'Publicacion creada', 'tipo' => 'success'];
             case 11:
                 return ['message' => 'Error, seleccione una imagen valida', 'tipo' => 'warning'];
+            case 12:
+                return ['message' => 'Se ha comentado exitosamente', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

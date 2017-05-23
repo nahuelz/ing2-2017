@@ -4,36 +4,31 @@
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title">Mi Cuenta</div>
+                    <div class="panel-title">Favor</div>
                 </div>
 
                      <div class="panel-body" >
+                      <!-- Formulario postularse inicio-->
                           <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=editarCuenta">                                                
-                                <div class="form-group">
-                                      <label for="id" class="col-md-3 control-label">ID</label>
-                                      <div class="col-md-9">
-                                            <input type="number" class="form-control" name="id" value="{{ favor.id }}" readonly>
-                                      </div>
-                                </div>
 
                                 <div class="form-group">
                                       <label for="nombre" class="col-md-3 control-label">Titulo</label>
                                       <div class="col-md-9">
-                                            <input type="text" class="form-control" name="nombre" value="{{ favor.titulo }}" required="">
+                                            <label type="text" class="form-control" name="nombre" value="" required="">{{ favor.titulo }}</label>
                                       </div>
                                 </div>
 
                                 <div class="form-group">
                                       <label for="apellido" class="col-md-3 control-label">Descripcion</label>
                                       <div class="col-md-9">
-                                            <input type="text" class="form-control" name="apellido"value="{{ favor.Descripcion }}" required="">
+                                            <label type="text" class="form-control" name="apellido"value="" required="">{{ favor.Descripcion }}</label>
                                       </div>
                                 </div>
 
                                 <div class="form-group">
                                       <label for="telefono" class="col-md-3 control-label">localidad</label>
                                       <div class="col-md-9">
-                                            <input type="text" class="form-control" name="telefono" value="{{ favor.localidad }}" required="">
+                                            <label type="text" class="form-control" name="telefono" value="" required="">{{ favor.localidad }}</label>
                                       </div>
                                 </div>
 
@@ -50,8 +45,20 @@
                                       <button id="btn-signup"  class="btn btn-info"><i class="icon-hand-right"></i>Postularse</button> 
                                 </div>
                             </div>
+                        <!-- Formulario postularse fin-->    
                         </form>
-
+                        <!-- Mostrar comentarios inicio-->
+                          {% for comentario in comentarios %}
+                            <div class="col-sm-5">
+                            <div class="panel panel-default">
+                            <div class="panel-heading">
+                            <strong>NombreUser</strong> <span class="text-muted">commented 5 days ago</span>
+                            </div>
+                            <div class="panel-body">{{comentario.comentario}}</div><!-- /panel-body -->
+                            </div><!-- /panel panel-default -->
+                            </div><!-- /col-sm-5 -->
+                          {% endfor %}
+                        <!-- Mostrar comentarios fin-->
 
                         <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=comentarFavor">
                             
