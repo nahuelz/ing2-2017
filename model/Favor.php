@@ -132,4 +132,13 @@ class Favor extends PDORepository {
         return ($answer);
     }
 
+    public function verFavor($id){
+         $mapper = function($row) {
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            return $resource;
+        };
+        $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=? AND id=?;", [0, $id], $mapper);
+        return ($answer);
+    }
+
 }

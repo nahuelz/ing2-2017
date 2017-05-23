@@ -15,6 +15,7 @@ require_once('model/Categoria.php');
 require_once('model/Favor.php');
 
 
+
 /* VIEW */
 require_once('view/TwigView.php');
 require_once('view/Home.php');
@@ -24,6 +25,7 @@ require_once('view/MiCuenta.php');
 require_once('view/DeshabilitarCuenta.php');
 require_once('view/Creditos.php');
 require_once('view/AltaFavor.php');
+require_once('view/DetalleFavor.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -43,6 +45,7 @@ if (isset($_GET["action"])){
         /* FAVOR */
         case 'altaFavor': { FavorController::getInstance()->altaFavor(); break; }
         case 'altaFavorAction': { FavorController::getInstance()->altaFavorAction(); break; }
+        case 'verDetalle': { FavorController::getInstance()->verDetalle(); break; }
 
         default: { ResourceController::getInstance()->home(); break; }
     }

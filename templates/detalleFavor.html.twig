@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+{% block container %}
+	<div class="container">    
+        <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Mi Cuenta</div>
+                </div>
+
+                     <div class="panel-body" >
+                          <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=editarCuenta">                                                
+                                <div class="form-group">
+                                      <label for="id" class="col-md-3 control-label">ID</label>
+                                      <div class="col-md-9">
+                                            <input type="number" class="form-control" name="id" value="{{ favor.id }}" readonly>
+                                      </div>
+                                </div>
+
+                                <div class="form-group">
+                                      <label for="nombre" class="col-md-3 control-label">Titulo</label>
+                                      <div class="col-md-9">
+                                            <input type="text" class="form-control" name="nombre" value="{{ favor.titulo }}" required="">
+                                      </div>
+                                </div>
+
+                                <div class="form-group">
+                                      <label for="apellido" class="col-md-3 control-label">Descripcion</label>
+                                      <div class="col-md-9">
+                                            <input type="text" class="form-control" name="apellido"value="{{ favor.Descripcion }}" required="">
+                                      </div>
+                                </div>
+
+                                <div class="form-group">
+                                      <label for="telefono" class="col-md-3 control-label">localidad</label>
+                                      <div class="col-md-9">
+                                            <input type="text" class="form-control" name="telefono" value="{{ favor.localidad }}" required="">
+                                      </div>
+                                </div>
+
+                                <div class="form-group">
+                                      <label for="telefono" class="col-md-3 control-label">Imagen<br><p style="font-size: 10px; margin-left: -10px; margin-bottom: -10px;">*Compra creditos <a href="./?action=creditos">Aqui!</a></p></label>
+                                      <div class="col-md-9">
+                                            <img style=" width: 110px; height: 50px;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" />
+                                      </div>
+                                </div>
+                          
+                          <div class="form-group">
+                          <!-- Button -->                                        
+                                <div class="col-md-offset-3 col-md-3">
+                                      <button id="btn-signup"  class="btn btn-info"><i class="icon-hand-right"></i>Postularse</button>  
+                                </div>
+                          </div>
+                          <div class="form-group">
+                          <!-- Button -->                                        
+                                <div class="col-md-offset-3 col-md-3">
+                                      <button id="btn-signup" class="btn btn-info"><i class="icon-hand-left"></i>Comentar</button>  
+                                </div>
+                          </div>
+                          <form method="POST" action="">	
+	                          <input type="textarea" name="">
+	                          <input type="submit" name="enviar">
+                    	  </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

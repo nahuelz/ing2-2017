@@ -81,6 +81,24 @@ class FavorController {
         $nombreTmp = $_FILES['imagen']['tmp_name'];
         move_uploaded_file($nombreTmp, './imagenes/'.$nombreImagen);
 
-    }       
+    }
+
+    /*
+    *   VER DETALLE
+    */
+    public function verDetalle($args = []) {
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if (isset($_GET['id'])){
+                $idFavor = $_GET['id'];
+                $favor = Favor::getInstance()->verFavor($idFavor);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
+                $view = new DetalleFavor();
+                $view->show($args);
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+
+    }
     
 }
