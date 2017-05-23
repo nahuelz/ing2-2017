@@ -100,5 +100,23 @@ class FavorController {
         }
 
     }
+    public function comentarFavor($args = []) {
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ((isset($_POST['idFavor'])) && (isset($_POST['comentario']))) {
+                $idFavor = $_POST['idFavor'];
+                $comentario = $_POST['comentario'];
+                $usuario= UsuarioController::getInstance()->usuarioLogeado();
+                $idUsuario = $usuario->getId();
+                Comentario::getInstance()->altaComentario($idFavor, $idUsuario, $comentario);
+                $favor = Favor::getInstance()->verFavor($idFavor);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
+                $view = new DetalleFavor();
+                $view->show($args);
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+
+    }
     
 }

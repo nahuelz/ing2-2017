@@ -34,7 +34,7 @@ class Categoria extends PDORepository {
         return $this;
     }
 
-     public function setId($id){
+    public function setId($id){
         $this->id = $id;
     }
 

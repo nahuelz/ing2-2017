@@ -13,6 +13,7 @@ require_once('model/Message.php');
 require_once('model/Session.php');
 require_once('model/Categoria.php');
 require_once('model/Favor.php');
+require_once('model/Comentario.php');
 
 
 
@@ -46,7 +47,7 @@ if (isset($_GET["action"])){
         case 'altaFavor': { FavorController::getInstance()->altaFavor(); break; }
         case 'altaFavorAction': { FavorController::getInstance()->altaFavorAction(); break; }
         case 'verDetalle': { FavorController::getInstance()->verDetalle(); break; }
-
+        case 'comentarFavor': { FavorController::getInstance()->comentarFavor(); break; }
         default: { ResourceController::getInstance()->home(); break; }
     }
 } else {
