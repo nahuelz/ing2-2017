@@ -70,4 +70,14 @@ class Categoria extends PDORepository {
         $answer = $this->queryList("SELECT * FROM Categoria WHERE habilitada=1;", [], $mapper);
         return ($answer);
     }
+
+    public function getCategoria($id){
+        $mapper = function($row) {
+            $resource = new Categoria($row['id'], $row['nombre'], $row['habilitada']);
+            return $resource;
+        };
+
+        $answer = $this->queryList("SELECT * FROM categoria WHERE id=?;", [$id], $mapper);
+        return ($answer[0]);
+    }
 }

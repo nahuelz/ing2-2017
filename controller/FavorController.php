@@ -92,7 +92,9 @@ class FavorController {
                 $idFavor = $_GET['id'];
                 $favor = Favor::getInstance()->verFavor($idFavor)[0];
                 $comentarios= Comentario::getInstance()->verComentario($idFavor);
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => Usuario::getInstance()->getUsuario($favor->getUsuarioId())]);
+                $userFavor = Usuario::getInstance()->getUsuario($favor->getUsuarioId());
+                $categoria = Categoria::getInstance()->getCategoria($favor->getCategoriaId());
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => $userFavor, 'categoria' => $categoria]);
                 $view = new DetalleFavor();
                 $view->show($args);
             }else{
