@@ -173,8 +173,28 @@ class UsuarioController {
             ResourceController::getInstance()->home();
         }
     }
+    /*ALTA CREDITOS*/
+    public function altaCreditos($args = []) {
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) ) {
+                $cantidad = $_POST['cantidad'];
+                $precioUnitario = 20;
+                $fecha = Date('Y-m-d');
+                $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                $creditos = UsuarioController::getInstance()->usuarioLogeado()->getCreditos();
+                $totalCreditos = $cantidad + $creditos;
+                Usuario::getInstance()->cargarCreditos($idUsuario, $totalCreditos);
+                Creditos::getInstance()->guardarRegistro($idUsuario, $fecha, $cantidad, $precioUnitario);
 
-    /*
+                UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
+            }else{
+                $this->creditos(Message::getMessage(5));
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+ /*
     ** CERRAR SESION
     */
     public function cerrarSesion(){

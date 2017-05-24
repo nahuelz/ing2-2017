@@ -39,6 +39,8 @@ class Message {
                 return ['message' => 'Te has postulado exitosamente a este favor', 'tipo' => 'success'];
             case 14:
                 return ['message' => 'Ya te encuentras postulado a este favor!', 'tipo' => 'warning'];
+            case 15:
+                return ['message' => 'Se han cargado exitosamente los creditos', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

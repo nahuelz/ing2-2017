@@ -191,4 +191,9 @@ class Usuario extends PDORepository {
         $answer = $this->queryList("SELECT * FROM usuario WHERE id=?;", [$id], $mapper);
         return ($answer[0]);
     }
+
+    public function cargarCreditos($idUsuario, $totalCreditos) {
+        $mapper = function($row) {};
+        $answer = $this->queryList("UPDATE usuario SET creditos = ? WHERE id = ?;", [$totalCreditos, $idUsuario], $mapper);
+    }
 }

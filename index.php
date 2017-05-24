@@ -40,6 +40,7 @@ if (isset($_GET["action"])){
         case 'deshabilitarCuenta': { UsuarioController::getInstance()->deshabilitarCuenta(); break; }
         case 'deshabilitarCuentaAction': { UsuarioController::getInstance()->deshabilitarCuentaAction(); break; }
         case 'creditos': { UsuarioController::getInstance()->creditos(); break; }
+        case 'cargarCreditos': { UsuarioController::getInstance()->altaCreditos(); break; }
         case 'editarCuenta': { UsuarioController::getInstance()->editarCuenta(); break; }
         case 'cerrarSesion': { UsuarioController::getInstance()->cerrarSesion(); break; }
 
