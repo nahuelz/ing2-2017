@@ -124,7 +124,7 @@ class Favor extends PDORepository {
     }
 
     public function obtenerFavores(){
-         $mapper = function($row) {
+        $mapper = function($row) {
             $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
             return $resource;
         };
@@ -138,6 +138,15 @@ class Favor extends PDORepository {
             return $resource;
         };
         $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=? AND id=?;", [0, $id], $mapper);
+        return ($answer);
+    }
+
+    public function obtenerFavoresAsc(){
+        $mapper = function($row) {
+            return $row;
+        };
+
+        $answer = $this->queryList("SELECT COUNT(*) as cantidadPostulantes, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         return ($answer);
     }
 

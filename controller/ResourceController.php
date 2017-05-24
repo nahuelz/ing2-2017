@@ -19,7 +19,7 @@ class ResourceController {
 	*/
     public function home($args = []) {
         $categorias = Categoria::getInstance()->categoriasHabilitadas();
-        $favores = Favor::getInstance()->obtenerFavores();
+        $favores = Favor::getInstance()->obtenerFavoresAsc();
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favores' => $favores]);
             $view = new Home();
