@@ -90,29 +90,79 @@ class FavorController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if (isset($_GET['id'])){
                 $idFavor = $_GET['id'];
-                $favor = Favor::getInstance()->verFavor($idFavor);
+                $favor = Favor::getInstance()->verFavor($idFavor)[0];
                 $comentarios= Comentario::getInstance()->verComentario($idFavor);
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0], 'comentarios' => $comentarios ]);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => Usuario::getInstance()->getUsuario($favor->getUsuarioId())]);
                 $view = new DetalleFavor();
                 $view->show($args);
+            }else{
+
             }
         }else{
             ResourceController::getInstance()->home();
         }
 
     }
+
+    /*
+     * COMENTAR PUBLICACION
+     */
     public function comentarFavor($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
+            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
             if ((isset($_POST['idFavor'])) && (isset($_POST['comentario']))) {
-                $idFavor = $_POST['idFavor'];
-                $comentario = $_POST['comentario'];
-                $usuario= UsuarioController::getInstance()->usuarioLogeado();
-                $idUsuario = $usuario->getId();
-                Comentario::getInstance()->altaComentario($idFavor, $idUsuario, $comentario);
-                $favor = Favor::getInstance()->verFavor($idFavor);
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
-                $view = new DetalleFavor();
-                $view->show($args);
+                if ( (!empty($_POST['idFavor'])) && (!empty($_POST['comentario']))) {
+                    $idFavor = $_POST['idFavor'];
+                    $comentario = $_POST['comentario'];
+                    $usuario= UsuarioController::getInstance()->usuarioLogeado();
+                    $idUsuario = $usuario->getId();
+                    $nombre = $usuario->getNombre();
+
+                    date_default_timezone_set('America/Argentina/Buenos_Aires');
+                    $fecha = new \DateTime(); 
+                    $fecha = date_format($fecha, 'Y-m-d H:i:s');
+
+                    Comentario::getInstance()->altaComentario($idFavor, $idUsuario, $comentario, $nombre, $fecha);
+                    // NO ES NECESARIO, SE DEBE LLAMAR A LA FUNCION VER DETALLE PARA NO REPETIR CODIGO  
+                    //$favor = Favor::getInstance()->verFavor($idFavor);
+                    //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
+                    //$view = new DetalleFavor();
+                    $this->verDetalle(Message::getMessage(12));
+                }else{
+                    $this->verDetalle(Message::getMessage(5));
+                }
+            }else{
+                $view = new DetalleFavor(Message::getMessage(5));
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+
+    }
+
+    /*
+     * POSTULARSE
+     */
+    
+    public function postularse($args = []) {
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
+            if (isset($_POST['idFavor'])) {
+                if (!empty($_POST['idFavor'])) {
+                    $idFavor = $_POST['idFavor'];
+                    $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                    if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
+                        $estado = 'E'; // E de estado en Espera, capichi?
+                        Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado);
+                        $this->verDetalle(Message::getMessage(13));
+                    }else{
+                        $this->verDetalle(Message::getMessage(14));
+                    }
+                }else{
+                    $this->verDetalle(Message::getMessage(5));
+                }
+            }else{
+                $view = new DetalleFavor(Message::getMessage(5));
             }
         }else{
             ResourceController::getInstance()->home();

@@ -6,13 +6,16 @@
  *
  */
 
-class comentario extends PDORepository {
+class Comentario extends PDORepository {
     
     private static $instance;
     protected $id;
     protected $idUsuario;
     protected $idFavor;
     protected $comentario;
+    protected $respuesta;
+    protected $nombreUsuario;
+    protected $fecha;
 
     public static function getInstance() {
 
@@ -23,11 +26,14 @@ class comentario extends PDORepository {
         return self::$instance;
     }
 
-    function __construct($id = null, $idUsuario = null, $idFavor = null, $comentario = null){
+    function __construct($id = null, $idUsuario = null, $idFavor = null, $comentario = null, $respuesta = null, $nombreUsuario = null, $fecha = null){
         $this->id = $id;
         $this->idUsuario = $idUsuario;
         $this->idFavor = $idFavor;
-        $this->comentario = $comentario;        
+        $this->comentario = $comentario;    
+        $this->respuesta = $respuesta;
+        $this->nombreUsuario = $nombreUsuario;   
+        $this->fecha = $fecha;
         return $this;
     }
 
@@ -63,19 +69,44 @@ class comentario extends PDORepository {
         return $this->comentario;
     }
 
+    public function setRespuesta($respuesta){
+        $this->respuesta = $respuesta;
+    }
 
-    public function altaComentario($idUsuario, $idFavor, $comentario){
+    public function getRespuesta(){
+        return $this->respuesta;
+    }
+
+    public function setNombreUsuario($nombreUsuario){
+        $this->nombreUsuario = $nombreUsuario;
+    }
+
+    public function getNombreUsuario(){
+        return $this->nombreUsuario;
+    }
+
+    public function setFecha($fecha){
+        $this->fecha = $fecha;
+    }
+
+    public function getFecha(){
+        return $this->fecha;
+    }
+
+
+    public function altaComentario($idFavor, $idUsuario, $comentario, $nombre, $fecha){
             $mapper = function($row) {};
-            $sql = "INSERT INTO comentario (idUsuario, idFavor, comentario) VALUES (?, ?, ?)";
-            $values = [$idUsuario, $idFavor, $comentario];
+            $sql = "INSERT INTO comentario (idUsuario, idFavor, comentario, nombreUsuario, fecha) VALUES (?, ?, ?, ?, ?)";
+            $values = [$idUsuario, $idFavor, $comentario, $nombre, $fecha];
             $this->queryList($sql, $values, $mapper);
-            $msg=Message::getMessage(12);
-            FavorController::getInstance()->verDetalle($msg);
+            // NO SE PUEDE DIRECCIONAR A LA VISTA DESDE EL MODELO !
+            //$msg=Message::getMessage(12);
+            //FavorController::getInstance()->verDetalle($msg);
     }
 
     public function verComentario($id) {
          $mapper = function($row) {
-            $resource = new Comentario($row['id'], $row['idUsuario'], $row['idFavor'], $row['comentario']);
+            $resource = new Comentario($row['id'], $row['idUsuario'], $row['idFavor'], $row['comentario'], $row['respuesta'], $row['nombreUsuario'], $row['fecha']);
             return $resource;
         };
         $answer = $this->queryList("SELECT * FROM comentario WHERE idFavor=? ",[$id], $mapper);

@@ -1,84 +1,149 @@
 {% extends "base.html.twig" %}
 {% block container %}
 	<div class="container">    
-        <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div id="signupbox" style="margin-top:50px" class="mainbox col-md-7 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="panel-title">Favor</div>
                 </div>
 
-                     <div class="panel-body" >
-                      <!-- Formulario postularse inicio-->
-                          <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=editarCuenta">                                                
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        
+                        <div class="col-md-9">
+                            <h3>{{ favor.titulo }}</h3>
+                        </div>
 
-                                <div class="form-group">
-                                      <label for="nombre" class="col-md-3 control-label">Titulo</label>
-                                      <div class="col-md-9">
-                                            <label type="text" class="form-control" name="nombre" value="" required="">{{ favor.titulo }}</label>
-                                      </div>
-                                </div>
+                        <!-- Postularse -->
 
-                                <div class="form-group">
-                                      <label for="apellido" class="col-md-3 control-label">Descripcion</label>
-                                      <div class="col-md-9">
-                                            <label type="text" class="form-control" name="apellido"value="" required="">{{ favor.Descripcion }}</label>
-                                      </div>
-                                </div>
-
-                                <div class="form-group">
-                                      <label for="telefono" class="col-md-3 control-label">localidad</label>
-                                      <div class="col-md-9">
-                                            <label type="text" class="form-control" name="telefono" value="" required="">{{ favor.localidad }}</label>
-                                      </div>
-                                </div>
-
-                                <div class="form-group">
-                                      <label for="telefono" class="col-md-3 control-label">Imagen<br><p style="font-size: 10px; margin-left: -10px; margin-bottom: -10px;">*Compra creditos <a href="./?action=creditos">Aqui!</a></p></label>
-                                      <div class="col-md-9">
-                                           <img style=" width: 110px; height: 50px;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" />
-                                      </div>
-                                </div>
-                          
-                          <div class="form-group">
-                          <!-- Button -->                                        
+                        {% if favor.usuarioId != user.id %}
+                            <div class="col-md-1">    
+                                <br>                                
                                 <div class="col-md-offset-3 col-md-3">
-                                      <button id="btn-signup"  class="btn btn-info"><i class="icon-hand-right"></i>Postularse</button> 
-                                </div>
+                                    <form  role="form" method="POST" action="./?action=postularse">
+                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                        <input id="btn-signup" class="btn btn-success" type="submit" value="POSTULARSE!">
+                                    </form>
+                                </div>   
                             </div>
-                        <!-- Formulario postularse fin-->    
-                        </form>
-                        <!-- Mostrar comentarios inicio-->
-                          {% for comentario in comentarios %}
-                            <div class="col-sm-5">
-                            <div class="panel panel-default">
-                            <div class="panel-heading">
-                            <strong>NombreUser</strong> <span class="text-muted">commented 5 days ago</span>
-                            </div>
-                            <div class="panel-body">{{comentario.comentario}}</div><!-- /panel-body -->
-                            </div><!-- /panel panel-default -->
-                            </div><!-- /col-sm-5 -->
-                          {% endfor %}
-                        <!-- Mostrar comentarios fin-->
+                        {% endif %}
+                        <!-- Fin Postularse --> 
 
+                        <!-- Detalle publicacion --> 
+                        <br><br>
+                        <hr />
+                        <div class="col-md-9">
+                            <dl class="dl-horizontal">
+
+                                <dt> Descripcion </dt>
+                                <dd> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </dd>
+                                
+                                <br>
+                                <dt> Localidad </dt>
+                                <dd> {{ favor.localidad }} </dd>
+
+                                <br>
+                                <dt> Fecha de publicacion </dt>
+                                <dd> {{ favor.fechaPublicacion | date("d/m/Y") }} </dd>
+
+                                <br>
+                                <dt> Usuario </dt>
+                                <dd> {{ userFavor.nombre }} </dd>
+
+                            </dl>
+                        </div> <!-- Fin Detalle publicacion -->
+                    </div> <!-- Panel body -->
+                    
+                   
+                    <div class="row"> <!-- Imagenes -->
+                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                            <img src="./imagenes/default.png" class="img-responsive">
+                        </div>
+
+                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter sprinkle">
+                            <img src="http://fakeimg.pl/365x365/" class="img-responsive">
+                        </div>
+
+                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter sprinkle">
+                            <img src="./imagenes/default.jpg" class="img-responsive">
+                        </div>
+                    </div>  <!-- Imagenes -->
+                    
+                    <br>
+
+                    <!-- Formulario comentario inicio -->
+                    {% if favor.usuarioId != user.id %}
                         <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=comentarFavor">
-                            
+                            <hr />
                             <div class="form-group">
                                 <input type="hidden" name="idFavor" value="{{favor.id}}"> {# obtengo el id del favor#}
-                                
-                                <label for="comentario" class="col-md-3 control-label">Comentario</label>
+                                <label for="comentario" class="col-md-3 control-label">Comentar</label>
                                 <div class="col-md-9">
                                     <textarea class="form-control" name="comentario" required> </textarea>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-3">
-                                    <input id="btn-signup" class="btn btn-info" type="submit"> 
-                                </div>
+                            <div class="modal-footer">
+                                <input id="btn-signup" class="btn btn-info" type="submit" value="Enviar comentario"> 
                             </div>
-
                         </form>
-                    
+                    {% endif %}
+                    <!-- Formulario comentario fin -->
+
+                    <!-- Mostrar comentarios inicio-->
+                    {% if comentarios %}
+                        <h3>Comentarios</h3>
+                        <hr>
+                        {% for comentario in comentarios %}
+                            <!-- COMENTARIO -->    
+                            <div class="col-sm-12">
+                                <div class="panel panel-default">
+
+                                     <!-- PREGUNTA -->
+                                    <div class="panel-heading">
+                                        <strong>{{comentario.nombreUsuario}}</strong> <span class="text-muted">comento el dia {{ comentario.fecha | date("d/m/Y H:i:s") }}</span>
+                                    </div>               
+                                    <div class="panel-body">{{comentario.comentario}}</div><!-- /panel-body -->
+                                
+                                    <!-- RESPUESTA -->    
+                                    {% if comentario.respuesta %}
+                                        <div class="col-sm-9">
+                                            <br>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <strong>{{ userFavor.nombre }}</strong> <span class="text-muted">respondio el dia {{ comentario.fecha | date("d/m/Y H:i:s") }}</span>
+                                                </div>
+                                            
+                                                <div class="panel-body">
+                                                    {{comentario.respuesta}}
+                                                </div><!-- /panel-body -->
+                                            </div><!-- /panel panel-default -->
+                                        </div><!-- /col-sm-9 -->
+                                    {% elseif favor.usuarioId == userFavor.id  %}
+                                        <div class="col-sm-9">
+                                            <form role="form" method="POST" action="./?action=responderComentario">
+                                                <input type="hidden" name="idFavor" value="{{favor.id}}"> {# obtengo el id del favor#}
+                                                <br>
+                                                <label for="respuesta" class="col-md-3 control-label">Responder: </label>
+                                                <div class="col-md-9">
+                                                    <textarea class="form-control" name="respuesta" required> </textarea>
+                                                    <br>
+                                                    <input id="btn-signup" class="btn btn-info" type="submit" value="Enviar respuesta">
+                                                    <br><br> 
+                                                </div>
+                                            </form>
+                                        </div> 
+                                    {% endif %}
+                                </div><!-- /panel panel-default -->
+                            </div><!-- /col-sm-12 -->
+                        {% endfor %}
+                        <hr>
+                    {% endif %}
+                    <!-- FIN COMENTARIO -->             
                 </div>
             </div>
         </div>

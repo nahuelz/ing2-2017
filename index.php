@@ -14,7 +14,7 @@ require_once('model/Session.php');
 require_once('model/Categoria.php');
 require_once('model/Favor.php');
 require_once('model/Comentario.php');
-
+require_once('model/Postulacion.php');
 
 
 /* VIEW */
@@ -48,6 +48,7 @@ if (isset($_GET["action"])){
         case 'altaFavorAction': { FavorController::getInstance()->altaFavorAction(); break; }
         case 'verDetalle': { FavorController::getInstance()->verDetalle(); break; }
         case 'comentarFavor': { FavorController::getInstance()->comentarFavor(); break; }
+        case 'postularse' : { FavorController::getInstance()->postularse(); break; }
         default: { ResourceController::getInstance()->home(); break; }
     }
 } else {

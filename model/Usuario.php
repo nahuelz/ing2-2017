@@ -177,8 +177,18 @@ class Usuario extends PDORepository {
     }
 
     public function habilitarUsuario($email){
-        $mapper=function($rwo){};
+        $mapper=function($row){};
         $answer = $this->queryList("UPDATE usuario SET habilitado=? WHERE email = ?", [1, $email], $mapper);
         return $answer;
+    }
+
+    public function getUsuario($id) {
+        $mapper = function($row) {
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['esAdmin'], $row['habilitado']);
+            return $resource;
+        };
+
+        $answer = $this->queryList("SELECT * FROM usuario WHERE id=?;", [$id], $mapper);
+        return ($answer[0]);
     }
 }
