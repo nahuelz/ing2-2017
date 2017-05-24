@@ -146,7 +146,7 @@ class Favor extends PDORepository {
             return $row;
         };
 
-        $answer = $this->queryList("SELECT COUNT(*) as cantidadPostulantes, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         return ($answer);
     }
 
