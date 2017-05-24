@@ -48,6 +48,7 @@ if (isset($_GET["action"])){
         case 'altaFavorAction': { FavorController::getInstance()->altaFavorAction(); break; }
         case 'verDetalle': { FavorController::getInstance()->verDetalle(); break; }
         case 'comentarFavor': { FavorController::getInstance()->comentarFavor(); break; }
+        case 'responderComentario': { FavorController::getInstance()->responderComentario(); break; }
         case 'postularse' : { FavorController::getInstance()->postularse(); break; }
         default: { ResourceController::getInstance()->home(); break; }
     }

@@ -104,6 +104,16 @@ class Comentario extends PDORepository {
             //FavorController::getInstance()->verDetalle($msg);
     }
 
+    public function altaRespuesta($idComentario, $respuesta, $fechaRespuesta){
+            $mapper = function($row) {};
+            $sql = "UPDATE comentario SET respuesta= ?, fechaRespuesta=? WHERE id=?";
+            $values = [$respuesta, $fechaRespuesta,$idComentario];
+            $this->queryList($sql, $values, $mapper);
+            // NO SE PUEDE DIRECCIONAR A LA VISTA DESDE EL MODELO !
+            //$msg=Message::getMessage(12);
+            //FavorController::getInstance()->verDetalle($msg);
+    }
+
     public function verComentario($id) {
          $mapper = function($row) {
             $resource = new Comentario($row['id'], $row['idUsuario'], $row['idFavor'], $row['comentario'], $row['respuesta'], $row['nombreUsuario'], $row['fecha']);

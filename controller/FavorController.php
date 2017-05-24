@@ -88,6 +88,7 @@ class FavorController {
     */
     public function verDetalle($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
+
             if (isset($_GET['id'])){
                 $idFavor = $_GET['id'];
                 $favor = Favor::getInstance()->verFavor($idFavor)[0];
@@ -142,6 +143,41 @@ class FavorController {
 
     }
 
+    /*
+     * RESPONDER COMENTARIO
+     */
+    public function responderComentario($args = []) {
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
+            if ((isset($_POST['idComentario'])) && (isset($_POST['respuesta']))) {
+                if ( (!empty($_POST['idComentario'])) && (!empty($_POST['respuesta']))) {
+                    $idComentario = $_POST['idComentario'];
+                    $respuesta = $_POST['respuesta'];
+                    $usuario= UsuarioController::getInstance()->usuarioLogeado();
+                    $idUsuario = $usuario->getId();
+                    $nombre = $usuario->getNombre();
+
+                    date_default_timezone_set('America/Argentina/Buenos_Aires');
+                    $fechaRespuesta = new \DateTime(); 
+                    $fechaRespuesta = date_format($fechaRespuesta, 'Y-m-d H:i:s');
+
+                    Comentario::getInstance()->altaRespuesta($idComentario, $respuesta, $fechaRespuesta);
+                    // NO ES NECESARIO, SE DEBE LLAMAR A LA FUNCION VER DETALLE PARA NO REPETIR CODIGO  
+                    //$favor = Favor::getInstance()->verFavor($idFavor);
+                    //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
+                    //$view = new DetalleFavor();
+                    $this->verDetalle(Message::getMessage(12));
+                }else{
+                    $this->verDetalle(Message::getMessage(5));
+                }
+            }else{
+                $view = new DetalleFavor(Message::getMessage(5));
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+
+    }
     /*
      * POSTULARSE
      */

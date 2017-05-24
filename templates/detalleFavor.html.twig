@@ -123,10 +123,11 @@
                                                 </div><!-- /panel-body -->
                                             </div><!-- /panel panel-default -->
                                         </div><!-- /col-sm-9 -->
-                                    {% elseif favor.usuarioId == userFavor.id  %}
+                                    {% elseif favor.usuarioId == user.id  %}
                                         <div class="col-sm-9">
                                             <form role="form" method="POST" action="./?action=responderComentario">
                                                 <input type="hidden" name="idFavor" value="{{favor.id}}"> {# obtengo el id del favor#}
+                                                <input type="hidden" name="idComentario" value="{{comentario.id}}"> {# obtengo el id del favor#}
                                                 <br>
                                                 <label for="respuesta" class="col-md-3 control-label">Responder: </label>
                                                 <div class="col-md-9">
