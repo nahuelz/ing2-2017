@@ -1,6 +1,6 @@
 <?php
 
-class Creditos extends TwigView {
+class CargarCreditos extends TwigView {
     
     public function show($args = []) {
 

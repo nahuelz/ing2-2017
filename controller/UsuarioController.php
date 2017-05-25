@@ -167,12 +167,13 @@ class UsuarioController {
     public function creditos($args = []){
         if($this->usuarioLogeado()){
             $args = array_merge($args, ['user' => $this->usuarioLogeado()]);
-            $view = new Creditos();
+            $view = new CargarCreditos();
             $view->show($args);
         }else{
             ResourceController::getInstance()->home();
         }
     }
+    
     /*ALTA CREDITOS*/
     public function altaCreditos($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
@@ -180,12 +181,15 @@ class UsuarioController {
                 $cantidad = $_POST['cantidad'];
                 $precioUnitario = 20;
                 $fecha = Date('Y-m-d');
-                $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
-                $creditos = UsuarioController::getInstance()->usuarioLogeado()->getCreditos();
+                $user = UsuarioController::getInstance()->usuarioLogeado();
+                $usuarioId = $user->getId();
+                $creditos = $user->getCreditos();
                 $totalCreditos = $cantidad + $creditos;
-                Usuario::getInstance()->cargarCreditos($idUsuario, $totalCreditos);
-                Creditos::getInstance()->guardarRegistro($idUsuario, $fecha, $cantidad, $precioUnitario);
-
+                $user->setCreditos($totalCreditos);
+                $session = Session::getInstance();
+                $session->usuario = $user;
+                Usuario::getInstance()->cargarCreditos($usuarioId, $totalCreditos);
+                Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
                 UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
             }else{
                 $this->creditos(Message::getMessage(5));
@@ -194,7 +198,8 @@ class UsuarioController {
             ResourceController::getInstance()->home();
         }
     }
- /*
+
+    /*
     ** CERRAR SESION
     */
     public function cerrarSesion(){

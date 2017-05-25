@@ -15,6 +15,7 @@ require_once('model/Categoria.php');
 require_once('model/Favor.php');
 require_once('model/Comentario.php');
 require_once('model/Postulacion.php');
+require_once('model/Creditos.php');
 
 
 /* VIEW */
@@ -24,7 +25,7 @@ require_once('view/Login.php');
 require_once('view/Registro.php');
 require_once('view/MiCuenta.php');
 require_once('view/DeshabilitarCuenta.php');
-require_once('view/Creditos.php');
+require_once('view/CargarCreditos.php');
 require_once('view/AltaFavor.php');
 require_once('view/DetalleFavor.php');
 

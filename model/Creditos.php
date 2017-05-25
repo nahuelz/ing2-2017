@@ -6,7 +6,7 @@
  *
  */
 
-class Credios extends PDORepository {
+class Creditos extends PDORepository {
     
     private static $instance;
     protected $id;
@@ -63,5 +63,12 @@ class Credios extends PDORepository {
 
     public function getFecha(){
         return $this->fecha;
+    }
+
+    public function guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha){
+        $mapper = function($row) {};
+        $sql = "INSERT INTO creditos (usuarioId, precioUnitario, cantidad, fecha) VALUES (?, ?, ?, ?)";
+        $values = [$usuarioId, $precioUnitario, $cantidad, $fecha];
+        $this->queryList($sql, $values, $mapper);
     }
 }
