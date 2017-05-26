@@ -126,10 +126,6 @@ class FavorController {
                     $fecha = date_format($fecha, 'Y-m-d H:i:s');
 
                     Comentario::getInstance()->altaComentario($idFavor, $idUsuario, $comentario, $nombre, $fecha);
-                    // NO ES NECESARIO, SE DEBE LLAMAR A LA FUNCION VER DETALLE PARA NO REPETIR CODIGO  
-                    //$favor = Favor::getInstance()->verFavor($idFavor);
-                    //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
-                    //$view = new DetalleFavor();
                     $this->verDetalle(Message::getMessage(12));
                 }else{
                     $this->verDetalle(Message::getMessage(5));
@@ -162,10 +158,6 @@ class FavorController {
                     $fechaRespuesta = date_format($fechaRespuesta, 'Y-m-d H:i:s');
 
                     Comentario::getInstance()->altaRespuesta($idComentario, $respuesta, $fechaRespuesta);
-                    // NO ES NECESARIO, SE DEBE LLAMAR A LA FUNCION VER DETALLE PARA NO REPETIR CODIGO  
-                    //$favor = Favor::getInstance()->verFavor($idFavor);
-                    //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor[0]]);
-                    //$view = new DetalleFavor();
                     $this->verDetalle(Message::getMessage(12));
                 }else{
                     $this->verDetalle(Message::getMessage(5));

@@ -16,6 +16,7 @@ class Comentario extends PDORepository {
     protected $respuesta;
     protected $nombreUsuario;
     protected $fecha;
+    protected $fechaRespuesta;
 
     public static function getInstance() {
 
@@ -93,15 +94,20 @@ class Comentario extends PDORepository {
         return $this->fecha;
     }
 
+    public function setFechaRespuesta($fechaRespuesta){
+        $this->fechaRespuesta = $fechaRespuesta;
+    }
+
+    public function getFechaRespuesta(){
+        return $this->fechaRespuesta;
+    }
+
 
     public function altaComentario($idFavor, $idUsuario, $comentario, $nombre, $fecha){
             $mapper = function($row) {};
             $sql = "INSERT INTO comentario (idUsuario, idFavor, comentario, nombreUsuario, fecha) VALUES (?, ?, ?, ?, ?)";
             $values = [$idUsuario, $idFavor, $comentario, $nombre, $fecha];
             $this->queryList($sql, $values, $mapper);
-            // NO SE PUEDE DIRECCIONAR A LA VISTA DESDE EL MODELO !
-            //$msg=Message::getMessage(12);
-            //FavorController::getInstance()->verDetalle($msg);
     }
 
     public function altaRespuesta($idComentario, $respuesta, $fechaRespuesta){
@@ -109,9 +115,6 @@ class Comentario extends PDORepository {
             $sql = "UPDATE comentario SET respuesta= ?, fechaRespuesta=? WHERE id=?";
             $values = [$respuesta, $fechaRespuesta,$idComentario];
             $this->queryList($sql, $values, $mapper);
-            // NO SE PUEDE DIRECCIONAR A LA VISTA DESDE EL MODELO !
-            //$msg=Message::getMessage(12);
-            //FavorController::getInstance()->verDetalle($msg);
     }
 
     public function verComentario($id) {

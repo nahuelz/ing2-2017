@@ -3,9 +3,6 @@
 	<div class="container">    
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-7 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title">Favor</div>
-                </div>
 
                 <div class="panel-body">
                     <div class="col-md-12">
@@ -115,7 +112,7 @@
                                             <br>
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
-                                                    <strong>{{ userFavor.nombre }}</strong> <span class="text-muted">respondio el dia {{ comentario.fecha | date("d/m/Y H:i:s") }}</span>
+                                                    <strong>{{ userFavor.nombre }}</strong> <span class="text-muted">respondio el dia {{ comentario.fechaRespuesta | date("d/m/Y H:i:s") }}</span>
                                                 </div>
                                             
                                                 <div class="panel-body">
