@@ -102,7 +102,7 @@ class FavorController {
 
             }
         }else{
-            ResourceController::getInstance()->home();
+            ResourceController::getInstance()->home(Message::getMessage(17));
         }
 
     }
