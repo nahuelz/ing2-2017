@@ -146,8 +146,23 @@ class Favor extends PDORepository {
             return $row;
         };
 
-        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         return ($answer);
     }
+
+    public function obtenerFavoresBusqueda($titulo, $localidad, $categoria){
+        $mapper = function($row) {
+            return $row;
+        };
+
+        if ($categoria) {
+            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE titulo LIKE '%".$titulo."%' AND localidad LIKE '%".$localidad."%' AND favor.categoria=".$categoria." GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        }else{
+            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE titulo LIKE '%".$titulo."%' && localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        }
+        return ($answer);
+    }
+
+
 
 }

@@ -41,6 +41,8 @@ class Message {
                 return ['message' => 'Ya te encuentras postulado a este favor!', 'tipo' => 'warning'];
             case 15:
                 return ['message' => 'Se han cargado exitosamente los creditos', 'tipo' => 'success'];
+            case 16:
+                return ['message' => 'No se han encontrado resultados para la busqueda', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

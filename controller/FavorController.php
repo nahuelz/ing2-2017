@@ -199,5 +199,23 @@ class FavorController {
         }
 
     }
+
+    /*
+     * buscarFavor
+     */
+    public function buscarFavor($args=[]){
+        if ( (isset($_GET['localidad'])) && (isset($_GET['categoria'])) && isset($_GET['titulo']) ){
+            $localidad = $_GET['localidad'];
+            $categoria = $_GET['categoria'];
+            $titulo = $_GET['titulo'];
+            $favores = Favor::getInstance()->obtenerFavoresBusqueda($titulo, $localidad, $categoria);
+            if ($favores == []) {
+                $args = Message::getMessage(16);
+            }else{
+                $args = array_merge($args, ['favores' => $favores]);
+            } 
+            ResourceController::getInstance()->home($args);
+        }
+    }
     
 }

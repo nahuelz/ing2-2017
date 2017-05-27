@@ -4,7 +4,7 @@ $(document).ready(function() {
     rows = 2;
 
 
-    $(".usuario").click(function (){
+    $(".usuario").click(function (){ 
         $(".error").remove();
         if( $("#nombre").val().length < 4 || !caracteres.test($("#nombre").val())) {
             $("#nombre").focus().after("<p class='error'>Ingrese un nombre valido</p>");
