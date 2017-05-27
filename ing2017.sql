@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-05-2017 a las 15:26:08
+-- Tiempo de generación: 26-05-2017 a las 22:23:30
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -53,20 +53,38 @@ CREATE TABLE `comentario` (
   `comentario` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `respuesta` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nombreUsuario` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha` datetime NOT NULL
+  `fecha` datetime NOT NULL,
+  `fechaRespuesta` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `creditos`
+--
+
+CREATE TABLE `creditos` (
+  `id` int(11) NOT NULL,
+  `usuarioId` int(11) NOT NULL,
+  `precioUnitario` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `comentario`
+-- Volcado de datos para la tabla `creditos`
 --
 
-INSERT INTO `comentario` (`id`, `idUsuario`, `idFavor`, `comentario`, `respuesta`, `nombreUsuario`, `fecha`) VALUES
-(19, 2, 1, ' hola', 'chau', 'pepe', '2017-05-24 01:17:06'),
-(20, 2, 1, ' asd', 'chau2', 'pepe', '2017-05-24 01:22:29'),
-(21, 2, 1, ' asfaf', NULL, 'pepe', '2017-05-24 01:23:27'),
-(22, 2, 1, ' asfaf', NULL, 'pepe', '2017-05-24 01:25:08'),
-(23, 2, 1, ' asfaf', NULL, 'pepe', '2017-05-24 01:25:36'),
-(24, 1, 4, ' Hola', NULL, 'Admin', '2017-05-24 02:08:45');
+INSERT INTO `creditos` (`id`, `usuarioId`, `precioUnitario`, `cantidad`, `fecha`) VALUES
+(1, 2, 20, 10, '2017-05-25'),
+(2, 2, 20, 20, '2017-05-25'),
+(3, 2, 20, 20, '2017-05-25'),
+(4, 2, 20, 20, '2017-05-25'),
+(5, 2, 20, 20, '2017-05-25'),
+(6, 2, 20, 20, '2017-05-25'),
+(7, 2, 20, 20, '2017-05-25'),
+(8, 2, 20, 20, '2017-05-25'),
+(9, 2, 20, 20, '2017-05-25');
 
 -- --------------------------------------------------------
 
@@ -93,7 +111,7 @@ CREATE TABLE `favor` (
 INSERT INTO `favor` (`id`, `usuario_id`, `titulo`, `descripcion`, `categoria`, `localidad`, `fecha_publicacion`, `cerrada`, `imagen`) VALUES
 (1, 1, 'ggggggggggggggg', 'ggggggggggggggg', 1, 'Azul', '2017-05-12', 0, ''),
 (2, 1, 'asd', 'asd', 1, 'Azul', '2017-05-12', 0, ''),
-(3, 1, 'un titulo', 'lorem impsu', 2, 'Azul', '2017-05-24', 0, ''),
+(3, 1, 'un titulo', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor ', 2, 'Azul', '2017-05-24', 0, ''),
 (4, 2, 'NUEVO', 'NUEVO', 1, 'Azul', '2017-05-24', 0, '');
 
 -- --------------------------------------------------------
@@ -116,7 +134,8 @@ CREATE TABLE `postulacion` (
 INSERT INTO `postulacion` (`id`, `idFavor`, `idUsuario`, `estado`) VALUES
 (1, 1, 2, 'E'),
 (2, 1, 1, 'E'),
-(3, 3, 1, 'E');
+(3, 3, 1, 'E'),
+(4, 4, 1, 'E');
 
 -- --------------------------------------------------------
 
@@ -142,8 +161,10 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `email`, `password`, `telefono`, `creditos`, `esAdmin`, `habilitado`) VALUES
 (1, 'Admin', 'Admin', 'admin@admin', 'admin', '123456789', '999', '1', 0),
-(2, 'pepe', 'pepe', 'pepe@pepe', 'pepe', '123', '1', '0', 0),
-(3, 'pepa', 'pepa', 'pepa@pepa', 'pepa', '123', '1', '0', 1);
+(2, 'pepe', 'pepe', 'pepe@pepe', 'pepe', '123', '141', '0', 0),
+(3, 'pepa', 'pepa', 'pepa@pepa', 'pepa', '123', '1', '0', 1),
+(4, '1234', '1233', 'hola@hola', '1234', '123', '1', '0', 1),
+(5, 'asdf', 'asdf', 'asd@asd', 'asdf', '1', '1', '0', 1);
 
 --
 -- Índices para tablas volcadas
@@ -159,6 +180,12 @@ ALTER TABLE `categoria`
 -- Indices de la tabla `comentario`
 --
 ALTER TABLE `comentario`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `creditos`
+--
+ALTER TABLE `creditos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -192,7 +219,12 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT de la tabla `creditos`
+--
+ALTER TABLE `creditos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `favor`
 --
@@ -202,12 +234,12 @@ ALTER TABLE `favor`
 -- AUTO_INCREMENT de la tabla `postulacion`
 --
 ALTER TABLE `postulacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
