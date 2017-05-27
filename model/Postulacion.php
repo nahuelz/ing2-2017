@@ -76,6 +76,15 @@ class Postulacion extends PDORepository {
             $values = [$idFavor, $idUsuario];
             $answer = $this->queryList($sql, $values, $mapper);
             return (count($answer));
+    }
+
+    public function favoresPostulados($userId){
+        $mapper = function($row){return $row;};
+        $sql = "SELECT * FROM `postulacion` INNER JOIN `favor` WHERE postulacion.idFavor = favor.id AND postulacion.idUsuario = ?";
+        $values = [$userId];
+        $answer = $this->queryList($sql, $values, $mapper);
+    
+        return $answer;
 
     }
 

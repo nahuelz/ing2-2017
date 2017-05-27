@@ -61,7 +61,7 @@ class FavorController {
             }
             $this->altaFavor($msg);
         }else{
-            ResourceController::getInstance()->home();
+            ResourceController::getInstance()->home(Message::getMessage(0));
         }
     }
     
@@ -195,7 +195,7 @@ class FavorController {
                 $view = new DetalleFavor(Message::getMessage(5));
             }
         }else{
-            ResourceController::getInstance()->home();
+            ResourceController::getInstance()->home(Message::getMessage(0));
         }
 
     }
@@ -217,5 +217,19 @@ class FavorController {
             ResourceController::getInstance()->home($args);
         }
     }
+
+    public function favoresPostulados($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+            $favoresPostulados = Postulacion::getInstance()->favoresPostulados($userId);
+            $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresPostulados]);
+            $view = new FavoresPostulados();
+            $view->show($args);
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+
     
 }

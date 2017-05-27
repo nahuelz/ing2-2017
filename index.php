@@ -28,6 +28,7 @@ require_once('view/DeshabilitarCuenta.php');
 require_once('view/CargarCreditos.php');
 require_once('view/AltaFavor.php');
 require_once('view/DetalleFavor.php');
+require_once('view/favoresPostulados.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -53,6 +54,8 @@ if (isset($_GET["action"])){
         case 'responderComentario': { FavorController::getInstance()->responderComentario(); break; }
         case 'postularse' : { FavorController::getInstance()->postularse(); break; }
         case 'buscarFavor' : { FavorController::getInstance()->buscarFavor(); break; }
+        case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
+        
         default: { ResourceController::getInstance()->home(); break; }
     }
 } else {

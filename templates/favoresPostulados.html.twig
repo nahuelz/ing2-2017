@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block container %} 
+
+<div class="container">    
+
+     <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
+            <div class="panel panel-info">
+
+                        
+
+            <div class="panel-body"> 
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Titulo</th>
+                            <th>Localidad</th>
+                            <th>Fecha publicacion</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {% for favor in favores %}
+                        <tbody>
+                            <tr>
+                                <td><img style=" width: 110px; height: 50px;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" /></td>
+                                <td>{{ favor.titulo }}</td>
+                                <td>{{ favor.localidad }}</td>
+                                <td>{{ favor.fecha_publicacion }}</td>
+                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> Ver </a></td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+                
+
+{% endblock %}
