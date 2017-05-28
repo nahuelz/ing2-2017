@@ -37,7 +37,7 @@ class FavorController {
     */
     public function altaFavorAction($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ((isset($_POST['titulo']) AND isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion'])) {
+            if ((isset($_POST['titulo']) AND isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion']) AND ($this->validarFormulario($_POST['titulo'],$_POST['descripcion']))) {
                 $titulo = $_POST['titulo'];
                 $descripcion = $_POST['descripcion'];
                 $categoria = $_POST['categoria'];
@@ -63,6 +63,20 @@ class FavorController {
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }
+    }
+
+    public function validarFormulario($titulo,$descripcion){
+
+        if(strlen($titulo)>3 AND strlen($titulo)<20){
+            if(strlen($descripcion)>3 AND strlen($descripcion)<250)
+            {
+                print_r(strlen($descripcion));
+                 return true;
+            }
+
+          } 
+
+        return false;
     }
     
     public function validarImagen(){
