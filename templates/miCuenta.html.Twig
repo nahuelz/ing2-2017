@@ -19,21 +19,21 @@
                                 <div class="form-group">
                                       <label for="nombre" class="col-md-3 control-label">Nombre</label>
                                       <div class="col-md-9">
-                                            <input type="text" class="form-control" name="nombre" value="{{ user.nombre }}" required="">
+                                            <input type="text" class="form-control" name="nombre" value="{{ user.nombre }}" required="" minlength="3" maxlength="20" pattern="[a-zA-Z]*">
                                       </div>
                                 </div>
 
                                 <div class="form-group">
                                       <label for="apellido" class="col-md-3 control-label">Apellido</label>
                                       <div class="col-md-9">
-                                            <input type="text" class="form-control" name="apellido"value="{{ user.apellido }}" required="">
+                                            <input type="text" class="form-control" name="apellido" value="{{ user.apellido }}" required="" minlength="3" maxlength="20" pattern="[a-zA-Z]*">
                                       </div>
                                 </div>
 
                                 <div class="form-group">
                                       <label for="telefono" class="col-md-3 control-label">Telefono</label>
                                       <div class="col-md-9">
-                                            <input type="number" class="form-control" name="telefono" value="{{ user.telefono }}" required="">
+                                            <input type="text" class="form-control" name="telefono" value="{{ user.telefono }}" required="" pattern="\d{6,20}" required title="6 a 20 números">
                                       </div>
                                 </div>
 
@@ -47,7 +47,7 @@
                                 <div class="form-group">
                                       <label for="password" class="col-md-3 control-label">Password</label>
                                       <div class="col-md-9">
-                                            <input type="password" class="form-control" name="password" placeholder="Password" required="">
+                                            <input type="password" class="form-control" name="password" placeholder="Password" required="" >
                                       </div>
                                 </div>
                           
