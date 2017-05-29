@@ -70,6 +70,13 @@ class Postulacion extends PDORepository {
             $this->queryList($sql, $values, $mapper);
     }
 
+    public function bajaPostulacion($idFavor, $idUsuario){
+            $mapper = function($row) {};
+            $sql = "DELETE FROM postulacion WHERE idFavor = ? AND idUsuario = ?;";
+            $values = [$idFavor, $idUsuario];
+            $this->queryList($sql, $values, $mapper);
+    }
+
     public function estaPostulado($idFavor, $idUsuario){
             $mapper = function($row) {};
             $sql = "SELECT * FROM postulacion WHERE idFavor = ? AND idUsuario = ?";

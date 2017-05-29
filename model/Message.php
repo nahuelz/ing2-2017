@@ -47,6 +47,10 @@ class Message {
                 return ['message' => 'Debes iniciar sesion para poder ver esta publicacion.', 'tipo' => 'warning'];
             case 18:
                 return ['message' => 'Postulante aceptado.', 'tipo' => 'success'];
+            case 19:
+                return ['message' => 'Postulacion cancelada', 'tipo' => 'success'];
+            case 20:
+                return ['message' => 'No eres postulante en este favor', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

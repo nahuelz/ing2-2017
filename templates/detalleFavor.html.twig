@@ -43,17 +43,25 @@
                                                 <!-- Postularse -->
 
                         {% if favor.usuarioId != user.id %}
-                            <div class="col-md-5">    
-                                <br>                                
-                                <form  role="form" method="POST" action="./?action=postularse">
-                                    <strong>¿Porqué deceas postularte?</strong>
-                                    <textarea id='comentario' name="comentario" required></textarea>
+                            {% if estaPostulado != 1 %}
+                                <div class="col-md-5">    
+                                    <br>                                
+                                    <form  role="form" method="POST" action="./?action=postularse">
+                                        <strong>¿Porqué deceas postularte?</strong>
+                                        <textarea id='comentario' name="comentario" required></textarea>
+                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                        <input type="hidden" name="localidad" value="{{ user.localidad }}">
+                                        <input type="hidden" name="nombre" value="{{ user.nombre }}">
+                                        <input id="btn-signup" class="btn btn-success" type="submit" value="POSTULARSE!">
+                                    </form>
+                                </div>
+                            {% else %}   
+                               <form  role="form" method="POST" action="./?action=cancelarPostulacion">
                                     <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                    <input type="hidden" name="localidad" value="{{ user.localidad }}">
-                                    <input type="hidden" name="nombre" value="{{ user.nombre }}">
-                                    <input id="btn-signup" class="btn btn-success" type="submit" value="POSTULARSE!">
+                                    <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="CANCELAR POSTULACION!">
                                 </form>
-                            </div>
+
+                            {% endif %}
                         {% endif %}
                         <!-- Fin Postularse --> 
                     </div> <!-- Panel body -->

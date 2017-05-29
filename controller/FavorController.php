@@ -109,7 +109,9 @@ class FavorController {
                 $comentarios= Comentario::getInstance()->verComentario($idFavor);
                 $userFavor = Usuario::getInstance()->getUsuario($favor->getUsuarioId());
                 $categoria = Categoria::getInstance()->getCategoria($favor->getCategoriaId());
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => $userFavor, 'categoria' => $categoria]);
+                $idUsuario =UsuarioController::getInstance()->usuarioLogeado()->getId();
+                $estaPostulado = Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => $userFavor, 'categoria' => $categoria, 'estaPostulado' => $estaPostulado]);
                 $view = new DetalleFavor();
                 $view->show($args);
             }else{
@@ -211,6 +213,29 @@ class FavorController {
             ResourceController::getInstance()->home(Message::getMessage(0));
         }
 
+    }
+
+    /*
+     * CANCELAR POSTULACION
+     */
+    public function cancelarPostulacion ($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
+            if  ( (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+                $idFavor = $_POST['idFavor'];
+                $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                if (Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
+                    Postulacion::getInstance()->bajaPostulacion($idFavor, $idUsuario);
+                    $this->verDetalle(Message::getMessage(19));
+                }else{
+                    $this->verDetalle(Message::getMessage(20));
+                }
+            }else{
+                $this->verDetalle(Message::getMessage(5));
+            }
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
     }
 
     /*

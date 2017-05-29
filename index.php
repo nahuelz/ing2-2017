@@ -53,6 +53,7 @@ if (isset($_GET["action"])){
         case 'comentarFavor': { FavorController::getInstance()->comentarFavor(); break; }
         case 'responderComentario': { FavorController::getInstance()->responderComentario(); break; }
         case 'postularse' : { FavorController::getInstance()->postularse(); break; }
+        case 'cancelarPostulacion' : { FavorController::getInstance()->cancelarPostulacion(); break; }
         case 'buscarFavor' : { FavorController::getInstance()->buscarFavor(); break; }
         case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
         case 'aceptarPostulante': { FavorController::getInstance()->aceptarPostulante(); break; }
