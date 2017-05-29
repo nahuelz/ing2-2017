@@ -51,6 +51,8 @@ class Message {
                 return ['message' => 'Postulacion cancelada', 'tipo' => 'success'];
             case 20:
                 return ['message' => 'No eres postulante en este favor', 'tipo' => 'warning'];
+            case 21:
+                return ['message' => 'No se dio de alta porque Titulo ya Existe', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

@@ -112,15 +112,25 @@ class Favor extends PDORepository {
     public function getImagen(){
         return $this->imagen;
     }
+    
 
+    public function existeTitulo($titulo) {
+        $mapper = function($row) {};
+        
+        $answer = $this->queryList("SELECT * FROM favor WHERE titulo=?", [$titulo], $mapper);
+        
+        return (count($answer) > 0);
+    }
 
     public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
-
-        $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, cerrada, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0, $imagen];
-        $this->queryList($sql, $values, $mapper);
-        return (Message::getMessage(10));
+        if(!$this->existeTitulo($titulo)){
+            $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, cerrada, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0, $imagen];
+            $this->queryList($sql, $values, $mapper);
+            return (Message::getMessage(10));
+        }
+        return Message::getMessage(21);
     }
 
     public function obtenerFavores(){
@@ -175,7 +185,6 @@ class Favor extends PDORepository {
         return $answer;
 
     }
-
 
 
 }
