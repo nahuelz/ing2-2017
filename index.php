@@ -30,6 +30,7 @@ require_once('view/AltaFavor.php');
 require_once('view/DetalleFavor.php');
 require_once('view/favoresPostulados.php');
 require_once('view/favoresSolicitados.php');
+require_once('view/verPostulantes.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -59,6 +60,8 @@ if (isset($_GET["action"])){
         case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
         case 'aceptarPostulante': { FavorController::getInstance()->aceptarPostulante(); break; }
         case 'misFavores': { FavorController::getInstance()->misFavores(); break; }
+        case 'cerrarFavor' : { FavorController::getInstance()->cerrarFavor(); break; }
+        case 'verPostulantes' : { FavorController::getInstance()->verPostulantes(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }

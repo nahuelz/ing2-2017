@@ -51,6 +51,12 @@ class Message {
                 return ['message' => 'Postulacion cancelada', 'tipo' => 'success'];
             case 20:
                 return ['message' => 'No eres postulante en este favor', 'tipo' => 'warning'];
+            case 21:
+                return ['message' => 'El titulo ya existe.', 'tipo' => 'warning'];
+            case 22:
+                return ['message' => 'Se ah cerrado el favor', 'tipo' => 'success'];
+            case 23:
+                return ['message' => 'No se encontro el favor', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

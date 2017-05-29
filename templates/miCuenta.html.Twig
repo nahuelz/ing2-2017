@@ -40,15 +40,7 @@
                                 <div class="form-group">
                                     <label for="localidad" class="col-md-3 control-label">Localidad</label>
                                     <div class="col-md-9">
-                                        <select class="form-control" name="localidad">
-                                            <option value="">Localidad</option>
-                                            <optgroup label="Buenos Aires">
-                                            <option {% if user.localidad == 'Azul' %} selected {% endif %} value="Azul">Azul</option>
-                                            <option {% if user.localidad == 'Bolivar' %} selected {% endif %} value="Bolivar">Bolivar</option>
-                                            <option {% if user.localidad == 'Laprida' %} selected {% endif %} value="Laprida">Laprida</option>
-                                            <option {% if user.localidad == 'Olavarria' %} selected {% endif %} value="Olavarria">Olavarria</option>
-                                            <option {% if user.localidad == 'Tandil' %} selected {% endif %}value="Tandil">Tandil</option>  
-                                        </select>
+                                        {% include 'selectLocalidad.html.twig' %}
                                     </div>
                                 </div>
 

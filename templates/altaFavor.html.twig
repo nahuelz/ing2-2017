@@ -14,23 +14,17 @@
                             <div class="form-group">
                                   <label for="titulo" class="col-md-3 control-label">Titulo</label>
                                   <div class="col-md-9">
-                                        <input type="text" class="form-control" name="titulo" placeholder="Titulo" required minlength="3" minlength="20">
+                                        <input type="text" class="form-control" name="titulo" placeholder="Titulo" required minlength="4" minlength="20">
                                   </div>
                             </div>
 
                             <div class="form-group">
                                   <label for="localidad" class="col-md-3 control-label">Localidad</label>
                                   <div class="col-md-9">
-                                        <select class="form-control" name="localidad">
-                                        	<optgroup label="Buenos Aires">
-                                        	<option value="Azul">Azul</option>
-                                        	<option value="Bolivar">Bolivar</option>
-                                        	<option value="Laprida">Laprida</option>
-                                            <option value="Olavarra">Olavarra</option>
-                                            <option value="Tandil">Tandil</option>	
-                                        </select>
+                                        {% include 'selectLocalidad.html.twig' %}
                                   </div>
                             </div>
+
 
                             <div class="form-group">
                                   <label for="categoria" class="col-md-3 control-label">Categoria</label>

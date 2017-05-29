@@ -5,13 +5,13 @@
     {% if favores %}
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
             <div class="panel panel-info">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <h3> Mis Favores</h3>
                     <hr>
                 </div>         
 
             <div class="panel-body"> 
-                <table class="table table-sm">
+                <table class="table table-sm col-md-12">
                     <thead>
                         <tr>
                             <th>Imagen</th>
@@ -28,11 +28,17 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fechaPublicacion }}</td>
-                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> Ver </a></td>
+                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 <td>
-                                    <form onclick="return confirm('Esta seguro de que quiere eliminar esta publicacion?')" role="form" method="POST" action="./?action=eliminarPublicacion">
+                                    <form onclick="return confirm('Esta seguro de que quiere eliminar este favor?')" role="form" method="POST" action="./?action=cerrarFavor">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
+                                        <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-danger" type="submit" value="Cerrar">
+                                    </form>
+                                </td>
+                                <td>
+                                    <form role="form" method="POST" action="./?action=verPostulantes">
+                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                        <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
                             </tr>
@@ -45,7 +51,7 @@
      <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
         <div class="panel panel-info">
             <div class="col-md-9">
-                <h3> No tienes postulaciones</h3>
+                <h3> Aun no has solicitado favores </h3>
                 <hr>
             </div>        
             <div class="panel-body"> 

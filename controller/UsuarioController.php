@@ -92,7 +92,7 @@ class UsuarioController {
     */
     public function miCuenta($args = []){
         if ($this->usuarioLogeado()){
-            $args = array_merge($args, ['user' => $this->usuarioLogeado()]);
+            $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'localidad' =>  $this->usuarioLogeado()->getLocalidad()]);
             $view = new MiCuenta();
             $view->show($args);
         }else{
@@ -116,10 +116,8 @@ class UsuarioController {
                     if ($user->getEmail() == $userMod->getEmail()){
                         if ($user->getCreditos() == $userMod->getCreditos()){
                             Usuario::getInstance()->modificarUsuario($userMod->getNombre(), $userMod->getApellido(), $userMod->getTelefono(), $userMod->getEmail(), $userMod->getLocalidad());
-                            /*Session::getInstance()->destroy();
-                            ResourceController::getInstance()->home(Message::getMessage(6));*/
-                            $session = Session::getInstance();
-                            $session->usuario = $userMod;
+                                $session = Session::getInstance();
+                                $session->usuario = $userMod;
                             $this->miCuenta(Message::getMessage(6));
                         }else{
                             $this->miCuenta(Message::getMessage(9));
@@ -211,7 +209,7 @@ class UsuarioController {
                 $user->setCreditos($totalCreditos);
                 $session = Session::getInstance();
                 $session->usuario = $user;
-                Usuario::getInstance()->cargarCreditos($usuarioId, $totalCreditos);
+                Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
                 Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
                 UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
             }else{
@@ -220,6 +218,21 @@ class UsuarioController {
         }else{
             ResourceController::getInstance()->home();
         }
+    }
+
+    /*
+     *DESCONTAR CREDITOS
+     *Esta funcion es llamada al dar de alta un favor
+     */
+    public function descontarCreditos($cantidad) {
+        $user = UsuarioController::getInstance()->usuarioLogeado();
+        $usuarioId = $user->getId();
+        $creditos = $user->getCreditos();
+        $totalCreditos = $creditos - $cantidad;
+        $user->setCreditos($totalCreditos);
+        $session = Session::getInstance();
+        $session->usuario = $user;
+        Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
     }
 
     /*

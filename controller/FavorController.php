@@ -37,26 +37,33 @@ class FavorController {
     */
     public function altaFavorAction($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ((isset($_POST['titulo']) AND isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion']) AND ($this->validarFormulario($_POST['titulo'],$_POST['descripcion']))) {
+            if ((isset($_POST['titulo']) AND isset($_POST['localidad']) AND !empty($_POST['localidad']) && isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion']) AND ($this->validarFormulario($_POST['titulo'],$_POST['descripcion']))) {
                 $titulo = $_POST['titulo'];
-                $descripcion = $_POST['descripcion'];
-                $categoria = $_POST['categoria'];
-                $localidad = $_POST['localidad'];
-                $fecha = Date('Y-m-d');
-                $nombreImagen = '';
-                $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
-                if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
-                    if ($this->validarImagen()){
-                        $imagen = $this->procesarImagen();
-                        $nombreImagen = $_FILES['imagen']['name'];
-                        $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
-                        $this->misFavores($msg);
+                if (!Favor::getInstance()->existeTitulo($titulo)) {
+                    $descripcion = $_POST['descripcion'];
+                    $categoria = $_POST['categoria'];
+                    $localidad = $_POST['localidad'];
+                    $fecha = Date('Y-m-d');
+                    $nombreImagen = '';
+                    $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+
+                    if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
+                        if ($this->validarImagen()){
+                            $imagen = $this->procesarImagen();
+                            $nombreImagen = $_FILES['imagen']['name'];
+                            $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
+                            UsuarioController::getInstance()->descontarCreditos(1);
+                            $this->misFavores($msg);
+                        }else{
+                            $this->misFavores(Message::getMessage(11));
+                        }
                     }else{
-                        $this->misFavores(Message::getMessage(11));
+                        $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
+                        UsuarioController::getInstance()->descontarCreditos(1);
+                        $this->misFavores($msg);
                     }
                 }else{
-                    $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
-                    $this->misFavores($msg);
+                    $this->altaFavor(Message::getMessage(21));
                 }
             }else{
                 $this->altaFavor(Message::getMessage(5));
@@ -68,8 +75,8 @@ class FavorController {
 
     public function validarFormulario($titulo,$descripcion){
 
-        if(strlen($titulo)>3 AND strlen($titulo)<20){
-            if(strlen($descripcion)>3 AND strlen($descripcion)<250)
+        if(strlen($titulo)>3 AND strlen($titulo)<50){
+            if(strlen($descripcion)>3 AND strlen($descripcion)<=255)
             {
                  return true;
             }
@@ -105,15 +112,19 @@ class FavorController {
 
             if (isset($_GET['id'])){
                 $idFavor = $_GET['id'];
-                $favor = Favor::getInstance()->verFavor($idFavor)[0];
-                $comentarios= Comentario::getInstance()->verComentario($idFavor);
-                $userFavor = Usuario::getInstance()->getUsuario($favor->getUsuarioId());
-                $categoria = Categoria::getInstance()->getCategoria($favor->getCategoriaId());
-                $idUsuario =UsuarioController::getInstance()->usuarioLogeado()->getId();
-                $estaPostulado = Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario);
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => $userFavor, 'categoria' => $categoria, 'estaPostulado' => $estaPostulado]);
-                $view = new DetalleFavor();
-                $view->show($args);
+                if (isset(Favor::getInstance()->verFavor($idFavor)[0])){
+                    $favor = Favor::getInstance()->verFavor($idFavor)[0];
+                    $comentarios= Comentario::getInstance()->verComentario($idFavor);
+                    $userFavor = Usuario::getInstance()->getUsuario($favor->getUsuarioId());
+                    $categoria = Categoria::getInstance()->getCategoria($favor->getCategoriaId());
+                    $idUsuario =UsuarioController::getInstance()->usuarioLogeado()->getId();
+                    $estaPostulado = Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario);
+                    $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'comentarios' => $comentarios, 'userFavor' => $userFavor, 'categoria' => $categoria, 'estaPostulado' => $estaPostulado]);
+                    $view = new DetalleFavor();
+                    $view->show($args);
+                }else{
+                    ResourceController::getInstance()->home(Message::getMessage(23));
+                }
             }else{
 
             }
@@ -254,7 +265,7 @@ class FavorController {
             if ($favores == []) {
                 $args = Message::getMessage(16);
             }else{
-                $args = array_merge($args, ['favores' => $favores]);
+                $args = array_merge($args, ['favores' => $favores,'titulo' => $titulo, 'localidad' => $localidad, 'categoria' => $categoria]);
             } 
             ResourceController::getInstance()->home($args);
         }
@@ -284,24 +295,12 @@ class FavorController {
     public function verFavores($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
-            $favoresSolicitados = Postulacion::getInstance()->favoresSolicitados($userId);
+            $favoresSolicitados = Favor::getInstance()->favoresSolicitados($userId);
             $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresSolicitados]);
             $view = new FavoresSolicitados();
             $view->show($args);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
-        }
-    }
-
-
-    public function VerPostulantes($args =[]){
-        if (UsuarioController::getInstance()->usuarioLogeado()){
-            if (isset($_POST['idFavor'])){
-                $postulantes = FavorController::getInstance()->obtenerPostulados($idFavor);
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'postulantes' => $postulantes]);
-                $view = new VerPostulantes();
-                $view->show($args);
-            }
         }
     }
     
@@ -334,6 +333,47 @@ class FavorController {
             $view->show($args);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+    /*
+     * CERRAR FAVOR 
+     */
+    public function cerrarFavor($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idFavor'])) && !empty($_POST['idFavor'])  ){
+                $idFavor = $_POST['idFavor'];
+                Favor::getInstance()->cerrarFavor($idFavor);
+                $this->verFavores(Message::getMessage(22));
+            }else{
+                ResourceController::getInstance()->home(Message::getMessage(99));
+            }
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+
+    }
+
+    /*
+     * VER POSTULANTES
+     */
+    public function verPostulantes ($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idFavor'])) && !empty($_POST['idFavor'])  ){
+                $idFavor = $_POST['idFavor'];
+                $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                $favor = Favor::getInstance()->getFavor($idFavor)[0];
+                if ($favor->getUsuarioId() == $idUsuario){ //  valido que sea su favor. una persona no podria ver los
+                                                                        // postulantes del favor de otra persona
+                    $postulantes = Favor::getInstance()->getPostulantes($idFavor);
+                    $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'postulantes' => $postulantes]);
+                    $view = new VerPostulantes();
+                    $view->show($args);
+
+
+                }
+            }
+
         }
     }
 

@@ -4,17 +4,9 @@
     	<h1 class="page-header"></h1>
             <div class="form-group">
                     <input type="hidden" name="action" value="buscarFavor">
-                	<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título" >
+                	<input type="text" class="form-control" name="titulo" id="titulo" placeholder="Título" value="{{ titulo }}" >
 
-                    <select class="form-control" name="localidad">
-                        <optgroup label="Buenos Aires">
-                        <option value="">Localidad</option>
-                        <option value="Azul">Azul</option>
-                        <option value="Bolivar">Bolivar</option>
-                        <option value="Laprida">Laprida</option>
-                        <option value="Olavarria">Olavarria</option>
-                        <option value="Tandil">Tandil</option>  
-                    </select>
+                    {% include 'selectLocalidad.html.twig' %}
 
                     <select class="form-control" name="categoria">
                         <option value="">Categoria</option>
