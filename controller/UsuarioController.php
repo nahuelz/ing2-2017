@@ -137,7 +137,7 @@ class UsuarioController {
     /*
     ** VALIDAR DATOS Y FORMATO DE CAMPOS EDITAR CUENTA
     */
-    public function validarEditarCuenta{
+    public function validarEditarCuenta() {
         $nombre=$_POST['nombre'];
         $apellido=$_POST['apellido'];
         $telefono=$_POST['telefono'];
