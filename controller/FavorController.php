@@ -50,16 +50,17 @@ class FavorController {
                         $imagen = $this->procesarImagen();
                         $nombreImagen = $_FILES['imagen']['name'];
                         $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
+                        $this->misFavores($msg);
                     }else{
-                        $msg = Message::getMessage(11);
+                        $this->misFavores(Message::getMessage(11));
                     }
                 }else{
                     $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
+                    $this->misFavores($msg);
                 }
             }else{
-                $msg = Message::getMessage(5);
+                $this->altaFavor(Message::getMessage(5));
             }
-            $this->altaFavor($msg);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }
@@ -319,12 +320,6 @@ class FavorController {
             }else{
                 $this->VerPostulantes(5);
             }
-            
-            //$userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
-            //$favoresPostulados = Postulacion::getInstance()->favoresPostulados($userId);
-            //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresPostulados]);
-            //$view = new VerPostulantes();
-            //$view->show($args);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }
