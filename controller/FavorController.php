@@ -177,22 +177,21 @@ class FavorController {
     public function postularse($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
-            if (isset($_POST['idFavor'])) {
-                if (!empty($_POST['idFavor'])) {
-                    $idFavor = $_POST['idFavor'];
-                    $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
-                    if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
-                        $estado = 'E'; // E de estado en Espera, capichi?
-                        Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado);
-                        $this->verDetalle(Message::getMessage(13));
-                    }else{
-                        $this->verDetalle(Message::getMessage(14));
-                    }
+            if  ( (isset($_POST['idFavor'])) && (isset($_POST['comentario'])) && (!empty($_POST['idFavor'])) && (!empty($_POST['comentario'])) ) {
+                $idFavor = $_POST['idFavor'];
+                $comentario = $_POST['comentario'];
+                $localidad = $_POST['localidad'];
+                $nombre = $_POST['nombre'];
+                $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
+                    $estado = 'E'; // E de estado en Espera, capichi?
+                    Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado, $comentario, $localidad, $nombre);
+                    $this->verDetalle(Message::getMessage(13));
                 }else{
-                    $this->verDetalle(Message::getMessage(5));
+                    $this->verDetalle(Message::getMessage(14));
                 }
             }else{
-                $view = new DetalleFavor(Message::getMessage(5));
+                $this->verDetalle(Message::getMessage(5));
             }
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
@@ -218,6 +217,10 @@ class FavorController {
         }
     }
 
+    /*
+     * MIS POSTULACIONES
+     */
+
     public function favoresPostulados($args=[]){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
@@ -225,6 +228,60 @@ class FavorController {
             $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresPostulados]);
             $view = new FavoresPostulados();
             $view->show($args);
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+
+
+    /*
+     * MIS FAVORES
+     */
+    public function verFavores($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+            $favoresSolicitados = Postulacion::getInstance()->favoresSolicitados($userId);
+            $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresSolicitados]);
+            $view = new FavoresSolicitados();
+            $view->show($args);
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+
+    public function VerPostulantes($args =[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if (isset($_POST['idFavor'])){
+                $postulantes = FavorController::getInstance()->obtenerPostulados($idFavor);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'postulantes' => $postulantes]);
+                $view = new VerPostulantes();
+                $view->show($args);
+            }
+        }
+    }
+    public function aceptarPostulante($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+                $idPostulante = $_POST['idPostulante'];
+                $idFavor = $_POST['idFavor'];
+                $postulados = FavorController::getInstance()->obtenerPostulados($idFavor);
+                foreach ($postulados as &$postulante) {
+                    FavorController::getInstance()->rechazarPostulado($postulante['idPostulante']);
+                }
+                FavorController::getInstance()->finalizarFavor($idFavor);
+                FavorController::getInstance()->aceptarPostulante($idPostulante);
+                $this->VerPostulantes();
+            }else{
+                $this->VerPostulantes(5);
+            }
+            
+            //$userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+            //$favoresPostulados = Postulacion::getInstance()->favoresPostulados($userId);
+            //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresPostulados]);
+            //$view = new VerPostulantes();
+            //$view->show($args);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }

@@ -55,6 +55,7 @@ if (isset($_GET["action"])){
         case 'postularse' : { FavorController::getInstance()->postularse(); break; }
         case 'buscarFavor' : { FavorController::getInstance()->buscarFavor(); break; }
         case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
+        case 'aceptarPostulante': { FavorController::getInstance()->aceptarPostulante(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }

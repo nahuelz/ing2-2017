@@ -63,10 +63,10 @@ class Postulacion extends PDORepository {
         return $this->estado;
     }
 
-    public function altaPostulacion($idFavor, $idUsuario, $estado){
+    public function altaPostulacion($idFavor, $idUsuario, $estado, $comentario, $localidad, $nombre){
             $mapper = function($row) {};
-            $sql = "INSERT INTO postulacion (idFavor, idUsuario, estado) VALUES (?, ?, ?)";
-            $values = [$idFavor, $idUsuario, $estado];
+            $sql = "INSERT INTO postulacion (idFavor, idUsuario, estado, comentario, localidad, nombre) VALUES (?, ?, ?, ?, ?, ?)";
+            $values = [$idFavor, $idUsuario, $estado, $comentario, $localidad, $nombre];
             $this->queryList($sql, $values, $mapper);
     }
 

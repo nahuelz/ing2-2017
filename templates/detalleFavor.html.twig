@@ -11,25 +11,11 @@
                             <h3>{{ favor.titulo }}</h3>
                         </div>
 
-                        <!-- Postularse -->
-
-                        {% if favor.usuarioId != user.id %}
-                            <div class="col-md-1">    
-                                <br>                                
-                                <div class="col-md-offset-3 col-md-3">
-                                    <form  role="form" method="POST" action="./?action=postularse">
-                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input id="btn-signup" class="btn btn-success" type="submit" value="POSTULARSE!">
-                                    </form>
-                                </div>   
-                            </div>
-                        {% endif %}
-                        <!-- Fin Postularse --> 
 
                         <!-- Detalle publicacion --> 
                         <br><br>
                         <hr />
-                        <div class="col-md-9">
+                        <div class="col-md-7">
                             <dl class="dl-horizontal">
 
                                 <dt> Descripcion </dt>
@@ -54,6 +40,22 @@
 
                             </dl>
                         </div> <!-- Fin Detalle publicacion -->
+                                                <!-- Postularse -->
+
+                        {% if favor.usuarioId != user.id %}
+                            <div class="col-md-5">    
+                                <br>                                
+                                <form  role="form" method="POST" action="./?action=postularse">
+                                    <strong>¿Porqué deceas postularte?</strong>
+                                    <textarea id='comentario' name="comentario" required></textarea>
+                                    <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                    <input type="hidden" name="localidad" value="{{ user.localidad }}">
+                                    <input type="hidden" name="nombre" value="{{ user.nombre }}">
+                                    <input id="btn-signup" class="btn btn-success" type="submit" value="POSTULARSE!">
+                                </form>
+                            </div>
+                        {% endif %}
+                        <!-- Fin Postularse --> 
                     </div> <!-- Panel body -->
                     
                    

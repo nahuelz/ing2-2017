@@ -71,4 +71,11 @@ class Creditos extends PDORepository {
         $values = [$usuarioId, $precioUnitario, $cantidad, $fecha];
         $this->queryList($sql, $values, $mapper);
     }
+
+    public function getPrecio(){
+        $mapper = function($row) {
+            return $row['precio'];
+        };
+        return $this->queryList("SELECT * FROM precio;", [], $mapper)[0];
+    }
 }

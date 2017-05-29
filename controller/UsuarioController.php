@@ -78,7 +78,7 @@ class UsuarioController {
                 $telefono = $_POST['telefono'];
 
     			$msg = Usuario::getInstance()->registrarUsuario($nombre, $apellido, $email, $password, $telefono);
-                ResourceController::getInstance()->home($msg);
+                $this->login($msg);
     		} else {
     			$this->registro(Message::getMessage(5));
     		}
@@ -108,11 +108,13 @@ class UsuarioController {
         if ($this->usuarioLogeado()){
             $user = $this->usuarioLogeado();
             if ( isset($_POST['nombre']) AND isset($_POST['apellido']) AND isset($_POST['password']) AND isset($_POST['email']) AND isset($_POST['telefono']) AND !empty($_POST['nombre']) AND !empty($_POST['apellido']) AND !empty(['password']) AND !empty($_POST['email']) AND !empty($_POST['telefono'])) {
-                $userMod = new Usuario([], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono'], $_POST['creditos']);
+                
+                $userMod = new Usuario($user->getId(), $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono'], $_POST['creditos'], $_POST['localidad']);
+                
                 if($user->getPassword() == $userMod->getPassword()){
                     if ($user->getEmail() == $userMod->getEmail()){
                         if ($user->getCreditos() == $userMod->getCreditos()){
-                            Usuario::getInstance()->modificarUsuario($userMod->getNombre(), $userMod->getApellido(), $userMod->getTelefono(), $userMod->getEmail());
+                            Usuario::getInstance()->modificarUsuario($userMod->getNombre(), $userMod->getApellido(), $userMod->getTelefono(), $userMod->getEmail(), $userMod->getLocalidad());
                             /*Session::getInstance()->destroy();
                             ResourceController::getInstance()->home(Message::getMessage(6));*/
                             $session = Session::getInstance();
@@ -166,7 +168,8 @@ class UsuarioController {
     */
     public function creditos($args = []){
         if($this->usuarioLogeado()){
-            $args = array_merge($args, ['user' => $this->usuarioLogeado()]);
+            $precio = Creditos::getInstance()->getPrecio();
+            $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'precio' => $precio]);
             $view = new CargarCreditos();
             $view->show($args);
         }else{
@@ -179,7 +182,7 @@ class UsuarioController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) ) {
                 $cantidad = $_POST['cantidad'];
-                $precioUnitario = 20;
+                $precioUnitario = $_POST['precio'];
                 $fecha = Date('Y-m-d');
                 $user = UsuarioController::getInstance()->usuarioLogeado();
                 $usuarioId = $user->getId();

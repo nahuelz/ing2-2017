@@ -18,6 +18,20 @@ $(document).ready(function() {
             $("#telefono").focus().after("<p class='error'>Ingrese un telefono valido</p>");
             return false;  
         }
+        if( $("#ccv").val().length < 3 || !numeros.test($("#ccv").val() || $("#ccv").val().length > 3) ) {
+            $("#ccv").focus().after("<p class='error'>Ingrese un ccv valido</p>");
+            return false;  
+        }
+
+    });
+
+    $(".creditos").click(function (){ 
+        $(".error").remove();
+        if( $("#nombre").val().length < 4 || !caracteres.test($("#nombre").val())) {
+            $("#nombre").focus().after("<p class='error'>Ingrese un nombre valido</p>");
+            return false;  
+        }
+        
     });
 });
 

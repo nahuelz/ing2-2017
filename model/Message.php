@@ -45,6 +45,8 @@ class Message {
                 return ['message' => 'No se han encontrado resultados para la busqueda', 'tipo' => 'warning'];
             case 17:
                 return ['message' => 'Debes iniciar sesion para poder ver esta publicacion.', 'tipo' => 'warning'];
+            case 18:
+                return ['message' => 'Postulante aceptado.', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }
