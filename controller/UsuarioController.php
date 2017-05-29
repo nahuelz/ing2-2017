@@ -107,7 +107,7 @@ class UsuarioController {
     public function editarCuenta(){
         if ($this->usuarioLogeado()){
             $user = $this->usuarioLogeado();
-            if ( isset($_POST['nombre']) AND isset($_POST['apellido']) AND isset($_POST['password']) AND isset($_POST['email']) AND isset($_POST['telefono']) AND !empty($_POST['nombre']) AND !empty($_POST['apellido']) AND !empty(['password']) AND !empty($_POST['email']) AND !empty($_POST['telefono'])) {
+            if ( isset($_POST['nombre']) AND isset($_POST['apellido']) AND isset($_POST['password']) AND isset($_POST['email']) AND isset($_POST['telefono']) AND !empty($_POST['nombre']) AND !empty($_POST['apellido']) AND !empty(['password']) AND !empty($_POST['email']) AND !empty($_POST['telefono'] )) {
                 $userMod = new Usuario([], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono'], $_POST['creditos']);
                 if($user->getPassword() == $userMod->getPassword()){
                     if ($user->getEmail() == $userMod->getEmail()){
@@ -133,6 +133,25 @@ class UsuarioController {
         }else{
             ResourceController::getInstance()->home();
         }
+    }
+    /*
+    ** VALIDAR DATOS Y FORMATO DE CAMPOS EDITAR CUENTA
+    */
+    public function validarEditarCuenta{
+        $nombre=$_POST['nombre'];
+        $apellido=$_POST['apellido'];
+        $telefono=$_POST['telefono'];
+        $password=$_POST['password'];
+
+        if(ctype_alpha($nombre) AND strlen($nombre)>=3 AND strlen($nombre)<=20){
+            if(ctype_alpha($apellido) AND strlen($apellido)>=3 AND strlen($apellido)>=20){
+                if(ctype_digit($telefono) AND strlen($telefono)>=6 AND strlen($telefono)>=20){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /*
