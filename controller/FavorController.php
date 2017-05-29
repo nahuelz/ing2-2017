@@ -70,7 +70,6 @@ class FavorController {
         if(strlen($titulo)>3 AND strlen($titulo)<20){
             if(strlen($descripcion)>3 AND strlen($descripcion)<250)
             {
-                print_r(strlen($descripcion));
                  return true;
             }
 
@@ -226,7 +225,11 @@ class FavorController {
                 $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
                 if (Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
                     Postulacion::getInstance()->bajaPostulacion($idFavor, $idUsuario);
-                    $this->verDetalle(Message::getMessage(19));
+                    if ($_POST['from'] == 'detalleFavor')
+                        $this->verDetalle(Message::getMessage(19));
+                    else{
+                        $this->favoresPostulados(Message::getMessage(19));
+                    }
                 }else{
                     $this->verDetalle(Message::getMessage(20));
                 }
@@ -300,6 +303,7 @@ class FavorController {
             }
         }
     }
+    
     public function aceptarPostulante($args=[]){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
@@ -321,6 +325,18 @@ class FavorController {
             //$args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresPostulados]);
             //$view = new VerPostulantes();
             //$view->show($args);
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+    public function misFavores($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+            $favoresSolicitados = Favor::getInstance()->favoresSolicitados($userId);
+            $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favores' => $favoresSolicitados]);
+            $view = new FavoresSolicitados();
+            $view->show($args);
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }

@@ -16,7 +16,7 @@
                     {% for favor in favores %}
                         <tbody>
                             <tr>
-                                <td><img style=" width: 120px; height: 60px; object-fit: contain;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" /></td>
+                                <td><img style=" width: 120px; height: 60px; object-fit: contain;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="{{ favor.imagen }}" /></td>
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fecha }}</td>

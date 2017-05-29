@@ -146,7 +146,7 @@ class Favor extends PDORepository {
             return $row;
         };
 
-        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.imagen as imagen, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         return ($answer);
     }
 
@@ -161,6 +161,19 @@ class Favor extends PDORepository {
             $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE titulo LIKE '%".$titulo."%' && localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         }
         return ($answer);
+    }
+
+    public function favoresSolicitados($userId){
+        $mapper = function($row){
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            return $resource;
+        };
+        $sql = "SELECT * FROM favor WHERE usuario_id = ?";
+        $values = [$userId];
+        $answer = $this->queryList($sql, $values, $mapper);
+    
+        return $answer;
+
     }
 
 

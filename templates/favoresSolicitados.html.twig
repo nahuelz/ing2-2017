@@ -6,7 +6,7 @@
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
             <div class="panel panel-info">
                 <div class="col-md-9">
-                    <h3> Mis postulaciones</h3>
+                    <h3> Mis Favores</h3>
                     <hr>
                 </div>         
 
@@ -27,13 +27,12 @@
                                 <td><img style=" width: 110px; height: 50px;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" /></td>
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
-                                <td>{{ favor.fecha_publicacion }}</td>
+                                <td>{{ favor.fechaPublicacion }}</td>
                                 <td><a href="./?action=verDetalle&id={{ favor.id }}"> Ver </a></td>
                                 <td>
-                                    <form onclick="return confirm('Esta seguro de que quiere cancelar esta postulacion?')" role="form" method="POST" action="./?action=cancelarPostulacion">
+                                    <form onclick="return confirm('Esta seguro de que quiere eliminar esta publicacion?')" role="form" method="POST" action="./?action=eliminarPublicacion">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input type="hidden" name="from" value="misPostulaciones">
-                                        <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cancelar">
+                                        <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
                                     </form>
                                 </td>
                             </tr>
@@ -55,6 +54,5 @@
     </div>
     {% endif %}
     </div>
-
 
 {% endblock %}

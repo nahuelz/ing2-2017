@@ -56,8 +56,9 @@
                                     </form>
                                 </div>
                             {% else %}   
-                               <form  role="form" method="POST" action="./?action=cancelarPostulacion">
+                               <form onclick="return confirm('Esta seguro de que quiere cancelar esta postulacion?')" role="form" method="POST" action="./?action=cancelarPostulacion">
                                     <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                    <input type="hidden" name="from" value="detalleFavor">
                                     <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="CANCELAR POSTULACION!">
                                 </form>
 

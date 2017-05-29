@@ -29,6 +29,7 @@ require_once('view/CargarCreditos.php');
 require_once('view/AltaFavor.php');
 require_once('view/DetalleFavor.php');
 require_once('view/favoresPostulados.php');
+require_once('view/favoresSolicitados.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -57,6 +58,7 @@ if (isset($_GET["action"])){
         case 'buscarFavor' : { FavorController::getInstance()->buscarFavor(); break; }
         case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
         case 'aceptarPostulante': { FavorController::getInstance()->aceptarPostulante(); break; }
+        case 'misFavores': { FavorController::getInstance()->misFavores(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }
