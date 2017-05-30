@@ -116,16 +116,50 @@ class Favor extends PDORepository {
     public function getImagen(){
         return $this->imagen;
     }
+      public function registrarUsuario($nombre, $apellido, $email, $password, $telefono){
+        $mapper = function($row) {};
+
+        if (!$this->existeEmail($email)) {
+            $sql = "INSERT INTO usuario (nombre, apellido, email, password, telefono, creditos, esAdmin, habilitado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $values = [$nombre, $apellido, $email, $password, $telefono, 1, 0, 1];
+            $this->queryList($sql, $values, $mapper);
+            return Message::getMessage(3);
+        }
+        return Message::getMessage(4);
+    }
+
+    public function existeEmail($email) {
+        $mapper = function($row) {};
+        
+        $answer = $this->queryList("SELECT * FROM usuario WHERE email=?", [$email], $mapper);
+        
+        return (count($answer) > 0);
+    }
 
     public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
-        if(!$this->existeTitulo($titulo)){
-            $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, estado, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 'A', $imagen];
-            $this->queryList($sql, $values, $mapper);
-            return (Message::getMessage(10));
+        if ($this->tieneCredito($usuarioId)){
+                if(!$this->existeTitulo($titulo)){ 
+                    $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion,estado, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 'A', $imagen];
+                    $this->queryList($sql, $values, $mapper);
+                    return (Message::getMessage(10));
+                }else
+                {
+                    return Message::getMessage(21);    
+                }
         }
-        return Message::getMessage(21);
+        return Message::getMessage(25);
+    }
+    public function tieneCredito($userId){
+        $mapper = function($row) {return $row;};
+        $answer = $this->queryList("SELECT * FROM usuario WHERE id=? ;", [$userId], $mapper);
+        return ($answer[0]['creditos']>0);
+    }
+    public function existeTitulo($titulo){
+        $mapper = function($row) {return $row;};
+        $answer = $this->queryList("SELECT * FROM Favor WHERE titulo=? AND estado='A';", [$titulo], $mapper);
+        return (count($answer) > 0);
     }
 
     public function obtenerFavores(){
@@ -170,7 +204,7 @@ class Favor extends PDORepository {
 
     public function favoresSolicitados($userId){
         $mapper = function($row){
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);//cerrada por estado
             return $resource;
         };
         $sql = "SELECT * FROM favor WHERE usuario_id = ?;";
@@ -181,11 +215,7 @@ class Favor extends PDORepository {
 
     }
 
-    public function existeTitulo($titulo){
-        $mapper = function($row) {return $row;};
-        $answer = $this->queryList("SELECT * FROM Favor WHERE titulo = ? AND estado='A';", [$titulo], $mapper);
-        return (count($answer) > 0);
-    }
+    
 
     public function cerrarFavor($id, $idUsuarioAceptado){
          $mapper = function($row) {};

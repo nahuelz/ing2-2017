@@ -109,8 +109,8 @@ class FavorController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
 
             if (isset($_GET['id'])){
-                $idFavor = $_GET['id'];
-                if (isset(Favor::getInstance()->verFavor($idFavor)[0])){
+                $idFavor = $_GET['id'];  // "null! == func ()"
+                if (null!==(Favor::getInstance()->verFavor($idFavor)[0])){
                     $favor = Favor::getInstance()->verFavor($idFavor)[0];
                     $comentarios= Comentario::getInstance()->verComentario($idFavor);
                     $userFavor = Usuario::getInstance()->getUsuario($favor->getUsuarioId());

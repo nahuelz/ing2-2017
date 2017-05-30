@@ -39,7 +39,7 @@ class Usuario extends PDORepository {
         if ($creditos != null){
             $this->creditos = $creditos;
         }else{
-            $this->creditos = 0;
+            $this->creditos = 1;
         }
 
         if ($esAdmin != null){

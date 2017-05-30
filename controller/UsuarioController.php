@@ -1,4 +1,4 @@
- <?php
+<?php
 
 class UsuarioController {
     
@@ -198,20 +198,25 @@ class UsuarioController {
     /*ALTA CREDITOS*/
     public function altaCreditos($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) ) {
-                $cantidad = $_POST['cantidad'];
-                $precioUnitario = $_POST['precio'];
-                $fecha = Date('Y-m-d');
-                $user = UsuarioController::getInstance()->usuarioLogeado();
-                $usuarioId = $user->getId();
-                $creditos = $user->getCreditos();
-                $totalCreditos = $cantidad + $creditos;
-                $user->setCreditos($totalCreditos);
-                $session = Session::getInstance();
-                $session->usuario = $user;
-                Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
-                Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
-                UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
+            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) && isset($_POST['password']) && !empty($_POST['password']) ) {
+                $password = $_POST['password'];
+                if($password == UsuarioController::getInstance()->usuarioLogeado()->getPAssworrd()){
+                    $cantidad = $_POST['cantidad'];
+                    $precioUnitario = $_POST['precio'];
+                    $fecha = Date('Y-m-d');
+                    $user = UsuarioController::getInstance()->usuarioLogeado();
+                    $usuarioId = $user->getId();
+                    $creditos = $user->getCreditos();
+                    $totalCreditos = $cantidad + $creditos;
+                    $user->setCreditos($totalCreditos);
+                    $session = Session::getInstance();
+                    $session->usuario = $user;
+                    Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
+                    Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
+                    UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
+                }else{
+                    
+                }
             }else{
                 $this->creditos(Message::getMessage(5));
             }
