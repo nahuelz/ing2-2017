@@ -39,31 +39,37 @@ class FavorController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if ((isset($_POST['titulo']) AND isset($_POST['localidad']) AND !empty($_POST['localidad']) && isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion']) AND ($this->validarFormulario($_POST['titulo'],$_POST['descripcion']))) {
                 $titulo = $_POST['titulo'];
-                if (!Favor::getInstance()->existeTitulo($titulo)) {
-                    $descripcion = $_POST['descripcion'];
-                    $categoria = $_POST['categoria'];
-                    $localidad = $_POST['localidad'];
-                    $fecha = Date('Y-m-d');
-                    $nombreImagen = '';
-                    $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+                if (UsuarioController::getInstance()->usuarioLogeado()->getCreditos()>0) {
+                    # code...
+                
+                    if (!Favor::getInstance()->existeTitulo($titulo)) {
+                        $descripcion = $_POST['descripcion'];
+                        $categoria = $_POST['categoria'];
+                        $localidad = $_POST['localidad'];
+                        $fecha = Date('Y-m-d');
+                        $nombreImagen = '';
+                        $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
 
-                    if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
-                        if ($this->validarImagen()){
-                            $imagen = $this->procesarImagen();
-                            $nombreImagen = $_FILES['imagen']['name'];
+                        if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
+                            if ($this->validarImagen()){
+                                $imagen = $this->procesarImagen();
+                                $nombreImagen = $_FILES['imagen']['name'];
+                                $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
+                                UsuarioController::getInstance()->descontarCreditos(1);
+                                $this->misFavores($msg);
+                            }else{
+                                $this->misFavores(Message::getMessage(11));
+                            }
+                        }else{
                             $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
                             UsuarioController::getInstance()->descontarCreditos(1);
                             $this->misFavores($msg);
-                        }else{
-                            $this->misFavores(Message::getMessage(11));
                         }
                     }else{
-                        $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
-                        UsuarioController::getInstance()->descontarCreditos(1);
-                        $this->misFavores($msg);
+                        $this->altaFavor(Message::getMessage(21));
                     }
                 }else{
-                    $this->altaFavor(Message::getMessage(21));
+                    $this->altaFavor(Message::getMessage(25));
                 }
             }else{
                 $this->altaFavor(Message::getMessage(5));
@@ -205,12 +211,10 @@ class FavorController {
             if  ( (isset($_POST['idFavor'])) && (isset($_POST['comentario'])) && (!empty($_POST['idFavor'])) && (!empty($_POST['comentario'])) ) {
                 $idFavor = $_POST['idFavor'];
                 $comentario = $_POST['comentario'];
-                $localidad = $_POST['localidad'];
-                $nombre = $_POST['nombre'];
                 $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
                 if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
                     $estado = 'E'; 
-                    Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado, $comentario, $localidad, $nombre);
+                    Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado, $comentario);
                     $this->verDetalle(Message::getMessage(13));
                 }else{
                     $this->verDetalle(Message::getMessage(14));
