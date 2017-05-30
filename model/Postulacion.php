@@ -90,9 +90,20 @@ class Postulacion extends PDORepository {
         $sql = "SELECT * FROM `postulacion` INNER JOIN `favor` WHERE postulacion.idFavor = favor.id AND postulacion.idUsuario = ?";
         $values = [$userId];
         $answer = $this->queryList($sql, $values, $mapper);
+        return $answer;
+
+    }
+
+    public function aceptarPostulante($userId){
+        $mapper = function($row){};
+        $sql = "UPDATE postulacion SET estado = 'A' WHERE idUsuario = ?";
+        $values = [$userId];
+        $answer = $this->queryList($sql, $values, $mapper);
     
         return $answer;
 
     }
+
+
 
 }

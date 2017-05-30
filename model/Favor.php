@@ -28,7 +28,7 @@ class Favor extends PDORepository {
         return self::$instance;
     }
 
-    function __construct($id = null, $usuarioId = null, $titulo = null, $descripcion = null, $categoriaId = null, $localidad = null, $fechaPublicacion = null, $fechaCierre = null, $imagen = null){
+    function __construct($id = null, $usuarioId = null, $titulo = null, $descripcion = null, $categoriaId = null, $localidad = null, $fechaPublicacion = null, $estado = null, $imagen = null){
         $this->id = $id;
         $this->usuarioId = $usuarioId;
         $this->titulo = $titulo;
@@ -36,7 +36,11 @@ class Favor extends PDORepository {
         $this->categoriaId = $categoriaId;
         $this->localidad = $localidad;
         $this->fechaPublicacion = $fechaPublicacion;
-        $this->estado = 'A';
+        if ($estado == null) {
+            $this->estado = 'A';
+        }else{
+            $this->estado = $estado;
+        }
         $this->imagen = $imagen;
         return $this;
     }
@@ -169,7 +173,7 @@ class Favor extends PDORepository {
             $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $sql = "SELECT * FROM favor WHERE usuario_id = ? AND estado = 'A';";
+        $sql = "SELECT * FROM favor WHERE usuario_id = ?;";
         $values = [$userId];
         $answer = $this->queryList($sql, $values, $mapper);
     
@@ -185,7 +189,7 @@ class Favor extends PDORepository {
 
     public function cerrarFavor($id){
          $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['A', $id], $mapper);
+        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['C', $id], $mapper);
         return ($answer);
     }
 
@@ -198,7 +202,16 @@ class Favor extends PDORepository {
         return $answer;
     }
 
-        public function getFavor($id){
+    public function postulantes($idFavor){
+        $mapper = function($row){return $row;};
+        $sql = "SELECT * FROM favor INNER JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.id = ? AND favor.estado = 'A';";
+        $values = [$idFavor];
+        $answer = $this->queryList($sql, $values, $mapper);
+    
+        return $answer;
+    }
+
+    public function getFavor($id){
          $mapper = function($row) {
             $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;

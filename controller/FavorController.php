@@ -301,26 +301,6 @@ class FavorController {
             ResourceController::getInstance()->home(Message::getMessage(0));
         }
     }
-    
-    public function aceptarPostulante($args=[]){
-        if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
-                $idPostulante = $_POST['idPostulante'];
-                $idFavor = $_POST['idFavor'];
-                $postulados = FavorController::getInstance()->obtenerPostulados($idFavor);
-                foreach ($postulados as &$postulante) {
-                    FavorController::getInstance()->rechazarPostulado($postulante['idPostulante']);
-                }
-                FavorController::getInstance()->finalizarFavor($idFavor);
-                FavorController::getInstance()->aceptarPostulante($idPostulante);
-                $this->VerPostulantes();
-            }else{
-                $this->VerPostulantes(5);
-            }
-        }else{
-            ResourceController::getInstance()->home(Message::getMessage(0));
-        }
-    }
 
     public function misFavores($args=[]){
         if (UsuarioController::getInstance()->usuarioLogeado()){
@@ -374,6 +354,22 @@ class FavorController {
                 ResourceController::getInstance()->home();
             }
 
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+    public function aceptarPostulante($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+                $idPostulante = $_POST['idPostulante'];
+                $idFavor = $_POST['idFavor'];
+                Favor::getInstance()->cerrarFavor($idFavor);
+                Postulacion::getInstance()->aceptarPostulante($idPostulante);
+                $this->misFavores();
+            }else{
+                $this->VerPostulantes(5);
+            }
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
         }

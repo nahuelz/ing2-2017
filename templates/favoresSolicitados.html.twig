@@ -37,13 +37,13 @@
                                 <td>
                                     <form onclick="return confirm('Esta seguro de que quiere eliminar este favor?')" role="form" method="POST" action="./?action=cerrarFavor">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-danger" type="submit" value="Cerrar">
+                                        <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cerrar">
                                     </form>
                                 </td>
                                 <td>
                                     <form role="form" method="POST" action="./?action=verPostulantes">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
+                                        <input id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
                             </tr>

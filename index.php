@@ -62,6 +62,7 @@ if (isset($_GET["action"])){
         case 'misFavores': { FavorController::getInstance()->misFavores(); break; }
         case 'cerrarFavor' : { FavorController::getInstance()->cerrarFavor(); break; }
         case 'verPostulantes' : { FavorController::getInstance()->verPostulantes(); break; }
+        case 'aceptarPostulante' : { FavorController::getInstance()->aceptarPostulante(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }

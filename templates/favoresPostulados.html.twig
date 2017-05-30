@@ -18,6 +18,8 @@
                             <th>Titulo</th>
                             <th>Localidad</th>
                             <th>Fecha publicacion</th>
+                            <th>Estado</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -28,12 +30,13 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fecha_publicacion }}</td>
-                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> Ver </a></td>
+                                <td>{% if favor.estado == 'A' %} Abierto {% elseif favor.estado == 'C' %} Cerrado {% else %} Finalizado {% endif %}</td>
+                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 <td>
                                     <form onclick="return confirm('Esta seguro de que quiere cancelar esta postulacion?')" role="form" method="POST" action="./?action=cancelarPostulacion">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                         <input type="hidden" name="from" value="misPostulaciones">
-                                        <input style="margin-left: 20px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cancelar">
+                                        <input style="padding: 5px 30px 7px 30px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cancelar">
                                     </form>
                                 </td>
                             </tr>

@@ -29,8 +29,9 @@
                                 <td> {{ postulante.comentario }} </td>
                                 <td> {% if postulante.localidad %} {{ postulante.localidad}} {% else %} Desconocida {% endif %}</td>
                                 <td> 
-                                    <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=cerrarFavor">
+                                    <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=aceptarPostulante">
                                         <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">
+                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                         <input class="btn btn-success" type="submit" value="Aceptar">
                                     </form>
                                 </td>
