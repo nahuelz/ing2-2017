@@ -59,6 +59,8 @@ class Message {
                 return ['message' => 'No se encontro el favor', 'tipo' => 'warning'];
             case 24:
                 return ['message' => 'Seleccione una localidad', 'tipo' => 'warning'];
+            case 25:
+                return ['message' => 'No tiene creditos suficientes', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }
