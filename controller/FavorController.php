@@ -61,7 +61,6 @@ class FavorController {
                         $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
                         UsuarioController::getInstance()->descontarCreditos(1);
                         $this->misFavores($msg);
-                    }
                 }else{
                     $this->altaFavor(Message::getMessage(21));
                 }
@@ -76,11 +75,9 @@ class FavorController {
     public function validarFormulario($titulo,$descripcion){
 
         if(strlen($titulo)>3 AND strlen($titulo)<50){
-            if(strlen($descripcion)>3 AND strlen($descripcion)<=255)
-            {
+            if(strlen($descripcion)>3 AND strlen($descripcion)<=255){
                  return true;
             }
-
           } 
 
         return false;
@@ -88,7 +85,7 @@ class FavorController {
     
     public function validarImagen(){
         if (isset($_FILES['imagen']) && $_FILES['imagen']['size'] > 0){
-            if ($_FILES['imagen']['size'] < 65000){
+            if ($_FILES['imagen']['size'] < 65000000){
                 if ( (strpos($_FILES['imagen']['type'], "jpeg")) || (strpos($_FILES['imagen']['type'], "jpg")) || (strpos($_FILES['imagen']['type'], "png")) ){
                     return true;
                 }
