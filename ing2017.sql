@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2017 a las 02:39:01
+-- Tiempo de generación: 30-05-2017 a las 05:15:55
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -104,7 +104,7 @@ CREATE TABLE `favor` (
   `categoria` int(11) NOT NULL,
   `localidad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_publicacion` date NOT NULL,
-  `cerrada` int(1) NOT NULL,
+  `estado` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
   `imagen` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -112,11 +112,8 @@ CREATE TABLE `favor` (
 -- Volcado de datos para la tabla `favor`
 --
 
-INSERT INTO `favor` (`id`, `usuario_id`, `titulo`, `descripcion`, `categoria`, `localidad`, `fecha_publicacion`, `cerrada`, `imagen`) VALUES
-(1, 1, 'ggggggggggggggg', 'ggggggggggggggg', 1, 'Azul', '2017-05-12', 0, ''),
-(2, 1, 'asd', 'asd', 1, 'Azul', '2017-05-12', 0, ''),
-(3, 1, 'un titulo', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor ', 2, 'Olavarria', '2017-05-24', 0, ''),
-(4, 2, 'NUEVO', 'NUEVO', 1, 'Azul', '2017-05-24', 0, '');
+INSERT INTO `favor` (`id`, `usuario_id`, `titulo`, `descripcion`, `categoria`, `localidad`, `fecha_publicacion`, `estado`, `imagen`) VALUES
+(17, 1, 'unTitulo', 'UnaDescripcion', 1, 'Azul', '2017-05-30', 'A', 'UMLTPPromocionCORREGIDO.png');
 
 -- --------------------------------------------------------
 
@@ -129,10 +126,17 @@ CREATE TABLE `postulacion` (
   `idFavor` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `estado` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
-  `comentario` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `localidad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+  `comentario` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `postulacion`
+--
+
+INSERT INTO `postulacion` (`id`, `idFavor`, `idUsuario`, `estado`, `comentario`) VALUES
+(4, 17, 2, 'E', 'hola'),
+(5, 17, 3, 'E', 'chau'),
+(6, 17, 8, 'E', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -175,13 +179,14 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `email`, `password`, `telefono`, `localidad`, `creditos`, `esAdmin`, `habilitado`) VALUES
-(1, 'Admin', 'Admin', 'admin@admin', 'admin', '123456789', 'Olavarria', '2243', '1', 0),
+(1, 'Admin', 'Admin', 'admin@admin', 'admin', '123456789', 'Bolivar', '2241', '1', 0),
 (2, 'pepe', 'pepe', 'pepe@pepe', 'pepe', '123', 'Bolivar', '141', '0', 0),
-(3, 'pepa', 'pepa', 'pepa@pepa', 'pepa', '123', '', '1', '0', 1),
+(3, 'pepa', 'pepa', 'pepa@pepa', 'pepa', '123456', 'Bolivar', '1', '0', 1),
 (4, '1234', '1233', 'hola@hola', '1234', '123', '', '1', '0', 1),
 (5, 'asdf', 'asdf', 'asd@asd', 'asdf', '1', '', '1', '0', 1),
 (6, 'pipi', 'pipi', 'pipi@pipi', 'pipi', '03034567', 'Olavarria', '1', '0', 1),
-(7, 'popo', 'popo', 'popo@popo', 'popo', '0303456', 'Azul', '1', '0', 1);
+(7, 'popo', 'popo', 'popo@popo', 'popo', '0303456', 'Azul', '1', '0', 1),
+(8, 'asdf', 'asdf', 'asdf@asdf', 'asdf', '1234567', 'Tandil', '1', '0', 1);
 
 --
 -- Índices para tablas volcadas
@@ -246,17 +251,17 @@ ALTER TABLE `creditos`
 -- AUTO_INCREMENT de la tabla `favor`
 --
 ALTER TABLE `favor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `postulacion`
 --
 ALTER TABLE `postulacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
