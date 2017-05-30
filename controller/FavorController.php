@@ -381,7 +381,7 @@ class FavorController {
                 $idPostulante = $_POST['idPostulante'];
                 $idFavor = $_POST['idFavor'];
                 $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
-                $view = new CalificarPostulantes();
+                $view = new CalificarPostulante();
                 $view->show($args);
             }else{
                 $this->VerPostulantes();

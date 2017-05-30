@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block container %}
+	<div class="container">
+		<div style="margin-top:55px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+	    	<div class="panel panel-info">
+				<div class="panel-heading">
+	                <div class="panel-title">Calificar Postulante</div>
+	                </div>
+
+                	<div class="panel-body" >
+                  <!--INICIO FORMULARIO-->
+                      <form id="favorForm" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="./?action=altaFavorAction">  
+
+                            <div class="form-group">
+                                  <label for="titulo" class="col-md-3 control-label">Titulo</label>
+                                  <div class="col-md-9">
+                                        <input type="text" class="form-control" name="titulo" placeholder="Titulo" required minlength="4" minlength="250">
+                                  </div>
+                            </div>
+
+                            <div class="form-group">
+                                  <label for="localidad" class="col-md-3 control-label">Localidad</label>
+                                  <div class="col-md-9">
+                                        {% include 'selectLocalidad.html.twig' %}
+                                  </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                  <label for="categoria" class="col-md-3 control-label">Categoria</label>
+                                  <div class="col-md-9">
+                                        <select class="form-control" name="categoria">
+                                            {% for categoria in categorias %}
+                                                 <option value="{{categoria.id}}">{{categoria.nombre}}</option>
+                                            {% endfor %}         
+                                        </select>
+                                  </div>
+                            </div>
+
+                            <div class="form-group">
+                                  <label for="descripcion" class="col-md-3 control-label">Descripcion</label>
+                                  <div class="col-md-9">
+                                        <textarea form="favorForm" name="descripcion" class="form-control" style="max-width: 374px;" required minlength="4" maxlength="255"></textarea>
+                                  </div>
+                            </div>
+
+                            <div class="form-group">
+                                  <label for="imagen" class="col-md-3 control-label">Imagen</label>
+                                  <div class="col-md-9">
+                                        <input type="file" class="form-control" id="imagen" name="imagen" onchange="validarImagen(this)">
+                                  </div>
+                            </div> 		                      
+
+                            <div class="form-group">                                   
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-success">Publicar</button>  
+                                </div>
+	                      </div>
+                      <!--FIN FORMULARIO-->
+               			</form>
+        			</div>
+        		</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

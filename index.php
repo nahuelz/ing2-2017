@@ -31,7 +31,7 @@ require_once('view/DetalleFavor.php');
 require_once('view/FavoresPostulados.php');
 require_once('view/FavoresSolicitados.php');
 require_once('view/VerPostulantes.php');
-require_once('view/CalificarPostulantes');
+require_once('view/CalificarPostulante.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
