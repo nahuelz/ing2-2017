@@ -16,6 +16,7 @@ require_once('model/Favor.php');
 require_once('model/Comentario.php');
 require_once('model/Postulacion.php');
 require_once('model/Creditos.php');
+require_once('model/Calificacion.php');
 
 
 /* VIEW */

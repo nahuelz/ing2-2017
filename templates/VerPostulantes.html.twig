@@ -36,6 +36,10 @@
                                                 <input class="btn btn-success" type="submit" value="Calificar">
                                             </form>
                                         {% endif %}
+                                    {% elseif favor.estado == 'F' %}
+                                        {% if postulante.estado == 'A' %}
+                                            <strong style="color: green;"> Calificado </strong>
+                                        {% endif %}
                                     {% else %}
                                     <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=aceptarPostulante">
                                         <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">

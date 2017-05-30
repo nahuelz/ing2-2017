@@ -384,11 +384,13 @@ class FavorController {
     public function calificarPostulante($args=[]){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+
                 $idPostulante = $_POST['idPostulante'];
                 $idFavor = $_POST['idFavor'];
-                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'idPostulante' => $idPostulante, 'idFavor' => $idFavor]);
                 $view = new CalificarPostulante();
                 $view->show($args);
+
             }else{
                 $this->VerPostulantes();
             }
@@ -399,12 +401,15 @@ class FavorController {
 
     public function calificarPostulanteAction($args=[]){
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) && isset($_POST['comentario']) && !empty($_POST['comentario']) ) {
                 $idPostulante = $_POST['idPostulante'];
                 $idFavor = $_POST['idFavor'];
+                $comentario = $_POST['comentario'];
+                $calificacion = $_POST['calificacion'];
+                Calificacion::getInstance()->altaCalificacion($comentario, $idUsuario, $idFavor, $calificacion);
+                Favor::getInstance()->finalizarFavor($idFavor);
                 $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
-                $view = new CalificarPostulante();
-                $view->show($args);
+                $this->VerPostulantes();
             }else{
                 $this->VerPostulantes();
             }
