@@ -130,7 +130,7 @@ class FavorController {
                     ResourceController::getInstance()->home(Message::getMessage(23));
                 }
             }else{
-
+                ResourceController::getInstance()->home();
             }
         }else{
             ResourceController::getInstance()->home(Message::getMessage(17));
@@ -143,8 +143,9 @@ class FavorController {
      */
     public function comentarFavor($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
+            
             if ((isset($_POST['idFavor'])) && (isset($_POST['comentario']))) {
+                $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
                 if ( (!empty($_POST['idFavor'])) && (!empty($_POST['comentario']))) {
                     $idFavor = $_POST['idFavor'];
                     $comentario = $_POST['comentario'];
@@ -162,7 +163,7 @@ class FavorController {
                     $this->verDetalle(Message::getMessage(5));
                 }
             }else{
-                $view = new DetalleFavor(Message::getMessage(5));
+                $this->verDetalle(Message::getMessage(5));
             }
         }else{
             ResourceController::getInstance()->home();
@@ -175,8 +176,9 @@ class FavorController {
      */
     public function responderComentario($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
+            
             if ((isset($_POST['idComentario'])) && (isset($_POST['respuesta']))) {
+                $_GET['id'] = $_POST['idFavor']; // ES PARA FIXEAR UN ERROR CUANDO QUIERO CARGAR EL DETALLE, SE PIERDE EL ID DEL FAVOR
                 if ( (!empty($_POST['idComentario'])) && (!empty($_POST['respuesta']))) {
                     $idComentario = $_POST['idComentario'];
                     $respuesta = $_POST['respuesta'];
@@ -194,7 +196,7 @@ class FavorController {
                     $this->verDetalle(Message::getMessage(5));
                 }
             } else{
-                $view = new DetalleFavor(Message::getMessage(5));
+                $this->verDetalle(Message::getMessage(5));
             }
         }else{
             ResourceController::getInstance()->home();
