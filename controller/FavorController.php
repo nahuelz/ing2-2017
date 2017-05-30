@@ -391,6 +391,22 @@ class FavorController {
         }
     }
 
+    public function calificarPostulanteAction($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+                $idPostulante = $_POST['idPostulante'];
+                $idFavor = $_POST['idFavor'];
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
+                $view = new CalificarPostulante();
+                $view->show($args);
+            }else{
+                $this->VerPostulantes();
+            }
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
 
     
 }
