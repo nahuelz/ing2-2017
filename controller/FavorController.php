@@ -61,6 +61,7 @@ class FavorController {
                         $msg =  Favor::getInstance()->altaFavor($usuarioId, $titulo, $descripcion, $categoria, $localidad, $fecha, $nombreImagen);
                         UsuarioController::getInstance()->descontarCreditos(1);
                         $this->misFavores($msg);
+                    }
                 }else{
                     $this->altaFavor(Message::getMessage(21));
                 }
@@ -186,7 +187,7 @@ class FavorController {
                 }else{
                     $this->verDetalle(Message::getMessage(5));
                 }
-            }else{
+            } else{
                 $view = new DetalleFavor(Message::getMessage(5));
             }
         }else{

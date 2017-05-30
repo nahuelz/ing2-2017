@@ -112,15 +112,6 @@ class Favor extends PDORepository {
     public function getImagen(){
         return $this->imagen;
     }
-    
-
-    public function existeTitulo($titulo) {
-        $mapper = function($row) {};
-        
-        $answer = $this->queryList("SELECT * FROM favor WHERE titulo=?", [$titulo], $mapper);
-        
-        return (count($answer) > 0);
-    }
 
     public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
