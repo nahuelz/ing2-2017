@@ -28,9 +28,10 @@ require_once('view/DeshabilitarCuenta.php');
 require_once('view/CargarCreditos.php');
 require_once('view/AltaFavor.php');
 require_once('view/DetalleFavor.php');
-require_once('view/favoresPostulados.php');
-require_once('view/favoresSolicitados.php');
-require_once('view/verPostulantes.php');
+require_once('view/FavoresPostulados.php');
+require_once('view/FavoresSolicitados.php');
+require_once('view/VerPostulantes.php');
+require_once('view/CalificarPostulantes');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -63,6 +64,7 @@ if (isset($_GET["action"])){
         case 'cerrarFavor' : { FavorController::getInstance()->cerrarFavor(); break; }
         case 'verPostulantes' : { FavorController::getInstance()->verPostulantes(); break; }
         case 'aceptarPostulante' : { FavorController::getInstance()->aceptarPostulante(); break; }
+        case 'calificarPostulante' : { FavorController::getInstance()->calificarPostulante(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }

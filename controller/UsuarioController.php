@@ -198,10 +198,15 @@ class UsuarioController {
     /*ALTA CREDITOS*/
     public function altaCreditos($args = []) {
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) && isset($_POST['password']) && !empty($_POST['password']) ) {
+            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['tarjeta']) && !empty($_POST['tarjeta']) && isset($_POST['mes']) && !empty($_POST['mes']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['ccv']) && !empty($_POST['ccv']) ) {
                 $password = $_POST['password'];
-                if($password == UsuarioController::getInstance()->usuarioLogeado()->getPAssworrd()){
-                    $cantidad = $_POST['cantidad'];
+                $tarjeta = $_POST['tarjeta'];
+                $ano = $_POST['ano'];
+                $mes = $_POST['mes'];
+                $ccv = $_POST['ccv'];
+                $nombre = $_POST['nombre'];
+                $cantidad = $_POST['cantidad'];
+                if($password == $this->usuarioLogeado()->getPassword()){
                     $precioUnitario = $_POST['precio'];
                     $fecha = Date('Y-m-d');
                     $user = UsuarioController::getInstance()->usuarioLogeado();
@@ -215,7 +220,8 @@ class UsuarioController {
                     Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
                     UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
                 }else{
-                    
+                    $args = array_merge($args, [Message::getMessage(8), 'nombre' => $nombre, 'tarjeta' => $tarjeta, 'cantidad' => $cantidad, 'ccv' => $ccv, 'mes' => $mes, 'ano' => $ano]);
+                    $this->creditos($args);
                 }
             }else{
                 $this->creditos(Message::getMessage(5));

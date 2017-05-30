@@ -75,7 +75,7 @@ class FavorController {
 
     public function validarFormulario($titulo,$descripcion){
 
-        if(strlen($titulo)>3 AND strlen($titulo)<50){
+        if(strlen($titulo)>3 AND strlen($titulo)<255){
             if(strlen($descripcion)>3 AND strlen($descripcion)<=255){
                  return true;
             }
@@ -368,7 +368,23 @@ class FavorController {
                 Postulacion::getInstance()->aceptarPostulante($idPostulante);
                 $this->misFavores();
             }else{
-                $this->VerPostulantes(5);
+                $this->VerPostulantes(Message::getMessage(5));
+            }
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
+        }
+    }
+
+    public function calificarPostulante($args=[]){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
+                $idPostulante = $_POST['idPostulante'];
+                $idFavor = $_POST['idFavor'];
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
+                $view = new CalificarPostulantes();
+                $view->show($args);
+            }else{
+                $this->VerPostulantes();
             }
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
