@@ -2,37 +2,56 @@
 {% block container %} 
 
 <div class="container">    
-
-     <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
+    {% if postulantes %}
+        <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
             <div class="panel panel-info">
-                <div class="panel-body"> 
-                    <table class="table table-sm">
-                        <thead>
+                <div class="col-md-12">
+                    <h3> Postulantes </h3>
+                    <hr>
+                </div>         
+
+            <div class="panel-body"> 
+                <table class="table table-sm col-md-12">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Ranking</th>
+                            <th>Comentario</th>
+                            <th>Localidad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {% for postulante in postulantes %}
+                        <tbody>
                             <tr>
-                                <th>Imagen</th>
-                                <th>Titulo</th>
-                                <th>Localidad</th>
-                                <th>Fecha publicacion</th>
-                                <th></th>
+                                <td> {{ postulante.nombre }} </td>
+                                <td> unRanking </td>
+                                <td> {{ postulante.comentario }} </td>
+                                <td> {% if postulante.localidad %} {{ postulante.localidad}} {% else %} Desconocida {% endif %}</td>
+                                <td> 
+                                    <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=cerrarFavor">
+                                        <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">
+                                        <input class="btn btn-success" type="submit" value="Aceptar">
+                                    </form>
+                                </td>
                             </tr>
-                        </thead>
-                        {% for postulante in postulantes %}
-                            <tbody>
-                                <tr>
-                                    <td><img style=" width: 110px; height: 50px;" id="img" class="img-rounded" {% if favor.imagen == '' %} src="imagenes/default.png" {% else %} src="imagenes/{{ favor.imagen }}"{% endif %} alt="default" /></td>
-                                    <td>{{ favor.titulo }}</td>
-                                    <td>{{ favor.localidad }}</td>
-                                    <td>{{ favor.fecha_publicacion }}</td>
-                                    <td><a href="./?action=verDetalle&id={{ favor.id }}"> Ver </a></td>
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% else %}
+     <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
+        <div class="panel panel-info">
+            <div class="col-md-9">
+                <h3> Aun no hay postulantes </h3>
+                <hr>
+            </div>        
+            <div class="panel-body"> 
             </div>
         </div>
     </div>
-</div>
-                
+    {% endif %}
+    </div>
 
 {% endblock %}

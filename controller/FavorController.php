@@ -363,15 +363,19 @@ class FavorController {
                 $favor = Favor::getInstance()->getFavor($idFavor)[0];
                 if ($favor->getUsuarioId() == $idUsuario){ //  valido que sea su favor. una persona no podria ver los
                                                                         // postulantes del favor de otra persona
-                    $postulantes = Favor::getInstance()->getPostulantes($idFavor);
+                    $postulantes = Favor::getInstance()->getPostulantes($idUsuario, $idFavor);
                     $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'postulantes' => $postulantes]);
                     $view = new VerPostulantes();
                     $view->show($args);
 
 
                 }
+            }else{
+                ResourceController::getInstance()->home();
             }
 
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
         }
     }
 

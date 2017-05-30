@@ -20,7 +20,7 @@ class Message {
             case 4:
                 return ['message' => 'Ya exite una cuenta registrada con este email', 'tipo' => 'warning'];
             case 5:
-                return ['message' => 'Error, los campos no se validaron correctamente.', 'tipo' => 'warning'];
+                return ['message' => 'Error, complete todos los campos.', 'tipo' => 'warning'];
             case 6:
                 return ['message' => 'Datos modificados correctamente', 'tipo' => 'success'];
             case 7:
@@ -57,6 +57,8 @@ class Message {
                 return ['message' => 'Se ah cerrado el favor', 'tipo' => 'success'];
             case 23:
                 return ['message' => 'No se encontro el favor', 'tipo' => 'warning'];
+            case 24:
+                return ['message' => 'Seleccione una localidad', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

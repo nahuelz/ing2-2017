@@ -16,7 +16,7 @@ class Favor extends PDORepository {
     protected $categoriaId;
     protected $localidad;
     protected $fechaPublicacion;
-    protected $cerrada;
+    protected $estado;
     protected $imagen;
 
     public static function getInstance() {
@@ -36,7 +36,7 @@ class Favor extends PDORepository {
         $this->categoriaId = $categoriaId;
         $this->localidad = $localidad;
         $this->fechaPublicacion = $fechaPublicacion;
-        $this->cerrada = 0;
+        $this->estado = 'A';
         $this->imagen = $imagen;
         return $this;
     }
@@ -97,12 +97,12 @@ class Favor extends PDORepository {
         return $this->fechaPublicacion;
     }
 
-    public function setCerrada($cerrada){
-        $this->cerrada = $cerrada;
+    public function setEstado($estado){
+        $this->estado = $estado;
     }
 
-    public function getCerrada(){
-        return $this->cerrada;
+    public function getEstado(){
+        return $this->estado;
     }
 
     public function setImagen($imagen){
@@ -116,8 +116,8 @@ class Favor extends PDORepository {
     public function altaFavor($usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, $imagen){
         $mapper = function($row) {};
         if(!$this->existeTitulo($titulo)){
-            $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, cerrada, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 0, $imagen];
+            $sql = "INSERT INTO favor (usuario_id, titulo, descripcion, categoria, localidad, fecha_publicacion, estado, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $values = [$usuarioId, $titulo, $descripcion, $categoriaId, $localidad, $fecha, 'A', $imagen];
             $this->queryList($sql, $values, $mapper);
             return (Message::getMessage(10));
         }
@@ -126,19 +126,19 @@ class Favor extends PDORepository {
 
     public function obtenerFavores(){
         $mapper = function($row) {
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=0;", [], $mapper);
+        $answer = $this->queryList("SELECT * FROM Favor WHERE estado='A';", [], $mapper);
         return ($answer);
     }
 
     public function verFavor($id){
          $mapper = function($row) {
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=? AND id=?;", [0, $id], $mapper);
+        $answer = $this->queryList("SELECT * FROM Favor WHERE estado=? AND id=?;", ['A', $id], $mapper);
         return ($answer);
     }
 
@@ -147,7 +147,7 @@ class Favor extends PDORepository {
             return $row;
         };
 
-        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.imagen as imagen, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.cerrada = 0 GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+        $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.imagen as imagen, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         return ($answer);
     }
 
@@ -157,19 +157,19 @@ class Favor extends PDORepository {
         };
 
         if ($categoria != '') {
-            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.cerrada = 0 AND favor.titulo LIKE '%".$titulo."%' AND favor.localidad LIKE '%".$localidad."%' AND favor.categoria=".$categoria." GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' AND favor.titulo LIKE '%".$titulo."%' AND favor.localidad LIKE '%".$localidad."%' AND favor.categoria=".$categoria." GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         }else{
-            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.cerrada = 0 AND favor.titulo LIKE '%".$titulo."%' && favor.localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' AND favor.titulo LIKE '%".$titulo."%' && favor.localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         }
         return ($answer);
     }
 
     public function favoresSolicitados($userId){
         $mapper = function($row){
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $sql = "SELECT * FROM favor WHERE usuario_id = ? AND cerrada = 0";
+        $sql = "SELECT * FROM favor WHERE usuario_id = ? AND estado = 'A';";
         $values = [$userId];
         $answer = $this->queryList($sql, $values, $mapper);
     
@@ -179,23 +179,20 @@ class Favor extends PDORepository {
 
     public function existeTitulo($titulo){
         $mapper = function($row) {return $row;};
-        $answer = $this->queryList("SELECT * FROM Favor WHERE titulo = ? AND cerrada=0;", [$titulo], $mapper);
+        $answer = $this->queryList("SELECT * FROM Favor WHERE titulo = ? AND estado='A';", [$titulo], $mapper);
         return (count($answer) > 0);
     }
 
     public function cerrarFavor($id){
          $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE favor SET cerrada = ? WHERE id = ?;", [1, $id], $mapper);
+        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['A', $id], $mapper);
         return ($answer);
     }
 
-    public function getPostulantes($idUsuario){
-        $mapper = function($row){
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
-            return $resource;
-        };
-        $sql = "SELECT * FROM favor INNER JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.usuario_id = ? AND favor.cerrada = 0";
-        $values = [$idUsuario];
+    public function getPostulantes($idUsuario, $idFavor){
+        $mapper = function($row){return $row;};
+        $sql = "SELECT * FROM favor INNER JOIN postulacion INNER JOIN usuario ON favor.id = postulacion.idFavor AND postulacion.idUsuario = usuario.id WHERE favor.id = ? AND favor.usuario_id = ? AND favor.estado = 'A';";
+        $values = [$idFavor, $idUsuario];
         $answer = $this->queryList($sql, $values, $mapper);
     
         return $answer;
@@ -203,10 +200,10 @@ class Favor extends PDORepository {
 
         public function getFavor($id){
          $mapper = function($row) {
-            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['cerrada'], $row['imagen']);
+            $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $answer = $this->queryList("SELECT * FROM Favor WHERE cerrada=? AND id=?;", [0, $id], $mapper);
+        $answer = $this->queryList("SELECT * FROM Favor WHERE estado=? AND id=?;", ['A', $id], $mapper);
         return ($answer);
     }
 

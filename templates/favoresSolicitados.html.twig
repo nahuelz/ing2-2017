@@ -18,7 +18,11 @@
                             <th>Titulo</th>
                             <th>Localidad</th>
                             <th>Fecha publicacion</th>
+                            <th>Estado</th>
                             <th></th>
+                            <th></th>
+                            <th></th>
+
                         </tr>
                     </thead>
                     {% for favor in favores %}
@@ -28,6 +32,7 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fechaPublicacion }}</td>
+                                <td>{% if favor.estado == 'A' %} Abierta {% elseif favor.estado == 'C' %} Cerrada {% else %} Finalizada {% endif %}</td>
                                 <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 <td>
                                     <form onclick="return confirm('Esta seguro de que quiere eliminar este favor?')" role="form" method="POST" action="./?action=cerrarFavor">

@@ -70,15 +70,7 @@
                    
                     <div class="row"> <!-- Imagenes -->
                         <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
-                            <img src="imagenes/{{ favor.imagen }}" class="img-responsive">
-                        </div>
-
-                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter sprinkle">
-                            <img src="http://fakeimg.pl/365x365/" class="img-responsive">
-                        </div>
-
-                        <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter sprinkle">
-                            <img src="./imagenes/default.jpg" class="img-responsive">
+                            <img {% if favor.imagen %} src="imagenes/{{ favor.imagen }}" {% else %} src="./imagenes/default.png" {% endif %} class="img-responsive">
                         </div>
                     </div>  <!-- Imagenes -->
                     
