@@ -209,7 +209,7 @@ class FavorController {
                 $nombre = $_POST['nombre'];
                 $idUsuario = UsuarioController::getInstance()->usuarioLogeado()->getId();
                 if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
-                    $estado = 'E'; // E de estado en Espera, capichi?
+                    $estado = 'E'; 
                     Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado, $comentario, $localidad, $nombre);
                     $this->verDetalle(Message::getMessage(13));
                 }else{
@@ -317,11 +317,11 @@ class FavorController {
     /*
      * CERRAR FAVOR 
      */
-    public function cerrarFavor($args = []){
+    public function finalizarFavor($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if ( (isset($_POST['idFavor'])) && !empty($_POST['idFavor'])  ){
                 $idFavor = $_POST['idFavor'];
-                Favor::getInstance()->cerrarFavor($idFavor);
+                Favor::getInstance()->finalizarFavor($idFavor);
                 $this->verFavores(Message::getMessage(22));
             }else{
                 ResourceController::getInstance()->home(Message::getMessage(99));
@@ -364,7 +364,7 @@ class FavorController {
             if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
                 $idPostulante = $_POST['idPostulante'];
                 $idFavor = $_POST['idFavor'];
-                Favor::getInstance()->cerrarFavor($idFavor);
+                Favor::getInstance()->cerrarFavor($idFavor, $idPostulante);
                 Postulacion::getInstance()->aceptarPostulante($idPostulante);
                 $this->misFavores();
             }else{

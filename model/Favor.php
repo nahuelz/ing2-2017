@@ -187,15 +187,21 @@ class Favor extends PDORepository {
         return (count($answer) > 0);
     }
 
-    public function cerrarFavor($id){
+    public function cerrarFavor($id, $idUsuarioAceptado){
          $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['C', $id], $mapper);
+        $answer = $this->queryList("UPDATE favor SET estado = ?, idUsuarioAceptado = ? WHERE id = ?;", ['C', $idUsuarioAceptado, $id], $mapper);
+        return ($answer);
+    }
+
+    public function finalizarFavor($id){
+         $mapper = function($row) {};
+        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['F', $id], $mapper);
         return ($answer);
     }
 
     public function getPostulantes($idUsuario, $idFavor){
         $mapper = function($row){return $row;};
-        $sql = "SELECT * FROM favor INNER JOIN postulacion INNER JOIN usuario ON favor.id = postulacion.idFavor AND postulacion.idUsuario = usuario.id WHERE favor.id = ? AND favor.usuario_id = ? AND favor.estado = 'A';";
+        $sql = "SELECT * FROM favor INNER JOIN postulacion INNER JOIN usuario ON favor.id = postulacion.idFavor AND postulacion.idUsuario = usuario.id WHERE favor.id = ? AND favor.usuario_id = ?;";
         $values = [$idFavor, $idUsuario];
         $answer = $this->queryList($sql, $values, $mapper);
     
@@ -204,7 +210,7 @@ class Favor extends PDORepository {
 
     public function postulantes($idFavor){
         $mapper = function($row){return $row;};
-        $sql = "SELECT * FROM favor INNER JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.id = ? AND favor.estado = 'A';";
+        $sql = "SELECT * FROM favor INNER JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.id = ?;";
         $values = [$idFavor];
         $answer = $this->queryList($sql, $values, $mapper);
     
@@ -216,7 +222,7 @@ class Favor extends PDORepository {
             $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);
             return $resource;
         };
-        $answer = $this->queryList("SELECT * FROM Favor WHERE estado=? AND id=?;", ['A', $id], $mapper);
+        $answer = $this->queryList("SELECT * FROM Favor WHERE id=?;", [$id], $mapper);
         return ($answer);
     }
 
