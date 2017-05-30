@@ -65,6 +65,7 @@ if (isset($_GET["action"])){
         case 'verPostulantes' : { FavorController::getInstance()->verPostulantes(); break; }
         case 'aceptarPostulante' : { FavorController::getInstance()->aceptarPostulante(); break; }
         case 'calificarPostulante' : { FavorController::getInstance()->calificarPostulante(); break; }
+        case 'calificarPostulanteAction' : { FavorController::getInstance()->calificarPostulanteAction(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }
