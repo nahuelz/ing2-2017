@@ -372,7 +372,7 @@ class FavorController {
                 $idFavor = $_POST['idFavor'];
                 Favor::getInstance()->cerrarFavor($idFavor, $idPostulante);
                 Postulacion::getInstance()->aceptarPostulante($idPostulante);
-                $this->misFavores();
+                $this->verPostulantes();
             }else{
                 $this->VerPostulantes(Message::getMessage(5));
             }
