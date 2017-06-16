@@ -479,6 +479,11 @@ class FavorController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $idFavor = $_POST['idFavor'];
             $favor = Favor::getInstance()->getFavor($idFavor);
+            $categorias = Categoria::getInstance()->categoriasHabilitadas();
+            $localidad  = $favor->getLocalidad();
+            $args = array_merge($args, ['localidad' => $localidad, 'user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favor' => $favor]);
+            $view = new EditarFavor();
+            $view->show($args);
 
         }
     }
