@@ -78,6 +78,6 @@ class Categoria extends PDORepository {
         };
 
         $answer = $this->queryList("SELECT * FROM categoria WHERE id=?;", [$id], $mapper);
-        return ($answer[0]);
+        return $answer[0];
     }
 }

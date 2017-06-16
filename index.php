@@ -3,6 +3,7 @@
 require_once('controller/ResourceController.php');
 require_once('controller/UsuarioController.php');
 require_once('controller/FavorController.php');
+require_once('controller/CreditosController.php');
 
 
 
@@ -33,6 +34,7 @@ require_once('view/FavoresPostulados.php');
 require_once('view/FavoresSolicitados.php');
 require_once('view/VerPostulantes.php');
 require_once('view/CalificarPostulante.php');
+require_once('view/ConfirmarEliminacion.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -45,8 +47,6 @@ if (isset($_GET["action"])){
         case 'miCuenta': { UsuarioController::getInstance()->miCuenta(); break; }
         case 'deshabilitarCuenta': { UsuarioController::getInstance()->deshabilitarCuenta(); break; }
         case 'deshabilitarCuentaAction': { UsuarioController::getInstance()->deshabilitarCuentaAction(); break; }
-        case 'creditos': { UsuarioController::getInstance()->creditos(); break; }
-        case 'cargarCreditos': { UsuarioController::getInstance()->altaCreditos(); break; }
         case 'editarCuenta': { UsuarioController::getInstance()->editarCuenta(); break; }
         case 'cerrarSesion': { UsuarioController::getInstance()->cerrarSesion(); break; }
 
@@ -62,11 +62,18 @@ if (isset($_GET["action"])){
         case 'favoresPostulados' : { FavorController::getInstance()->favoresPostulados(); break; }
         case 'aceptarPostulante': { FavorController::getInstance()->aceptarPostulante(); break; }
         case 'misFavores': { FavorController::getInstance()->misFavores(); break; }
-        case 'cerrarFavor' : { FavorController::getInstance()->cerrarFavor(); break; }
+        case 'solicitarEliminarFavor' : { FavorController::getInstance()->solicitarEliminarFavor(); break; }
+        case 'eliminarFavor' : { FavorController::getInstance()->eliminarFavor(); break; }
+        case 'eliminarFavorConPostulante' : { FavorController::getInstance()->eliminarFavorConPostulante(); break; }
         case 'verPostulantes' : { FavorController::getInstance()->verPostulantes(); break; }
         case 'aceptarPostulante' : { FavorController::getInstance()->aceptarPostulante(); break; }
         case 'calificarPostulante' : { FavorController::getInstance()->calificarPostulante(); break; }
         case 'calificarPostulanteAction' : { FavorController::getInstance()->calificarPostulanteAction(); break; }
+        case 'editarFavor' : { FavorController::getInstance()->editarFavor(); break; }
+
+        /* CREDITOS */
+        case 'altaCreditos': { CreditosController::getInstance()->altaCreditos(); break; }
+        case 'altaCreditosAction': { CreditosController::getInstance()->altaCreditosAction(); break; }
         
         default: { ResourceController::getInstance()->home(); break; }
     }

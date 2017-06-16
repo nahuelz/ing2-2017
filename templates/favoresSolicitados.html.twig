@@ -32,23 +32,27 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fechaPublicacion }}</td>
-                                <td>{% if favor.estado == 'A' %} Abierta {% elseif favor.estado == 'C' %} Esperando calificacion {% else %} Finalizada {% endif %}</td>
+                                <td>{% if favor.estado == 'A' %} Abierta {% elseif favor.estado == 'C' %} Esperando calificacion {% elseif favor.estado == 'E' %} Eliminada {% else %} Finalizada {% endif %}</td>
+                                {% if favor.estado == 'A' %}
                                 <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
-                                {#
-                                    NO BORRAR !. FUNCIONA PERO TODAVIA NO TENEMOS QUE HACER ESTA HISTORIA
                                 <td>
-                                    <form onclick="return confirm('Esta seguro de que quiere eliminar este favor?')" role="form" method="POST" action="./?action=cerrarFavor">
+                                    <form onclick="return confirm('Esta seguro de que quiere finalizar este favor?')" role="form" method="POST" action="./?action=solicitarEliminarFavor">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cerrar">
+                                        <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
                                     </form>
                                 </td>
-                                #}
                                 <td>
+
                                     <form role="form" method="POST" action="./?action=verPostulantes">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                         <input id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
+                            {% else %}
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            {% endif %}
                             </tr>
                         </tbody>
                     {% endfor %}

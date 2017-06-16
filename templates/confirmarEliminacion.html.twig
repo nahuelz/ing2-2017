@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block container %}
+<div class="container">    
+    <div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="text-center">
+                    <h4>Su publicacion posee postulantes</h4>
+                    <strong>Al eliminarla no podra recuperar su credito<br>
+                    ¿Esta seguro de que decea eliminarla?</strong><br>
+                </div>
+            </div>
+            <div class="panel-body">                       
+                    <form role="form" method="POST" action="./?action=eliminarFavorConPostulante" style="margin-left: 35%;">
+                        <input type="hidden" name="idFavor" value="{{idFavor}}">
+                        <button type="sumbit" class="btn btn-danger">Eliminar</button>
+                        <a href="./?action=misFavores"><button class="btn btn-info ">Cancelar</button></a> 
+                    </form>
+                       
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

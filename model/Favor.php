@@ -197,7 +197,7 @@ class Favor extends PDORepository {
         if ($categoria != '') {
             $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' AND favor.titulo LIKE '%".$titulo."%' AND favor.localidad LIKE '%".$localidad."%' AND favor.categoria=".$categoria." GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         }else{
-            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' AND favor.titulo LIKE '%".$titulo."%' && favor.localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
+            $answer = $this->queryList("SELECT COUNT(postulacion.id) as cantidadPostulantes, favor.localidad as localidad, favor.id as favorId, favor.titulo as titulo, favor.imagen as imagen, favor.fecha_publicacion as fecha FROM favor LEFT JOIN postulacion ON favor.id = postulacion.idFavor WHERE favor.estado = 'A' AND favor.titulo LIKE '%".$titulo."%' && favor.localidad LIKE '%".$localidad."%' GROUP BY favor.id ORDER BY cantidadPostulantes ASC;", [], $mapper);
         }
         return ($answer);
     }
@@ -215,17 +215,10 @@ class Favor extends PDORepository {
 
     }
 
-    
 
-    public function cerrarFavor($id, $idUsuarioAceptado){
+    public function cambiarEstadoFavor($idFavor, $estado){
          $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE favor SET estado = ?, idUsuarioAceptado = ? WHERE id = ?;", ['C', $idUsuarioAceptado, $id], $mapper);
-        return ($answer);
-    }
-
-    public function finalizarFavor($id){
-         $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", ['F', $id], $mapper);
+        $answer = $this->queryList("UPDATE favor SET estado = ? WHERE id = ?;", [$estado, $idFavor], $mapper);
         return ($answer);
     }
 
@@ -253,7 +246,7 @@ class Favor extends PDORepository {
             return $resource;
         };
         $answer = $this->queryList("SELECT * FROM Favor WHERE id=?;", [$id], $mapper);
-        return ($answer);
+        return ($answer[0]);
     }
 
 }

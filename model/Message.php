@@ -54,13 +54,15 @@ class Message {
             case 21:
                 return ['message' => 'El titulo ya existe.', 'tipo' => 'warning'];
             case 22:
-                return ['message' => 'Se ah cerrado el favor', 'tipo' => 'success'];
+                return ['message' => 'Se elimino el favor', 'tipo' => 'success'];
             case 23:
                 return ['message' => 'No se encontro el favor', 'tipo' => 'warning'];
             case 24:
                 return ['message' => 'Seleccione una localidad', 'tipo' => 'warning'];
             case 25:
                 return ['message' => 'No tiene creditos suficientes', 'tipo' => 'warning'];
+            case 26:
+                return ['message' => 'El favor no se puede eliminar ya que no se encuentra abierto', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

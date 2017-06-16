@@ -76,9 +76,19 @@
                     
                     <br>
 
+                    {% if favor.usuarioId == user.id %}
+                        <form class="form-horizontal" role="form" method="POST" action="./?action=editarFavor">
+
+                            <div class="modal-footer">
+                                <input type="hidden" name="idFavor" value='{{ favor.id }}'>
+                                <input class="btn btn-success" type="submit" value="Editar favor"> 
+                            </div>
+                        </form>
+                    {% endif %}
+
                     <!-- Formulario comentario inicio -->
                     {% if favor.usuarioId != user.id %}
-                        <form id="signupform" class="form-horizontal" role="form" method="POST" action="./?action=comentarFavor">
+                        <form class="form-horizontal" role="form" method="POST" action="./?action=comentarFavor">
                             <hr />
                             <div class="form-group">
                                 <input type="hidden" name="idFavor" value="{{favor.id}}"> {# obtengo el id del favor#}

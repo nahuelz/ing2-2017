@@ -55,10 +55,10 @@ class UsuarioController {
     /*
     **	REGISTRO
     */
-    public function registro(){
+    public function registro($args = []){
         if (!$this->usuarioLogeado()){
             $view = new Registro();
-            $view->show();
+            $view->show($args);
         }else{
             ResourceController::getInstance()->home($args);
         }
@@ -76,9 +76,14 @@ class UsuarioController {
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $telefono = $_POST['telefono'];
-
-    			$msg = Usuario::getInstance()->registrarUsuario($nombre, $apellido, $email, $password, $telefono);
-                $this->login($msg);
+                if (!Usuario::getInstance()->existeEmail($email)) {
+                    Usuario::getInstance()->registrarUsuario($nombre, $apellido, $email, $password, $telefono);
+                    $this->login(Message::getMessage(3));
+                }else{
+                    $msg = Message::getMessage(4);
+                    $args = array_merge($msg, ['nombre' => $nombre, 'apellido' => $apellido, 'email' => $email, 'password' => $password, 'telefono' => $telefono]);
+                    $this->registro($args);
+                }
     		} else {
     			$this->registro(Message::getMessage(5));
     		}
@@ -182,68 +187,11 @@ class UsuarioController {
     }
 
     /*
-    ** CREDITOS
-    */
-    public function creditos($args = []){
-        if($this->usuarioLogeado()){
-            $precio = Creditos::getInstance()->getPrecio();
-            $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'precio' => $precio]);
-            $view = new CargarCreditos();
-            $view->show($args);
-        }else{
-            ResourceController::getInstance()->home();
-        }
-    }
-    
-    /*ALTA CREDITOS*/
-    public function altaCreditos($args = []) {
-        if (UsuarioController::getInstance()->usuarioLogeado()){
-            if ( (isset($_POST['cantidad'])) AND (!empty($_POST['cantidad'])) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['tarjeta']) && !empty($_POST['tarjeta']) && isset($_POST['mes']) && !empty($_POST['mes']) && isset($_POST['ano']) && !empty($_POST['ano']) && isset($_POST['ccv']) && !empty($_POST['ccv']) ) {
-                $password = $_POST['password'];
-                $tarjeta = $_POST['tarjeta'];
-                $ano = $_POST['ano'];
-                $mes = $_POST['mes'];
-                $ccv = $_POST['ccv'];
-                $nombre = $_POST['nombre'];
-                $cantidad = $_POST['cantidad'];
-                if($password == $this->usuarioLogeado()->getPassword()){
-                    $precioUnitario = $_POST['precio'];
-                    $fecha = Date('Y-m-d');
-                    $user = UsuarioController::getInstance()->usuarioLogeado();
-                    $usuarioId = $user->getId();
-                    $creditos = $user->getCreditos();
-                    $totalCreditos = $cantidad + $creditos;
-                    $user->setCreditos($totalCreditos);
-                    $session = Session::getInstance();
-                    $session->usuario = $user;
-                    Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
-                    Creditos::getInstance()->guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha);
-                    UsuarioController::getInstance()->miCuenta(Message::getMessage(15));
-                }else{
-                    $args = array_merge($args, [Message::getMessage(8), 'nombre' => $nombre, 'tarjeta' => $tarjeta, 'cantidad' => $cantidad, 'ccv' => $ccv, 'mes' => $mes, 'ano' => $ano]);
-                    $this->creditos($args);
-                }
-            }else{
-                $this->creditos(Message::getMessage(5));
-            }
-        }else{
-            ResourceController::getInstance()->home();
-        }
-    }
-
-    /*
-     *DESCONTAR CREDITOS
-     *Esta funcion es llamada al dar de alta un favor
+     * ACTUALIZAR SESSION
      */
-    public function descontarCreditos($cantidad) {
-        $user = UsuarioController::getInstance()->usuarioLogeado();
-        $usuarioId = $user->getId();
-        $creditos = $user->getCreditos();
-        $totalCreditos = $creditos - $cantidad;
-        $user->setCreditos($totalCreditos);
+    public function actualizarSession($user){
         $session = Session::getInstance();
         $session->usuario = $user;
-        Usuario::getInstance()->actualizarCreditos($usuarioId, $totalCreditos);
     }
 
     /*
