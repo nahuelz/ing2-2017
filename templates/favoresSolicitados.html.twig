@@ -22,6 +22,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
 
                         </tr>
                     </thead>
@@ -35,6 +36,16 @@
                                 <td>{% if favor.estado == 'A' %} Abierta {% elseif favor.estado == 'C' %} Esperando calificacion {% elseif favor.estado == 'E' %} Eliminada {% else %} Finalizada {% endif %}</td>
                                 {% if favor.estado == 'A' %}
                                 <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
+                                
+                                <td>
+                                    <form role="form" method="POST" action="./?action=editarFavor">
+
+                                            <input type="hidden" name="idFavor" value='{{ favor.id }}'>
+                                            <input style="width: 120px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
+
+                                    </form>
+                                </td>
+
                                 <td>
                                     <form onclick="return confirm('Esta seguro de que quiere finalizar este favor?')" role="form" method="POST" action="./?action=solicitarEliminarFavor">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">

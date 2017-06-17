@@ -71,6 +71,7 @@ if (isset($_GET["action"])){
         case 'calificarPostulante' : { FavorController::getInstance()->calificarPostulante(); break; }
         case 'calificarPostulanteAction' : { FavorController::getInstance()->calificarPostulanteAction(); break; }
         case 'editarFavor' : { FavorController::getInstance()->editarFavor(); break; }
+        case 'editarFavorAction' : { FavorController::getInstance()->editarFavorAction(); break; }
 
         /* CREDITOS */
         case 'altaCreditos': { CreditosController::getInstance()->altaCreditos(); break; }

@@ -307,7 +307,7 @@ class FavorController {
         }
     }
 
-    public function misFavores($args=[]){
+    public function misFavores($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             $userId = UsuarioController::getInstance()->usuarioLogeado()->getId();
             $favoresSolicitados = Favor::getInstance()->favoresSolicitados($userId);
@@ -475,16 +475,68 @@ class FavorController {
         }
     }
 
+    /*
+     * EDITAR FAVOR
+     */ 
     public function editarFavor($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            $idFavor = $_POST['idFavor'];
-            $favor = Favor::getInstance()->getFavor($idFavor);
-            $categorias = Categoria::getInstance()->categoriasHabilitadas();
-            $localidad  = $favor->getLocalidad();
-            $args = array_merge($args, ['localidad' => $localidad, 'user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favor' => $favor]);
-            $view = new EditarFavor();
-            $view->show($args);
+            if (isset($_POST['idFavor']) && !empty($_POST['idFavor'])){
+                $idFavor = $_POST['idFavor'];
+                $favor = Favor::getInstance()->getFavor($idFavor);
+                $categorias = Categoria::getInstance()->categoriasHabilitadas();
+                $localidad  = $favor->getLocalidad();
+                $args = array_merge($args, ['localidad' => $localidad, 'user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favor' => $favor]);
+                $view = new EditarFavor();
+                $view->show($args);
+            }else{
+                 $this->misFavores($args);
+            }
 
+        }
+    }
+
+    /*
+     * EDITAR FAVOR ACTION
+     */
+    public function editarFavorAction($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+                $idFavor = $_POST['idFavor'];
+                $favor = Favor::getInstance()->getFavor($idFavor);
+                $titulo = $_POST['titulo'];
+                $descripcion = $_POST['descripcion'];
+                $categoria = $_POST['categoria'];
+                $localidad = $_POST['localidad'];
+                $fecha = Date('Y-m-d');
+                $nombreImagen = '';
+                $usuarioId = UsuarioController::getInstance()->usuarioLogeado()->getId();
+            if ((isset($_POST['titulo']) AND isset($_POST['localidad']) AND !empty($_POST['localidad']) && isset($_POST['descripcion'])) AND !empty($_POST['titulo']) AND !empty($_POST['descripcion']) AND ($this->validarFormulario($_POST['titulo'],$_POST['descripcion']))) {
+                if (!Favor::getInstance()->existeTituloEditado($titulo, $idFavor)) {
+                    if ( (isset($_FILES['imagen'])) && ($_FILES['imagen']['size'] > 0) )  {
+                        if ($this->validarImagen()){
+                            $imagen = $this->procesarImagen();
+                            $nombreImagen = $_FILES['imagen']['name'];
+                            Favor::getInstance()->editarFavor($idFavor, $titulo, $descripcion, $categoria, $localidad, $nombreImagen);
+                            $this->misFavores();
+                        }else{
+                            $args = array_merge($msg, [Message::getMessage(11), 'titulo' => $titulo, 'descripcion' => $descripcion, 'categoria' => $categoria, 'localidad' => $localidad]);
+                            $this->editarFavor($args);  
+                        }
+                    }else{
+                        Favor::getInstance()->editarFavor($idFavor, $titulo, $descripcion, $categoria, $localidad, $favor->getImagen());
+                        $this->misFavores();
+                    }
+                }else{
+                    $msg = Message::getMessage(21);
+                    $args = array_merge($msg, ['titulo' => $titulo, 'descripcion' => $descripcion, 'categoria' => $categoria, 'localidad' => $localidad]);
+                    $this->editarFavor($args);  
+                }
+            }else{
+                    $msg = Message::getMessage(5);
+                    $args = array_merge($msg, ['titulo' => $titulo, 'descripcion' => $descripcion, 'categoria' => $categoria, 'localidad' => $localidad]);
+                    $this->editarFavor($args);  
+            }
+        }else{
+            ResourceController::getInstance()->home(Message::getMessage(0));
         }
     }
 
