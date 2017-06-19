@@ -6,6 +6,7 @@ require_once('controller/UsuarioController.php');
 require_once('controller/FavorController.php');
 require_once('controller/CreditosController.php');
 require_once('controller/ReputacionController.php');
+require_once('controller/CategoriaController.php');
 
 
 
@@ -21,7 +22,7 @@ require_once('model/Postulacion.php');
 require_once('model/Creditos.php');
 require_once('model/Calificacion.php');
 require_once('model/Reputacion.php');
-
+require_once('model/Categoria.php');
 
 /* VIEW */
 require_once('view/TwigView.php');
@@ -41,6 +42,8 @@ require_once('view/ConfirmarEliminacion.php');
 require_once('view/EditarFavor.php');
 require_once('view/VerReputacion.php');
 require_once('view/AltaReputacion.php');
+require_once('view/VerCategorias.php');
+require_once('view/ModificarCategoria.php');
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -88,6 +91,10 @@ if (isset($_GET["action"])){
         case 'altaReputacionAction': { ReputacionController::getInstance()->altaReputacionAction(); break; }
         case 'eliminarReputacion': { ReputacionController::getInstance()->eliminarReputacion(); break; }
         //case 'modificarReputacion': { ReputacionController::getInstance()->modificarReputacion(); break; }
+
+        /* CATEGORIA */
+        case 'categoria': {CategoriaController::getInstance()->categorias();break;}
+        case 'modificarCategoria': {CategoriaController::getInstance()->modificarCategoria();break;}
 
         
         default: { ResourceController::getInstance()->home(); break; }

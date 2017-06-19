@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+{% block container %} 
+
+    <div style="margin-top:50px">
+        <div class="panel panel-info">
+            <div class="col-md-12">
+                <h3> Categorias </h3>
+                <a href=".?action=altaCategoria"><buttun style="float: right;" class="btn btn-success">Agregar categoria</buttun></a>
+            </div>         
+            <hr>
+
+        <div class="panel-body"> 
+            <table class="table table-sm col-md-12">
+                <thead>
+                    <tr>
+                        <th>Nombre de categoría</th>
+                        
+                        <th></th>
+                    </tr>
+                </thead>
+                {% for categoria in categorias %}
+                    <tbody>
+                        <tr>
+                            <td>{{ categoria.nombre }}</td>
+                            <td>
+                                <form role="form" method="POST" action="./?action=modificarCategoria&idCategoria={{ categoria.id }}">
+                                    <input type="hidden" name="idCategoria" value='{{ categoria.id }}'>
+                                    <input style="width: 120px; float: right;"  class="btn btn-info" type="submit" value="Modificar">
+                                </form>
+
+                                <form onclick="return confirm('Esta seguro de que quiere eliminar esta categoria?')" role="form" method="POST" action="./?action=eliminarCategoria">
+                                        <input type="hidden" name="id" value="{{ categoria.id }}">
+                                        <input style="width: 120px;" class="btn btn-danger" type="submit" value="Eliminar">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

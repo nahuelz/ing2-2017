@@ -61,7 +61,7 @@ class Categoria extends PDORepository {
     public function agregar($nombre){
         
     }
-
+    
     public function categoriasHabilitadas() {
         $mapper = function($row) {
             $resource = new Categoria($row['id'], $row['nombre'], $row['habilitada']);
@@ -69,6 +69,11 @@ class Categoria extends PDORepository {
         };
         $answer = $this->queryList("SELECT * FROM Categoria WHERE habilitada=1;", [], $mapper);
         return ($answer);
+    }
+    public function editar($idCategoria, $nombre){
+       $mapper=function($row){};
+        $answer = $this->queryList("UPDATE categoria SET nombre=?  WHERE id = ?", [$nombre, $id], $mapper);
+        return $answer;
     }
 
     public function getCategoria($id){
