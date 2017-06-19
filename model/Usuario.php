@@ -16,6 +16,7 @@ class Usuario extends PDORepository {
     protected $telefono;
     protected $password;
     protected $creditos;
+    protected $puntos;
     protected $localidad;
     protected $esAdmin;
     protected $habilitado;
@@ -29,7 +30,7 @@ class Usuario extends PDORepository {
         return self::$instance;
     }
 
-    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null, $localidad = null, $esAdmin = null, $habilitado = null){
+    function __construct($id = null, $nombre = null, $apellido = null, $email = null, $password = null, $telefono = null, $creditos = null, $puntos = null, $localidad = null, $esAdmin = null, $habilitado = null){
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -40,6 +41,12 @@ class Usuario extends PDORepository {
             $this->creditos = $creditos;
         }else{
             $this->creditos = 1;
+        }
+
+        if ($puntos != null){
+            $this->puntos = $puntos;
+        }else{
+            $this->puntos = 0;
         }
 
         if ($esAdmin != null){
@@ -116,6 +123,14 @@ class Usuario extends PDORepository {
         return $this->creditos;
     }
 
+    public function setPuntos($puntos){
+        $this->puntos = $puntos;
+    }
+
+    public function getPuntos(){
+        return $this->puntos;
+    }
+
     public function getEsAdmin(){
         return $this->esAdmin;
     }
@@ -138,8 +153,8 @@ class Usuario extends PDORepository {
 
     public function registrarUsuario($nombre, $apellido, $email, $password, $telefono){
         $mapper = function($row) {};
-        $sql = "INSERT INTO usuario (nombre, apellido, email, password, telefono, creditos, esAdmin, habilitado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $values = [$nombre, $apellido, $email, $password, $telefono, 1, 0, 1];
+        $sql = "INSERT INTO usuario (nombre, apellido, email, password, telefono, creditos, puntos, esAdmin, habilitado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $values = [$nombre, $apellido, $email, $password, $telefono, 1, 0, 0, 1];
         $this->queryList($sql, $values, $mapper);
     }
 
@@ -159,7 +174,7 @@ class Usuario extends PDORepository {
 
     public function logear($email, $pass) {
         $mapper = function($row) {
-            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['esAdmin'], $row['habilitado']);
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['puntos'], $row['localidad'], $row['esAdmin'], $row['habilitado']);
             return $resource;
         };
 
@@ -191,7 +206,7 @@ class Usuario extends PDORepository {
 
     public function getUsuario($id) {
         $mapper = function($row) {
-            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['localidad'], $row['esAdmin'], $row['habilitado']);
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['localidad'], $row['puntos'], $row['esAdmin'], $row['habilitado']);
             return $resource;
         };
 

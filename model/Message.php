@@ -63,6 +63,16 @@ class Message {
                 return ['message' => 'No tiene creditos suficientes', 'tipo' => 'warning'];
             case 26:
                 return ['message' => 'El favor no se puede eliminar ya que no se encuentra abierto', 'tipo' => 'warning'];
+            case 27:
+                return ['message' => 'Se dio de alta el rango', 'tipo' => 'success'];
+            case 28:
+                return ['message' => 'Error, el rango ingresado superpone completame a un rango existente', 'tipo' => 'danger'];
+            case 29:
+                return ['message' => 'Error, ingrese un rango valido', 'tipo' => 'danger'];
+            case 30:
+                return ['message' => 'Error, el nombre ya existe', 'tipo' => 'danger'];
+            case 31:
+                return ['message' => 'Reputacion  eliminada', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

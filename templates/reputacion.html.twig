@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+{% block container %} 
+
+    <div style="margin-top:50px">
+        <div class="panel panel-info">
+            <div class="col-md-12">
+                <h3> Reputaciones </h3>
+                <a href=".?action=altaReputacion"><buttun style="float: right;" class="btn btn-success">Agregar Reputacion</buttun></a>
+            </div>         
+            <hr>
+
+        <div class="panel-body"> 
+            <table class="table table-sm col-md-12">
+                <thead>
+                    <tr>
+                        <th>Nombre del rango</th>
+                        <th>Inicio del rango</th>
+                        <th>Fin del rango</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                {% for reputacion in reputaciones %}
+                    <tbody>
+                        <tr>
+                            <td>{{ reputacion.nombre }}</td>
+                            <td>{{ reputacion.inicio }}</td>
+                            <td>{{ reputacion.fin }}</td>
+                            <td>
+                                <form role="form" method="POST" action="./?action=modificarReputacion">
+                                    <input type="hidden" name="idFavor" value='{{ favor.id }}'>
+                                    <input style="width: 120px; float: right;"  class="btn btn-info" type="submit" value="Modificar">
+                                </form>
+
+                                <form onclick="return confirm('Esta seguro de que quiere eliminar esta reputacion?')" role="form" method="POST" action="./?action=eliminarReputacion">
+                                        <input type="hidden" name="id" value="{{ reputacion.id }}">
+                                        <input style="width: 120px;" class="btn btn-danger" type="submit" value="Eliminar">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
