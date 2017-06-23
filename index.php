@@ -44,6 +44,8 @@ require_once('view/VerReputacion.php');
 require_once('view/AltaReputacion.php');
 require_once('view/VerCategorias.php');
 require_once('view/ModificarCategoria.php');
+require_once('view/AltaCategoria.php');
+
 
 if (isset($_GET["action"])){
     switch($_GET['action']){
@@ -94,6 +96,8 @@ if (isset($_GET["action"])){
 
         /* CATEGORIA */
         case 'categoria': {CategoriaController::getInstance()->categorias();break;}
+        case 'altaCategoria': {CategoriaController::getInstance()->altaCategoria();break;}
+        case 'altaCategoriaAction': {CategoriaController::getInstance()->altaCategoriaAction();break;}
         case 'modificarCategoria': {CategoriaController::getInstance()->modificarCategoria();break;}
         case 'modificarCategoriaAction': {CategoriaController::getInstance()->modificarCategoriaAction();break;}
         

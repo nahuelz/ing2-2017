@@ -58,8 +58,13 @@ class Categoria extends PDORepository {
         
     }
 
-    public function agregar($nombre){
-        
+    public function agregarCategoria($nombreCategoria){
+           $mapper = function($row) {};
+            $habilitada=1;
+            $sql = "INSERT INTO categoria (nombre,habilitada) VALUES (?,?)";
+            $values = [$nombreCategoria,$habilitada];
+
+            $this->queryList($sql, $values, $mapper);        
     }
     
     public function categoriasHabilitadas() {
@@ -84,6 +89,15 @@ class Categoria extends PDORepository {
 
         $answer = $this->queryList("SELECT * FROM categoria WHERE id=?;", [$id], $mapper);
         return $answer[0];
+    }
+
+    public function existeCategoria($nombreCategoria){
+    
+        $mapper = function($row) {};
+        
+        $answer = $this->queryList("SELECT * FROM categoria WHERE nombre=?", [$nombreCategoria], $mapper);
+        
+        return (count($answer) > 0);
     }
 
     public function modificarCategoria($idCategoria, $nombreCategoria){

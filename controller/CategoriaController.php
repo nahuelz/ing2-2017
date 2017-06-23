@@ -33,13 +33,13 @@ class CategoriaController {
     }
 
     /*
-     * FORMULARIO ALTA REPUTACION
+     * FORMULARIO ALTA CATEGORIA
      */
     public function altaCategoria($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
                 $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
-                $view = new AltaReputacion();
+                $view = new AltaCategoria();
                 $view->show($args);
             }else{
                 ResourceController::getInstance()->home();
@@ -53,21 +53,27 @@ class CategoriaController {
      * ALTA CATEGORIA
      */
     public function altaCategoriaAction($args = []){
-        if (UsuarioController::getInstance()->usuarioLogeado()){
-            if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
-                if ( (isset($_POST['nombre'])) && (isset($_POST['inicio'])) && (isset($_POST['fin'])) && (!empty($_POST['nombre'])) ) {
-                    $nombre = $_POST['nombre'];
-                    $inicio = $_POST['inicio'];
-                    $fin = $_POST['fin'];
-                    $this->procesarAlta($nombre, $inicio, $fin);
+        if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
+
+            if (isset($_POST['nombreCategoria']) &&  !empty($_POST['nombreCategoria'])) {
+
+                $nombreCategoria = $_POST['nombreCategoria'];  
+
+                if(!Categoria::getInstance()->existeCategoria($nombreCategoria)){      
+
+                    Categoria::getInstance()->agregarCategoria($nombreCategoria);
+                    $this->categorias(Message::getMessage(33));
+
                 }else{
-                    $this->altaReputacion(Message::getMessage(5));
+                    $mensaje=Message::getMessage(34);
+                    $args=array_merge($args, $mensaje, ['nombrecategoria'=>$nombreCategoria]);
+                    $this->altaCategoria($args);
                 }
             }else{
-                ResourceController::getInstance()->home();
+
+                 $this->categorias($args);
             }
-        }else{
-            ResourceController::getInstance()->home();
+
         }
     }
 
