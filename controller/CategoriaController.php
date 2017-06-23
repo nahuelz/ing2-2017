@@ -96,7 +96,7 @@ class CategoriaController {
                 $idCategoria = $_POST['idCategoria'];
                 $nombreCategoria = $_POST['nombreCategoria'];             
                 Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
-                header('Location:./?action=categoria');
+                $this->categorias(Message::getMessage(32));
             }else{
                  $this->categorias($args);
             }

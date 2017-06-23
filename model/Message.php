@@ -73,6 +73,8 @@ class Message {
                 return ['message' => 'Error, el nombre ya existe', 'tipo' => 'danger'];
             case 31:
                 return ['message' => 'Reputacion  eliminada', 'tipo' => 'success'];
+            case 32:
+                return ['message' => 'Categoria modificada correctamente', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }
