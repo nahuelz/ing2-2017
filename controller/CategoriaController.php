@@ -110,9 +110,16 @@ class CategoriaController {
         if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
             if (isset($_POST['idCategoria']) && isset($_POST['nombreCategoria']) && !empty($_POST['idCategoria']) && !empty($_POST['nombreCategoria'])) {
                 $idCategoria = $_POST['idCategoria'];
-                $nombreCategoria = $_POST['nombreCategoria'];             
-                Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
-                $this->categorias(Message::getMessage(32));
+                $nombreCategoria = $_POST['nombreCategoria'];
+                if(!Categoria::getInstance()->existeCategoria($nombreCategoria)){
+                    Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
+                    $this->categorias(Message::getMessage(32));
+                }else{
+                    $mensaje=Message::getMessage(36);
+                    $args=array_merge($args, $mensaje, ['nombrecategoria'=>$nombreCategoria]);
+                    $this->modificarCategoria($args);
+                }            
+                
             }else{
                  $this->categorias($args);
             }
