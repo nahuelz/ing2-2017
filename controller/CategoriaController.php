@@ -91,13 +91,12 @@ class CategoriaController {
     }
 
     public function modificarCategoriaAction($args = []){
-        alert();
         if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
-            if (isset($_GET['idCategoria']) && isset($_GET['nombrecategoria'])){
-                $idCategoria = $_GET['idCategoria'];
-                $nombreCategoria = $_GET['nombrecategoria'];             
+            if (isset($_POST['idCategoria']) && isset($_POST['nombreCategoria']) && !empty($_POST['idCategoria']) && !empty($_POST['nombreCategoria'])) {
+                $idCategoria = $_POST['idCategoria'];
+                $nombreCategoria = $_POST['nombreCategoria'];             
                 Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
-                alert();
+                header('Location:./?action=categoria');
             }else{
                  $this->categorias($args);
             }
