@@ -67,8 +67,9 @@ class CategoriaController {
                 }else{
 
                     $categoria=Categoria::getInstance()->getCategoriaPorNombre($nombreCategoria);
-
-                    if($categoria->estaHabilitada=1){
+                    $estaHabilitada=$categoria->estaHabilitada();    
+                     
+                    if($estaHabilitada=="0"){
 
                         Categoria::getInstance()->habilitarCategoria($categoria->getId());
                         $this->categorias(Message::getMessage(33));
@@ -111,11 +112,13 @@ class CategoriaController {
             if (isset($_POST['idCategoria']) && isset($_POST['nombreCategoria']) && !empty($_POST['idCategoria']) && !empty($_POST['nombreCategoria'])) {
                 $idCategoria = $_POST['idCategoria'];
                 $nombreCategoria = $_POST['nombreCategoria'];
+
                 if(!Categoria::getInstance()->existeCategoria($nombreCategoria)){
                     Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
                     $this->categorias(Message::getMessage(32));
                 }else{
                     $mensaje=Message::getMessage(36);
+                    
                     $args=array_merge($args, $mensaje, ['nombrecategoria'=>$nombreCategoria]);
                     $this->modificarCategoria($args);
                 }            
