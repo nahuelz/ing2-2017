@@ -106,4 +106,10 @@ class Categoria extends PDORepository {
             $values = [$nombreCategoria, $idCategoria];
             $this->queryList($sql, $values, $mapper);
     }
+    public function eliminarCategoria($idCategoria){
+            $mapper = function($row) {};
+            $sql = "DELETE FROM categoria WHERE id=?";
+            $values = [$idCategoria];
+            $this->queryList($sql, $values, $mapper);
+    }
 }

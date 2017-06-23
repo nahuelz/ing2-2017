@@ -29,7 +29,7 @@
                                 </form>
 
                                 <form onclick="return confirm('Esta seguro de que quiere eliminar esta categoria?')" role="form" method="POST" action="./?action=eliminarCategoria">
-                                        <input type="hidden" name="id" value="{{ categoria.id }}">
+                                        <input type="hidden" name="idCategoria" value="{{ categoria.id }}">
                                         <input style="width: 120px;" class="btn btn-danger" type="submit" value="Eliminar">
                                 </form>
                             </td>
