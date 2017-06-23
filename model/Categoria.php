@@ -85,4 +85,11 @@ class Categoria extends PDORepository {
         $answer = $this->queryList("SELECT * FROM categoria WHERE id=?;", [$id], $mapper);
         return $answer[0];
     }
+
+    public function modificarCategoria($idCategoria, $nombreCategoria){
+            $mapper = function($row) {};
+            $sql = "UPDATE categoria SET nombre= ? WHERE id=?";
+            $values = [$nombreCategoria, $idCategoria];
+            $this->queryList($sql, $values, $mapper);
+    }
 }

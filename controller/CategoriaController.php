@@ -50,7 +50,7 @@ class CategoriaController {
     }
 
     /*
-     * ALTA REPUTACION
+     * ALTA CATEGORIA
      */
     public function altaCategoriaAction($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
@@ -72,14 +72,15 @@ class CategoriaController {
     }
 
      /*
-     * ALTA REPUTACION
+     * EDITAR CATEGORIA
      */
-        public function modificarCategoria($args = []){
-        if (UsuarioController::getInstance()->usuarioLogeado()){
+    public function modificarCategoria($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
             if (isset($_POST['idCategoria']) && !empty($_POST['idCategoria'])){
                 $idCategoria = $_POST['idCategoria'];
-                $categoria = Categoria::getInstance()->getCategoria($idCategoria);               
-                $args = array_merge($args, ['id' => $idCategoria, 'nombre'=>$categoria]);
+                $nombrecategoria = Categoria::getInstance()->getCategoria($idCategoria); 
+                $nombrecategoria = $nombrecategoria->getNombre();              
+                $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(),'idCategoria' => $idCategoria, 'nombrecategoria'=>$nombrecategoria]);
                 $view = new ModificarCategoria();
                 $view->show($args);
             }else{
@@ -88,8 +89,23 @@ class CategoriaController {
 
         }
     }
+
+    public function modificarCategoriaAction($args = []){
+        alert();
+        if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
+            if (isset($_GET['idCategoria']) && isset($_GET['nombrecategoria'])){
+                $idCategoria = $_GET['idCategoria'];
+                $nombreCategoria = $_GET['nombrecategoria'];             
+                Categoria::getInstance()->modificarCategoria($idCategoria,$nombreCategoria);
+                alert();
+            }else{
+                 $this->categorias($args);
+            }
+
+        }
+    }
     /*
-     * BAJA REPUTACION
+     * BAJA CATEGORIA
      */
     public function eliminarCategoria($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){

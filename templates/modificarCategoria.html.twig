@@ -8,13 +8,13 @@
                 </div>
 
                      <div class="panel-body" >
-                          <form id="signupform" class="form-horizontal" role="form" method="GET" action="./?action=modificarCategoriaAction">    
+                          <form id="signupform" class="form-horizontal" role="form" method="GET" action="./?action=modificarCategoria">    
 
                                 <div class="form-group">
                                       <label for="nombre" class="col-md-3 control-label">Nombre de categoria</label>
                                       <div class="col-md-9">
-                                            <input type="hidden" name="{{idCategoria}}">
-                                            <input type="text" class="form-control" name="categoria" value="{{ nombre }}">
+                                            <input type="hidden" name="idCategoria" value="{{idCategoria}}">
+                                            <input type="text" class="form-control" name="categoria" value="{{ nombrecategoria }}">
                                       </div>
                                 </div>
 

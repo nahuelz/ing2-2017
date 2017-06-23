@@ -95,7 +95,7 @@ if (isset($_GET["action"])){
         /* CATEGORIA */
         case 'categoria': {CategoriaController::getInstance()->categorias();break;}
         case 'modificarCategoria': {CategoriaController::getInstance()->modificarCategoria();break;}
-
+        case 'modificarCategoriaAction': {CategoriaController::getInstance()->modificarCategoriaAction();break;}
         
         default: { ResourceController::getInstance()->home(); break; }
     }
