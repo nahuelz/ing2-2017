@@ -65,9 +65,19 @@ class CategoriaController {
                     $this->categorias(Message::getMessage(33));
 
                 }else{
+
+                    $categoria=Categoria::getInstance()->getCategoriaPorNombre($nombreCategoria);
+
+                    if($categoria->estaHabilitada=1){
+
+                        Categoria::getInstance()->habilitarCategoria($categoria->getId());
+                        $this->categorias(Message::getMessage(33));
+
+                    }else{
                     $mensaje=Message::getMessage(34);
                     $args=array_merge($args, $mensaje, ['nombrecategoria'=>$nombreCategoria]);
                     $this->altaCategoria($args);
+                }
                 }
             }else{
 
@@ -136,7 +146,7 @@ class CategoriaController {
     // -------------PRIVATE FUNCTIONS-------------------------//
     private function procesarBaja($borrarId){
         $idCategoria=$borrarId;
-        Categoria::getInstance()->eliminarCategoria($idCategoria);
+        Categoria::getInstance()->deshabilitarCategoria($idCategoria);
     }
 
 }

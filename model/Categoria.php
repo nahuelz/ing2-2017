@@ -91,6 +91,16 @@ class Categoria extends PDORepository {
         return $answer[0];
     }
 
+    public function getCategoriaPorNombre($nombreCategoria){
+        $mapper = function($row) {
+            $resource = new Categoria($row['id'], $row['nombre'], $row['habilitada']);
+            return $resource;
+        };
+
+        $answer = $this->queryList("SELECT * FROM categoria WHERE nombre=?", [$nombreCategoria], $mapper);
+        return $answer[0];
+    }
+
     public function existeCategoria($nombreCategoria){
     
         $mapper = function($row) {};
@@ -109,6 +119,18 @@ class Categoria extends PDORepository {
     public function eliminarCategoria($idCategoria){
             $mapper = function($row) {};
             $sql = "DELETE FROM categoria WHERE id=?";
+            $values = [$idCategoria];
+            $this->queryList($sql, $values, $mapper);
+    }
+    public function deshabilitarCategoria($idCategoria){
+            $mapper = function($row) {};
+            $sql = "UPDATE categoria SET habilitada= 0 WHERE id=?";
+            $values = [$idCategoria];
+            $this->queryList($sql, $values, $mapper);
+    }
+    public function habilitarCategoria($idCategoria){
+            $mapper = function($row) {};
+            $sql = "UPDATE categoria SET habilitada= 1 WHERE id=?";
             $values = [$idCategoria];
             $this->queryList($sql, $values, $mapper);
     }
