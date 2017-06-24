@@ -122,6 +122,13 @@ class Categoria extends PDORepository {
             $values = [$idCategoria];
             $this->queryList($sql, $values, $mapper);
     }
+    public function tieneFavores($idCategoria){
+           $mapper = function($row) {};
+            $sql = "SELECT * FROM favor inner join categoria on (favor.categoria=categoria.id) WHERE id=?";
+            $values = [$idCategoria];
+            $this->queryList($sql, $values, $mapper);
+            return (count($answer) > 0);
+    }
     public function deshabilitarCategoria($idCategoria){
             $mapper = function($row) {};
             $sql = "UPDATE categoria SET habilitada= 0 WHERE id=?";

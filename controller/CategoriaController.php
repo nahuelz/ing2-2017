@@ -172,7 +172,10 @@ class CategoriaController {
     // -------------PRIVATE FUNCTIONS-------------------------//
     private function procesarBaja($borrarId){
         $idCategoria=$borrarId;
-        Categoria::getInstance()->deshabilitarCategoria($idCategoria);
+        if (Categoria::getInstance()->tieneFavores($idCategoria)) {
+            Categoria::getInstance()->deshabilitarCategoria($idCategoria); 
+        }
+        $this->categorias(Message::getMessage(39));
     }
 
 }
