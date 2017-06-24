@@ -23,6 +23,7 @@ require_once('model/Creditos.php');
 require_once('model/Calificacion.php');
 require_once('model/Reputacion.php');
 require_once('model/Categoria.php');
+require_once('model/ReporteGanancias.php');
 
 /* VIEW */
 require_once('view/TwigView.php');
@@ -45,6 +46,8 @@ require_once('view/AltaReputacion.php');
 require_once('view/VerCategorias.php');
 require_once('view/ModificarCategoria.php');
 require_once('view/AltaCategoria.php');
+require_once('view/reporteUsuarios.php');
+require_once('view/reporteGanancias.php');
 
 
 if (isset($_GET["action"])){
@@ -102,6 +105,11 @@ if (isset($_GET["action"])){
         case 'modificarCategoriaAction': {CategoriaController::getInstance()->modificarCategoriaAction();break;}
         case 'eliminarCategoria': { CategoriaController::getInstance()->eliminarCategoria(); break; }
         
+        /* CATEGORIA */
+        case 'reporteUsuarios': { UsuarioController::getInstance()->reporteUsuarios(); break; }
+        case 'reporteGanancias': { UsuarioController::getInstance()->reporteGanancias(); break; }
+
+        /* DEFAULT */
         default: { ResourceController::getInstance()->home(); break; }
     }
 } else {

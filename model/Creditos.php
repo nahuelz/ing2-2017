@@ -64,6 +64,7 @@ class Creditos extends PDORepository {
     public function getFecha(){
         return $this->fecha;
     }
+    
 
     public function guardarRegistro($usuarioId, $precioUnitario, $cantidad, $fecha){
         $mapper = function($row) {};
@@ -78,4 +79,5 @@ class Creditos extends PDORepository {
         };
         return $this->queryList("SELECT * FROM precio;", [], $mapper)[0];
     }
+    
 }

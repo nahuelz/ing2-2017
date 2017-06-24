@@ -201,4 +201,63 @@ class UsuarioController {
         Session::getInstance()->destroy();
         ResourceController::getInstance()->home();
     }
+
+    /*
+    ** REPORTE DE USUARIOS MEJOR PUNTUADOS
+    */
+    public function reporteUsuarios($args = []){
+        if($this->usuarioLogeado()){
+            if ($this->usuarioLogeado()->getEsAdmin()){
+                $usuariosConMasPuntos= Usuario::getInstance()->usuariosConMasPuntos();
+                $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'usuarioConMasPuntos' =>  $usuariosConMasPuntos]);
+                $view = new ReporteUsuarios();
+                $view->show($args);
+            }else{
+                ResourceController::getInstance()->home();
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+    /*
+    ** REPORTE GANANCIAS ENTRE DOS FECHAS
+    */
+    public function reporteGanancias($args = []){
+        if($this->usuarioLogeado()){
+            if ($this->usuarioLogeado()->getEsAdmin()){
+                if (!array_key_exists('user', $args)) {
+                     $args=array_merge($args, ['user' => $this->usuarioLogeado()]);
+                }
+                if(isset($_POST['fechaInicial'])&& !empty($_POST['fechaInicial']) && isset($_POST['fechaFinal']) && !empty($_POST['fechaFinal'])){
+
+                    $fechaInicial=$_POST['fechaInicial'];
+                    $fechaFinal=$_POST['fechaFinal'];
+                    $reporteGanancias=ReporteGanancia::getInstance()->reporteGanancias($fechaInicial, $fechaFinal);
+                    $creditosVendidos=$reporteGanancias->getCreditosVendidos();
+                    $totalRecaudado=$reporteGanancias->getTotalRecaudado();
+                    if(!is_null($totalRecaudado)){
+                        $mensaje=Message::getMessage(38);
+                        $args = array_merge($args,$mensaje, ['totalRecaudado' => $totalRecaudado,'creditosVendidos' => $creditosVendidos, 'fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal]);
+                        $view = new reporteGanancias();
+                        $view->show($args);
+                    }else{
+                        $mensaje=Message::getMessage(37);
+                        $args=array_merge($args,$mensaje, ['fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal]);
+                        $view = new reporteGanancias();
+                        $view->show($args);
+                    }
+
+                }else{
+
+                    $view = new reporteGanancias();
+                    $view->show($args);
+                }
+            }else{
+                ResourceController::getInstance()->home();
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
 }

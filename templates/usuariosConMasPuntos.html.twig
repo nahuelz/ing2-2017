@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+{% block container %} 
+
+    <div style="margin-top:50px">
+        <div class="panel panel-info">
+            <div class="col-md-12">
+                <h3> Usuarios mejor puntuados </h3>
+            </div>         
+            <hr>
+
+        <div class="panel-body"> 
+            <table class="table table-hover col-md-12">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th></th>
+                        <th>Puntos</th>
+                    </tr>
+                </thead>
+                
+                    <tbody>
+                        {% for usuario in usuarioConMasPuntos %}
+                        <tr>
+                            <td>{{ usuario.nombre }}</td>
+                            <td>{{ usuario.apellido }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td></td>
+                            <td>{{ usuario.puntos }}</td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -168,7 +168,7 @@ class Usuario extends PDORepository {
 
     public function existeEmailPassword($email, $pass) {
         $mapper=function($row){};
-        $answer = $this->queryList("SELECT * FROM usuario WHERE email=? AND password=?;", [$email, $pass], $mapper);
+        $answer = $this->queryList("SELECT * FROM usuario WHERE email=? AND password=?", [$email, $pass], $mapper);
         return (count($answer) > 0);
     }
 
@@ -178,7 +178,7 @@ class Usuario extends PDORepository {
             return $resource;
         };
 
-        $answer = $this->queryList("SELECT * FROM usuario WHERE email=? AND password=?;", [$email, $pass], $mapper);
+        $answer = $this->queryList("SELECT * FROM usuario WHERE email=? AND password=?", [$email, $pass], $mapper);
         if (count($answer) > 0) {
             $session = Session::getInstance();
             $session->usuario = $answer[0];
@@ -206,16 +206,26 @@ class Usuario extends PDORepository {
 
     public function getUsuario($id) {
         $mapper = function($row) {
-            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['localidad'], $row['puntos'], $row['esAdmin'], $row['habilitado']);
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'],$row['puntos'],$row['localidad'], $row['esAdmin'], $row['habilitado']);
             return $resource;
         };
 
-        $answer = $this->queryList("SELECT * FROM usuario WHERE id=?;", [$id], $mapper);
+        $answer = $this->queryList("SELECT * FROM usuario WHERE id=?", [$id], $mapper);
         return ($answer[0]);
     }
 
     public function actualizarCreditos($idUsuario, $totalCreditos) {
         $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE usuario SET creditos = ? WHERE id = ?;", [$totalCreditos, $idUsuario], $mapper);
+        $answer = $this->queryList("UPDATE usuario SET creditos = ? WHERE id = ?", [$totalCreditos, $idUsuario], $mapper);
     }
+
+    public function usuariosConMasPuntos() {
+        $mapper = function($row) {
+            $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['puntos'], $row['localidad'], $row['esAdmin'], $row['habilitado']);
+            return $resource;
+        };
+        $answer = $this->queryList("SELECT * FROM usuario ORDER BY puntos DESC, nombre ASC, apellido ASC", [], $mapper);
+        return ($answer);
+    }
+
 }

@@ -83,6 +83,10 @@ class Message {
                 return ['message' => 'Se ha eliminado la categoria correctamente', 'tipo' => 'success'];
             case 36:
                 return ['message' => 'Debe elegir otro nombre para la categoria', 'tipo' => 'warning'];
+            case 37:
+                return ['message' => 'No se encontraron ganancias entre esas fechas', 'tipo' => 'warning'];
+            case 38:
+                return ['message' => 'Se encontraron ganancias entre esas fechas', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }
