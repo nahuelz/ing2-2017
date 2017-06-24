@@ -48,6 +48,7 @@ require_once('view/ModificarCategoria.php');
 require_once('view/AltaCategoria.php');
 require_once('view/reporteUsuarios.php');
 require_once('view/reporteGanancias.php');
+require_once('view/VerDatos.php');
 
 
 if (isset($_GET["action"])){
@@ -63,6 +64,7 @@ if (isset($_GET["action"])){
         case 'deshabilitarCuentaAction': { UsuarioController::getInstance()->deshabilitarCuentaAction(); break; }
         case 'editarCuenta': { UsuarioController::getInstance()->editarCuenta(); break; }
         case 'cerrarSesion': { UsuarioController::getInstance()->cerrarSesion(); break; }
+        case 'verDatos': { UsuarioController::getInstance()->verDatos(); break; }
 
         /* FAVOR */
         case 'altaFavor': { FavorController::getInstance()->altaFavor(); break; }

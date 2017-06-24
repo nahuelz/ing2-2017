@@ -260,4 +260,15 @@ class UsuarioController {
         }
     }
 
+    /*
+     * VER DATOS
+     */
+     public function verDatos($args = []){
+        if ($this->usuarioLogeado()){
+            $view = new VerDatos();
+            $view->show($args);
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
 }

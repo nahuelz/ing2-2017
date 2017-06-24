@@ -5,7 +5,7 @@
     {% if favores %}
         <div id="signupbox" style="margin-top:50px" class="mainbox col-md-12">
             <div class="panel panel-info">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <h3> Mis postulaciones</h3>
                     <hr>
                 </div>         
@@ -30,18 +30,26 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fecha_publicacion }}</td>
-                                <td>{% if favor.estado == 'A' %} Abierto {% elseif favor.estado == 'C' %} Cerrado {% else %} Finalizado {% endif %}</td>
-                                {% if favor.estado == 'C' %}
-                                    <td>
-                                    {% if favor.idUsuarioAceptado == user.id %}
-                                        <strong style="color: green;"> Esperando calificacion </strong>
-                                    {% else %}
-                                        <strong style="color: red;"> No has sido seleccionado </strong>
+                                <td>
+                                    {% if favor.estado == 'A' %} 
+                                        Abierto 
+                                    {% elseif favor.estado == 'C' %} 
+                                        {% if favor.idUsuarioAceptado == user.id %} 
+                                            <strong style="color: green;"> Aceptado - </strong> 
+                                            <strong style="color: green;"> Esperando calificacion </strong>                                   
+                                            <td>
+                                                <form role="form" method="POST" action="./?action=verDatos">
+                                                    <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                                    <input id="btn-signup" class="btn btn-info" type="submit" value="Ver Datos">
+                                                </form>
+                                            </td>
+                                        {% else %} 
+                                            <strong style="color: red;"> No has sido aceptado </strong> 
+                                        {% endif %} 
+                                    {% else %} 
+                                        Finalizado 
                                     {% endif %}
-                                    </td>
-                                {% else %}
-
-
+                                {% if favor.estado != 'C' %}
                                 <td>
                                     <a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 <td>

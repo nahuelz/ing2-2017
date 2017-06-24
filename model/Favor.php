@@ -201,6 +201,12 @@ class Favor extends PDORepository {
 
     }
 
+    public function aceptarPostulante($idFavor, $idPostulante){
+        $mapper = function($row){};
+        $sql = "UPDATE favor SET estado = ?, idUsuarioAceptado = ? WHERE id = ?";
+        $values = ['C', $idPostulante, $idFavor];
+        $answer = $this->queryList($sql, $values, $mapper);
+    }
 
     public function cambiarEstadoFavor($idFavor, $estado){
          $mapper = function($row) {};

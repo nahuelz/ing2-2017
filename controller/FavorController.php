@@ -407,7 +407,8 @@ class FavorController {
                 if ($favor->getUsuarioId() == $idUsuario){ //  valido que sea su favor. una persona no podria ver los
                                                              // postulantes del favor de otra persona
                     $postulantes = Favor::getInstance()->getPostulantes($idUsuario, $idFavor);
-                    $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'postulantes' => $postulantes]);
+                    $reputaciones = Reputacion::getInstance()->getReputaciones();
+                    $args = array_merge($args, ['reputaciones' => $reputaciones,'user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'postulantes' => $postulantes]);
                     $view = new VerPostulantes();
                     $view->show($args);
 
@@ -427,7 +428,7 @@ class FavorController {
             if ( (isset($_POST['idPostulante'])) && (!empty($_POST['idPostulante'])) && (isset($_POST['idFavor'])) && (!empty($_POST['idFavor'])) ) {
                 $idPostulante = $_POST['idPostulante'];
                 $idFavor = $_POST['idFavor'];
-                Favor::getInstance()->cerrarFavor($idFavor, $idPostulante);
+                Favor::getInstance()->aceptarPostulante($idFavor, $idPostulante);
                 Postulacion::getInstance()->aceptarPostulante($idPostulante);
                 $this->verPostulantes();
             }else{

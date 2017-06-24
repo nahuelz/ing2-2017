@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Ranking</th>
+                            <th>Reputacion</th>
                             <th>Comentario</th>
                             <th>Localidad</th>
                             <th></th>
@@ -25,7 +25,15 @@
                         <tbody>
                             <tr>
                                 <td> {{ postulante.nombre }} </td>
-                                <td> unRanking </td>
+                                <td>
+                                    {% for reputacion in reputaciones %}
+                                        {% if postulante.puntos >= reputacion.inicio %}
+                                            {% if postulante.puntos <= reputacion.fin %}
+                                                {{ reputacion.nombre }}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %} 
+                                </td>
                                 <td> {{ postulante.comentario }} </td>
                                 <td> {% if postulante.localidad %} {{ postulante.localidad}} {% else %} Desconocida {% endif %}</td>
                                 <td> {% if favor.estado == 'C'%}
