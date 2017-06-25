@@ -36,21 +36,27 @@
         <div class="panel-body"> 
             <table class="table table-hover col-md-12">
                 <thead>
-                    <tr>
-                        <th>Total recaudado (ARS)</th>
-                        
+                    <tr>  
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>   
+                        <th>Fecha</th>  
                         <th>Cantidad de creditos vendidos</th>
+                        <th>Total recaudado ($ ARS)</th>     
                     </tr>
                 </thead>
                 
                     <tbody>
-                    
+                    {% for reporte in reporteGanancias %}
                         <tr>
-                            <td><center> {{ totalRecaudado }}</center></td>
-                            
-                            <td><center>{{ creditosVendidos }}</center></td>
+                            <td><center>{{ reporte.nombre }}</center></td>
+                            <td><center>{{ reporte.apellido }}</center></td>
+                            <td><center>{{ reporte.email }}</center></td>
+                            <td><center>{{ reporte.fecha }}</center></td>
+                            <td><center>{{ reporte.creditosVendidos }}</center></td>
+                            <td><center> {{ reporte.totalRecaudado }}</center></td>                    
                         </tr>
-
+                    {% endfor %}
                     </tbody>
                 
             </table>

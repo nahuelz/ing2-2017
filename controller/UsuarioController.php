@@ -233,11 +233,9 @@ class UsuarioController {
                     $fechaInicial=$_POST['fechaInicial'];
                     $fechaFinal=$_POST['fechaFinal'];
                     $reporteGanancias=ReporteGanancia::getInstance()->reporteGanancias($fechaInicial, $fechaFinal);
-                    $creditosVendidos=$reporteGanancias->getCreditosVendidos();
-                    $totalRecaudado=$reporteGanancias->getTotalRecaudado();
-                    if(!is_null($totalRecaudado)){
+                    if(count($reporteGanancias)){
                         $mensaje=Message::getMessage(38);
-                        $args = array_merge($args,$mensaje, ['totalRecaudado' => $totalRecaudado,'creditosVendidos' => $creditosVendidos, 'fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal]);
+                        $args = array_merge($args,$mensaje, ['reporteGanancias' => $reporteGanancias, 'fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal]);
                         $view = new reporteGanancias();
                         $view->show($args);
                     }else{
