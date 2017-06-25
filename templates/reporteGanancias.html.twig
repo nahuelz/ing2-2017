@@ -10,13 +10,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="fechaInicial">Fecha inicial:</label>
-                      <input type="date" class="form-control" id="fechaInicial" name="fechaInicial" value="{{ fechaInicial}}">
+                      <input type="date" class="form-control" id="fechaInicial" name="fechaInicial" value="{{ fechaInicial}}" required="">
                     </div>
                 </div>
                 <div class="col-md-6">    
                     <div class="form-group">
                       <label for="fechaFinal">Fecha final:</label>
-                      <input type="date" class="form-control" id="fechaFinal" name="fechaFinal" value="{{fechaFinal }}">
+                      <input type="date" class="form-control" id="fechaFinal" name="fechaFinal" value="{{fechaFinal }}" required="">
                     </div>
                 </div>
             
@@ -33,16 +33,30 @@
 
                 
         </form>
-        <div class="panel-body"> 
+        <div class="panel-body">
+
+            <div class="col-md-12">
+                <div class="col-md-12">    
+                        
+                        <label for="">Total recaudado ($ ARS):</label>
+                        <p>{{totalPorPeriodo}}</p>
+
+                </div> 
+                <div class="col-md-12">    
+
+                        <label for="">Creditos vendidos en ese periodo:</label>
+                        <p>{{creditosPorPeriodo}}</p>
+                </div>      
+            </div>   
             <table class="table table-hover col-md-12">
                 <thead>
                     <tr>  
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>   
-                        <th>Fecha</th>  
-                        <th>Cantidad de creditos vendidos</th>
-                        <th>Total recaudado ($ ARS)</th>     
+                        <th><center>Nombre</center></th>
+                        <th><center>Apellido</center></th>
+                        <th><center>Email</center></th>   
+                        <th><center>Fecha</center></th>  
+                        <th><center>Cantidad de creditos vendidos</center></th>
+                        <th><center>Total por venta ($ ARS)</center></th>     
                     </tr>
                 </thead>
                 
