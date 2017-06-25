@@ -20,6 +20,9 @@
                             <th>Fecha publicacion</th>
                             <th>Estado</th>
                             <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     {% for favor in favores %}
@@ -38,10 +41,8 @@
                                     
                                     <td>
                                         <form role="form" method="POST" action="./?action=editarFavor">
-
                                                 <input type="hidden" name="idFavor" value='{{ favor.id }}'>
                                                 <input style="width: 120px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
-
                                         </form>
                                     </td>
 
@@ -53,12 +54,21 @@
                                     </td>
                                 {% else %}
                             {% endif %}
+                            {% if favor.estado != 'F' %}
                                 <td>
                                     <form role="form" method="POST" action="./?action=verPostulantes">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                         <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
+                                <td></td>
+                                <td></td>  
+                                <td></td>
+                            {% endif %}
+                                <td></td>
+                                <td></td>  
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     {% endfor %}

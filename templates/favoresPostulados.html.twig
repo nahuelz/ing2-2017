@@ -38,9 +38,11 @@
                                             <strong style="color: green;"> Aceptado - </strong> 
                                             <strong style="color: green;"> Esperando calificacion </strong>                                   
                                             <td>
-                                                <form role="form" method="POST" action="./?action=verDatos">
+                                                <form method="POST" action="./?action=verDatos">
                                                     <input type="hidden" name="userId" value="{{ favor.usuario_id }}">
-                                                    <input id="btn-signup" class="btn btn-info" type="submit" value="Ver Datos">
+                                                    <input type="hidden" name="volver" value="favoresPostulados">
+                                                    <input type="hidden" name="favorId" value="{{ favor.id }}">
+                                                    <input class="btn btn-info" type="submit" value="Ver Datos">
                                                 </form>
                                             </td>
                                         {% else %} 

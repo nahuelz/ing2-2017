@@ -284,8 +284,10 @@ class UsuarioController {
      public function verDatos($args = []){
         if ($this->usuarioLogeado()){
             $userId = $_POST['userId'];
+            $volver = $_POST['volver'];
+            $favorId = $_POST['favorId'];
             $usuario = Usuario::getInstance()->getUsuario($userId);
-            $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'usuario' => $usuario]);
+            $args = array_merge($args, ['favorId' => $favorId, 'volver' => $volver, 'user' => $this->usuarioLogeado(), 'usuario' => $usuario]);
             $view = new VerDatos();
             $view->show($args);
         }else{

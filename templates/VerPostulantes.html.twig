@@ -19,6 +19,7 @@
                             <th>Comentario</th>
                             <th>Localidad</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     {% for postulante in postulantes %}
@@ -36,25 +37,35 @@
                                 </td>
                                 <td> {{ postulante.comentario }} </td>
                                 <td> {% if postulante.localidad %} {{ postulante.localidad}} {% else %} Desconocida {% endif %}</td>
-                                <td> {% if favor.estado == 'C'%}
+                                <td> 
+                                    {% if favor.estado == 'C'%}
                                         {% if postulante.estado == 'A' %}
                                             <form method="POST" action="./?action=calificarPostulante">
                                                 <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">
                                                 <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                                 <input class="btn btn-success" type="submit" value="Calificar">
                                             </form>
+
+                                            <td>
+                                                <form method="POST" action="./?action=verDatos">
+                                                    <input type="hidden" name="userId" value="{{ postulante.idUsuario }}">
+                                                    <input type="hidden" name="volver" value="verPostulantes">
+                                                    <input type="hidden" name="favorId" value="{{ favor.id }}">
+                                                    <input class="btn btn-info" type="submit" value="Ver Datos">
+                                                </form>
+                                            </td>
                                         {% endif %}
                                     {% elseif favor.estado == 'F' %}
                                         {% if postulante.estado == 'A' %}
                                             <strong style="color: green;"> Calificado </strong>
                                         {% endif %}
                                     {% else %}
-                                    <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=aceptarPostulante">
-                                        <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">
-                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input class="btn btn-success" type="submit" value="Aceptar">
-                                    </form>
-                                     {% endif %}
+                                        <form onclick="return confirm('Esta seguro de que quiere aceptar este postulante?')" method="POST" action="./?action=aceptarPostulante">
+                                            <input type="hidden" name="idPostulante" value="{{ postulante.idUsuario }}">
+                                            <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                            <input class="btn btn-success" type="submit" value="Aceptar">
+                                        </form>
+                                    {% endif %}
                                 </td>
                             </tr>
                         </tbody>

@@ -29,9 +29,19 @@
                             <br>
                             <dt> Localidad: </dt>
                             <dd> {{ usuario.localidad }} </dd>
+
+                            <br>
+                            <dt>
+                                <form role="form" method="POST" action="./?action={{volver}}">
+                                    <input type="hidden" name="idFavor" value="{{ favorId }}">
+                                    <input class="btn btn-info" type="submit" value="Volver">
+                                </form>
+                            </dt>
                         </dl>
                     </div>
                 </div>
+
+                
             </div>
         </div>
     </div>
