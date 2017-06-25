@@ -219,6 +219,12 @@ class Usuario extends PDORepository {
         $answer = $this->queryList("UPDATE usuario SET creditos = ? WHERE id = ?", [$totalCreditos, $idUsuario], $mapper);
     }
 
+    public function calificar($idUsuario, $calificacion) {
+        $mapper = function($row) {};
+        $answer = $this->queryList("UPDATE usuario SET calificacion = ? WHERE id = ?", [$calificacion, $idUsuario], $mapper);
+    }
+
+
     public function usuariosConMasPuntos() {
         $mapper = function($row) {
             $resource = new Usuario($row['id'], $row['nombre'], $row['apellido'], $row['email'], $row['password'], $row['telefono'], $row['creditos'], $row['puntos'], $row['localidad'], $row['esAdmin'], $row['habilitado']);
