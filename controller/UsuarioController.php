@@ -265,6 +265,9 @@ class UsuarioController {
      */
      public function verDatos($args = []){
         if ($this->usuarioLogeado()){
+            $userId = $_POST['userId'];
+            $usuario = Usuario::getInstance()->getUsuario($userId);
+            $args = array_merge($args, ['user' => $this->usuarioLogeado(), 'usuario' => $usuario]);
             $view = new VerDatos();
             $view->show($args);
         }else{
