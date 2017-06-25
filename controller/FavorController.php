@@ -464,8 +464,9 @@ class FavorController {
                 $idFavor = $_POST['idFavor'];
                 $comentario = $_POST['comentario'];
                 $calificacion = $_POST['calificacion'];
+                $idUsuario = $_POST['idPostulante'];
                 Calificacion::getInstance()->altaCalificacion($comentario, $idUsuario, $idFavor, $calificacion);
-                Favor::getInstance()->finalizarFavor($idFavor);
+                Favor::getInstance()->cambiarEstadoFavor($idFavor, 'F');
                 $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
                 $this->VerPostulantes();
             }else{

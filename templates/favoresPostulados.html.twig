@@ -49,7 +49,7 @@
                                     {% else %} 
                                         Finalizado 
                                     {% endif %}
-                                {% if favor.estado != 'C' %}
+                                {% if favor.estado == 'A' %}
                                 <td>
                                     <a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 <td>

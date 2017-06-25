@@ -107,7 +107,7 @@ if (isset($_GET["action"])){
         case 'modificarCategoriaAction': {CategoriaController::getInstance()->modificarCategoriaAction();break;}
         case 'eliminarCategoria': { CategoriaController::getInstance()->eliminarCategoria(); break; }
         
-        /* CATEGORIA */
+        /* REPORTES */
         case 'reporteUsuarios': { UsuarioController::getInstance()->reporteUsuarios(); break; }
         case 'reporteGanancias': { UsuarioController::getInstance()->reporteGanancias(); break; }
 

@@ -72,7 +72,6 @@ class Calificacion extends PDORepository {
 
     public function altaCalificacion($comentario, $idUsuario, $idFavor, $calificacion){
         $mapper = function($row) {};
-        print_r($comentario); die();
         $sql = "INSERT INTO calificacion (comentario, idUsuario, idFavor, calificacion) VALUES (?, ?, ?, ?)";
         $values = [$comentario, $idUsuario, $idFavor, $calificacion];
         $this->queryList($sql, $values, $mapper);

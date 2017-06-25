@@ -20,10 +20,6 @@
                             <th>Fecha publicacion</th>
                             <th>Estado</th>
                             <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-
                         </tr>
                     </thead>
                     {% for favor in favores %}
@@ -34,36 +30,35 @@
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fechaPublicacion }}</td>
                                 <td>{% if favor.estado == 'A' %} Abierta {% elseif favor.estado == 'C' %} Esperando calificacion {% elseif favor.estado == 'E' %} Eliminada {% else %} Finalizada {% endif %}</td>
-                                {% if favor.estado == 'A' %}
-                                <td><a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
                                 
+                                {% if favor.estado == 'A' %}
+                                    <td>
+                                        <a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a>
+                                    </td>
+                                    
+                                    <td>
+                                        <form role="form" method="POST" action="./?action=editarFavor">
+
+                                                <input type="hidden" name="idFavor" value='{{ favor.id }}'>
+                                                <input style="width: 120px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
+
+                                        </form>
+                                    </td>
+
+                                    <td>
+                                        <form onclick="return confirm('Esta seguro de que quiere finalizar este favor?')" role="form" method="POST" action="./?action=solicitarEliminarFavor">
+                                            <input type="hidden" name="idFavor" value="{{ favor.id }}">
+                                            <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
+                                        </form>
+                                    </td>
+                                {% else %}
+                            {% endif %}
                                 <td>
-                                    <form role="form" method="POST" action="./?action=editarFavor">
-
-                                            <input type="hidden" name="idFavor" value='{{ favor.id }}'>
-                                            <input style="width: 120px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
-
-                                    </form>
-                                </td>
-
-                                <td>
-                                    <form onclick="return confirm('Esta seguro de que quiere finalizar este favor?')" role="form" method="POST" action="./?action=solicitarEliminarFavor">
-                                        <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
-                                    </form>
-                                </td>
-                                <td>
-
                                     <form role="form" method="POST" action="./?action=verPostulantes">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                        <input id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
+                                        <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
-                            {% else %}
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            {% endif %}
                             </tr>
                         </tbody>
                     {% endfor %}
