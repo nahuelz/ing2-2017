@@ -234,8 +234,10 @@ class UsuarioController {
                     $fechaFinal=$_POST['fechaFinal'];
                     $reporteGanancias=ReporteGanancia::getInstance()->reporteGanancias($fechaInicial, $fechaFinal);
                     if(count($reporteGanancias)){
+                        $totalPorPeriodo=$this->totalPeriodo($reporteGanancias);
+                        $creditosPorPeriodo=$this->totalCreditos($reporteGanancias);
                         $mensaje=Message::getMessage(38);
-                        $args = array_merge($args,$mensaje, ['reporteGanancias' => $reporteGanancias, 'fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal]);
+                        $args = array_merge($args,$mensaje, ['reporteGanancias' => $reporteGanancias, 'fechaInicial' =>  $fechaInicial, 'fechaFinal' => $fechaFinal, 'totalPorPeriodo' => $totalPorPeriodo, 'creditosPorPeriodo' => $creditosPorPeriodo]);
                         $view = new reporteGanancias();
                         $view->show($args);
                     }else{
@@ -256,6 +258,24 @@ class UsuarioController {
         }else{
             ResourceController::getInstance()->home();
         }
+    }
+
+    private function totalPeriodo($reporte){
+        $total=0;
+        foreach ($reporte as $posicion => $elemento) {
+            # code...
+            $total=$total+$elemento->getTotalRecaudado();
+        }
+        return $total;
+    }
+
+    private function totalCreditos($reporte){
+        $total=0;
+        foreach ($reporte as $posicion => $elemento) {
+            # code...
+            $total=$total+$elemento->getCreditosVendidos();
+        }
+        return $total;
     }
 
     /*
