@@ -99,7 +99,8 @@ class UsuarioController {
         if ($this->usuarioLogeado()){
             $user = Usuario::getInstance()->getUsuario($this->usuarioLogeado()->getId());
             $this->actualizarSession($user);
-            $args = array_merge($args, ['user' => $user, 'localidad' =>  $this->usuarioLogeado()->getLocalidad()]);
+            $reputaciones = Reputacion::getInstance()->getReputaciones();
+            $args = array_merge($args, ['reputaciones' => $reputaciones, 'user' => $user, 'localidad' =>  $this->usuarioLogeado()->getLocalidad()]);
             $view = new MiCuenta();
             $view->show($args);
         }else{
