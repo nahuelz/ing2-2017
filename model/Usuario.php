@@ -221,7 +221,7 @@ class Usuario extends PDORepository {
 
     public function calificar($idUsuario, $calificacion) {
         $mapper = function($row) {};
-        $answer = $this->queryList("UPDATE usuario SET calificacion = ? WHERE id = ?", [$calificacion, $idUsuario], $mapper);
+        $answer = $this->queryList("UPDATE usuario SET puntos = ? WHERE id = ?", [$calificacion, $idUsuario], $mapper);
     }
 
 

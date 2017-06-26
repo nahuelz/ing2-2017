@@ -216,7 +216,7 @@ class FavorController {
                 if (!Postulacion::getInstance()->estaPostulado($idFavor, $idUsuario)) {
                     $estado = 'E'; 
                     Postulacion::getInstance()->altaPostulacion($idFavor, $idUsuario, $estado, $comentario);
-                    $this->verDetalle(Message::getMessage(13));
+                    $this->favoresPostulados(Message::getMessage(13));
                 }else{
                     $this->verDetalle(Message::getMessage(14));
                 }
@@ -411,8 +411,8 @@ class FavorController {
                     $args = array_merge($args, ['reputaciones' => $reputaciones,'user' => UsuarioController::getInstance()->usuarioLogeado(), 'favor' => $favor, 'postulantes' => $postulantes]);
                     $view = new VerPostulantes();
                     $view->show($args);
-
-
+                }else{
+                    ResourceController::getInstance()->home();
                 }
             }else{
                 ResourceController::getInstance()->home();
@@ -469,7 +469,6 @@ class FavorController {
                 $user = Usuario::getInstance()->getUsuario($idUsuario);
                 $user->setPuntos($user->getPuntos() + $calificacion);
                 Usuario::getInstance()->calificar($idUsuario, $user->getPuntos());
-                UsuarioController::getInstance()->actualizarSession($user);
                 Favor::getInstance()->cambiarEstadoFavor($idFavor, 'F');
                 $args = array_merge($args, ['user' => UsuarioController::getInstance()->usuarioLogeado()]);
                 $this->VerPostulantes();
