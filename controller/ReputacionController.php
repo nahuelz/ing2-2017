@@ -210,7 +210,7 @@ class ReputacionController {
     }
 
     private function validarModificacion($id, $nombre, $inicio, $fin){
-        if ($inicio < $fin) {
+        if ($inicio <= $fin) {
             if (!Reputacion::getInstance()->existeNombreModificado($id, $nombre)){
                 if (!$this->superponeRangoModificado($id, $inicio, $fin)){
                     return 0;
@@ -226,7 +226,7 @@ class ReputacionController {
     }
 
     private function validar($nombre, $inicio, $fin){
-        if ($inicio < $fin) {
+        if ($inicio <= $fin) {
             if (!Reputacion::getInstance()->existeNombre($nombre)){
                 if (!$this->superponeRango($inicio, $fin)){
                     return 0;

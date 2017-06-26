@@ -193,7 +193,7 @@ class Favor extends PDORepository {
             $resource = new Favor($row['id'], $row['usuario_id'], $row['titulo'], $row['descripcion'], $row['categoria'], $row['localidad'], $row['fecha_publicacion'], $row['estado'], $row['imagen']);//cerrada por estado
             return $resource;
         };
-        $sql = "SELECT * FROM favor WHERE usuario_id = ?;";
+        $sql = "SELECT * FROM favor WHERE usuario_id = ? ORDER BY estado, titulo;";
         $values = [$userId];
         $answer = $this->queryList($sql, $values, $mapper);
     
