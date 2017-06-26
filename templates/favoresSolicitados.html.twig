@@ -42,14 +42,14 @@
                                     <td>
                                         <form role="form" method="POST" action="./?action=editarFavor">
                                                 <input type="hidden" name="idFavor" value='{{ favor.id }}'>
-                                                <input style="width: 120px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
+                                                <input style="width: 100px; float: right;"  class="btn btn-success" type="submit" value="Editar favor"> 
                                         </form>
                                     </td>
 
                                     <td>
                                         <form onclick="return confirm('Esta seguro de que quiere finalizar este favor?')" role="form" method="POST" action="./?action=solicitarEliminarFavor">
                                             <input type="hidden" name="idFavor" value="{{ favor.id }}">
-                                            <input style="width: 120px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
+                                            <input style="width: 100px;" id="btn-signup" class="btn btn-danger" type="submit" value="Eliminar">
                                         </form>
                                     </td>
                                 {% else %}
@@ -61,14 +61,12 @@
                                         <input style="width: 120px; float: right;" id="btn-signup" class="btn btn-info" type="submit" value="Ver Postulantes">
                                     </form>
                                 </td>
+                            {% else %}
                                 <td></td>
                                 <td></td>  
+                                <td></td>
                                 <td></td>
                             {% endif %}
-                                <td></td>
-                                <td></td>  
-                                <td></td>
-                                <td></td>
                             </tr>
                         </tbody>
                     {% endfor %}

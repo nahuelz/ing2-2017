@@ -30,27 +30,32 @@
                                 <td>{{ favor.titulo }}</td>
                                 <td>{{ favor.localidad }}</td>
                                 <td>{{ favor.fecha_publicacion }}</td>
-                                <td>
-                                    {% if favor.estado == 'A' %} 
-                                        Abierto 
-                                    {% elseif favor.estado == 'C' %} 
-                                        {% if favor.idUsuarioAceptado == user.id %} 
-                                            <strong style="color: green;"> Aceptado - </strong> 
-                                            <strong style="color: green;"> Esperando calificacion </strong>                                   
-                                            <td>
-                                                <form method="POST" action="./?action=verDatos">
-                                                    <input type="hidden" name="userId" value="{{ favor.usuario_id }}">
-                                                    <input type="hidden" name="volver" value="favoresPostulados">
-                                                    <input type="hidden" name="favorId" value="{{ favor.id }}">
-                                                    <input class="btn btn-info" type="submit" value="Ver Datos">
-                                                </form>
-                                            </td>
-                                        {% else %} 
-                                            <strong style="color: red;"> No has sido aceptado </strong> 
-                                        {% endif %} 
+
+                                {% if favor.estado == 'A' %}
+                                    <td> Abierto </td>
+                                {% elseif favor.estado == 'C' %} 
+                                    {% if favor.idUsuarioAceptado == user.id %} 
+                                        <td><strong style="color: green;"> Aceptado - Esperando calificacion </strong></td> 
                                     {% else %} 
-                                        Finalizado 
-                                    {% endif %}
+                                        <td><strong style="color: red;"> No has sido aceptado </strong></td>
+                                    {% endif %} 
+                                {% else %} 
+                                    <td>Finalizado</td>
+                                    <td></td>
+                                    <td></td>
+                                {% endif %}
+
+                                {% if favor.estado == 'C' and favor.idUsuarioAceptado == user.id%}
+                                    <td>
+                                        <form method="POST" action="./?action=verDatos">
+                                            <input type="hidden" name="userId" value="{{ favor.usuario_id }}">
+                                            <input type="hidden" name="volver" value="favoresPostulados">
+                                            <input type="hidden" name="favorId" value="{{ favor.id }}">
+                                            <input style="padding: 5px 30px 7px 30px; width:120px;" class="btn btn-info" type="submit" value="Ver Datos">
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                {% endif %}
                                 {% if favor.estado == 'A' %}
                                 <td>
                                     <a href="./?action=verDetalle&id={{ favor.id }}"> <input style="width: 120px; float: right;" type="sumbit" class="btn btn-info" name="Ver Detalle" value="Ver Detalle"> </a></td>
@@ -58,7 +63,7 @@
                                     <form onclick="return confirm('Esta seguro de que quiere cancelar esta postulacion?')" role="form" method="POST" action="./?action=cancelarPostulacion">
                                         <input type="hidden" name="idFavor" value="{{ favor.id }}">
                                         <input type="hidden" name="from" value="misPostulaciones">
-                                        <input style="padding: 5px 30px 7px 30px;" id="btn-signup" class="btn btn-danger" type="submit" value="Cancelar">
+                                        <input style="padding: 5px 30px 7px 30px;" class="btn btn-danger" type="submit" value="Cancelar">
                                     </form>
                                 </td>
 
@@ -84,4 +89,5 @@
     </div>
 
 
-{% endblock %}
+{% endblock %}                          
+                                            
