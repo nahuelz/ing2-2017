@@ -68,6 +68,11 @@ class Reputacion extends PDORepository {
         $answer = $this->queryList("INSERT INTO reputacion (nombre, inicio, fin) VALUES (?, ?, ?);", [$nombre, $inicio, $fin], $mapper);
     }
 
+    public function modificarReputacion($id, $nombre, $inicio, $fin) {
+        $mapper = function($row) {};
+        $answer = $this->queryList("UPDATE reputacion SET nombre = ?, inicio = ?, fin = ? WHERE id = ?;", [$nombre, $inicio, $fin,$id], $mapper);
+    }
+
     public function getReputaciones() {
         $mapper = function($row) {
             $resource = new Reputacion($row['id'], $row['nombre'], $row['inicio'], $row['fin']);
@@ -83,6 +88,21 @@ class Reputacion extends PDORepository {
             return $resource;
         };
         $answer = $this->queryList("SELECT * FROM Reputacion WHERE inicio <= ? AND fin >=? ;", [$valor, $valor], $mapper);
+
+        if (count($answer) > 0){
+            return ($answer[0]);
+        }else{
+            return 0;
+        }
+        
+    }
+
+    public function getReputacionValorModificado($valor, $id) {
+        $mapper = function($row) {
+            $resource = new Reputacion($row['id'], $row['nombre'], $row['inicio'], $row['fin']);
+            return $resource;
+        };
+        $answer = $this->queryList("SELECT * FROM Reputacion WHERE inicio <= ? AND fin >=? AND id != ?;", [$valor, $valor, $id], $mapper);
 
         if (count($answer) > 0){
             return ($answer[0]);
@@ -108,6 +128,12 @@ class Reputacion extends PDORepository {
     public function existeNombre($nombre) {
         $mapper = function($row) {};
         $answer = $this->queryList("SELECT * FROM Reputacion WHERE nombre=?;", [$nombre], $mapper);
+        return (count($answer) > 0);
+    }
+
+    public function existeNombreModificado($id, $nombre) {
+        $mapper = function($row) {};
+        $answer = $this->queryList("SELECT * FROM Reputacion WHERE nombre=? AND id != ?;", [$nombre, $id], $mapper);
         return (count($answer) > 0);
     }
 

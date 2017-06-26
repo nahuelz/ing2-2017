@@ -146,17 +146,13 @@ class CategoriaController {
      */
     public function eliminarCategoria($args = []){
         if(UsuarioController::getInstance()->usuarioLogeado()){
-            if (UsuarioController::getInstance()->usuarioLogeado()){
-                if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
-                    if ( (isset($_POST['idCategoria'])) ){
-                        $id = $_POST['idCategoria'];
-                        $this->procesarBaja($id);
-                        $this->categorias(Message::getMessage(35));
-                    }else{
-                        $this->categorias();
-                    }
+            if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
+                if ( (isset($_POST['idCategoria'])) ){
+                    $id = $_POST['idCategoria'];
+                    Categoria::getInstance()->deshabilitarCategoria($id); 
+                    $this->categorias(Message::getMessage(35));
                 }else{
-                    ResourceController::getInstance()->home();
+                    $this->categorias();
                 }
             }else{
                 ResourceController::getInstance()->home();
@@ -165,17 +161,4 @@ class CategoriaController {
             ResourceController::getInstance()->home();
         }
     }
-
-
-
-
-    // -------------PRIVATE FUNCTIONS-------------------------//
-    private function procesarBaja($borrarId){
-        $idCategoria=$borrarId;
-        if (Categoria::getInstance()->tieneFavores($idCategoria)) {
-            Categoria::getInstance()->deshabilitarCategoria($idCategoria); 
-        }
-        $this->categorias(Message::getMessage(39));
-    }
-
 }

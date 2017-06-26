@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+{% block container %}
+    <div class="container">    
+        <div style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Modificar Repuacion</div>
+                </div>
+                <div class="panel-body" >
+                    <form class="form-horizontal" method="POST" action="./?action=modificarReputacionAction">
+
+                        <input type="hidden" name="id" value="{{reputacion.id}}">                          
+
+                        <div class="form-group">
+                              <label for="nombre" class="col-md-3 control-label">Nombre</label>
+                              <div class="col-md-9">
+                                    <input type="nombre" class="form-control" name="nombre" value="{{ reputacion.nombre }}">
+                              </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inicio" class="col-md-3 control-label">Inicio del rango</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" name="inicio" value="{{ reputacion.inicio }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fin" class="col-md-3 control-label">Fin del rango</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" name="fin" value="{{ reputacion.fin }}">
+                            </div>
+                        </div>
+   
+
+                        <div class="form-group">                                      
+                            <div class="col-md-offset-3 col-md-3">
+                                <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i>Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

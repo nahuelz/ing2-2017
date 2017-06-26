@@ -91,6 +91,52 @@ class ReputacionController {
         }
     }
 
+    /*
+     * FORMULARIO ALTA REPUTACION
+     */
+    public function modificarReputacion($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
+                if (isset($_POST['id'])){
+                    $id = $_POST['id'];
+                    $reputacion = Reputacion::getInstance()->getReputacion($id);
+                    $args = array_merge($args, ['reputacion' => $reputacion, 'user' => UsuarioController::getInstance()->usuarioLogeado()]);
+                    $view = new ModificarReputacion();
+                    $view->show($args);
+                }else{
+                    $this->reputacion();
+                }
+            }else{
+                ResourceController::getInstance()->home();
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
+    /*
+     * MODIFICAR REPUTACION
+     */
+    public function modificarReputacionAction($args = []){
+        if (UsuarioController::getInstance()->usuarioLogeado()){
+            if (UsuarioController::getInstance()->usuarioLogeado()->getEsAdmin()){
+                if (isset($_POST['id'])){
+                    $id = $_POST['id'];
+                    $nombre = $_POST['nombre'];
+                    $inicio = $_POST['inicio'];
+                    $fin = $_POST['fin'];
+                    $this->procesarModificacion($id, $nombre, $inicio, $fin);
+                }else{
+                    $this->altaReputacion(Message::getMessage(5));
+                }
+            }else{
+                ResourceController::getInstance()->home();
+            }
+        }else{
+            ResourceController::getInstance()->home();
+        }
+    }
+
 
 
 
@@ -129,8 +175,58 @@ class ReputacionController {
             $this->altaReputacion($args);
         }
     }
+
+    private function procesarModificacion($id, $nombre, $inicio, $fin){
+        $validacion = $this->validarModificacion($id, $nombre, $inicio, $fin);
+        if ($validacion == 0){
+            if ($this->modificoRango($id, $inicio, $fin)){
+                if (!$this->incluidoEnRango($inicio, $fin)){
+                    if ((Reputacion::getInstance()->getReputacionValor($inicio) != null) || (Reputacion::getInstance()->getReputacionValor($fin) != null)){
+                        $this->modificarRangoFin($inicio);
+                        $this->modificarRangoInicio($fin);
+                    }else{
+                        $this->modificarRango($inicio, $fin);
+                    }
+                }else{
+                    $fin = Reputacion::getInstance()->getReputacionValor($fin)->getFin();
+                    $this->modificarRangoFin($inicio);
+                }
+            }
+            Reputacion::getInstance()->modificarReputacion($id, $nombre, $inicio, $fin);
+            $this->reputacion(Message::getMessage(39));
+        }else{
+            $args = array_merge($validacion, ['nombre' => $nombre, 'inicio' => $inicio, 'fin'=> $fin]);
+            $this->altaReputacion($args);
+        }
+    }
+
+    private function modificoRango($id, $inicio, $fin){
+        $rep = Reputacion::getInstance()->getReputacion($id);
+        if ( ($rep->getInicio() == $inicio) && ($rep->getFin() == $fin) ){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private function validarModificacion($id, $nombre, $inicio, $fin){
+        if ($inicio < $fin) {
+            if (!Reputacion::getInstance()->existeNombreModificado($id, $nombre)){
+                if (!$this->superponeRangoModificado($id, $inicio, $fin)){
+                    return 0;
+                }else{
+                    return (Message::getMessage(28));
+                }
+            }else{
+                return (Message::getMessage(30));
+            }
+        }else{
+            return (Message::getMessage(29));
+        }
+    }
+
     private function validar($nombre, $inicio, $fin){
-        if ( ($inicio < $fin) && ($inicio != $fin) ) {
+        if ($inicio < $fin) {
             if (!Reputacion::getInstance()->existeNombre($nombre)){
                 if (!$this->superponeRango($inicio, $fin)){
                     return 0;
@@ -149,6 +245,16 @@ class ReputacionController {
         $reputaciones = Reputacion::getInstance()->getReputaciones();
         foreach ($reputaciones as $reputacion) {
             if ( ($reputacion->getInicio() >= $inicio) && ($reputacion->getFin() <= $fin) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function superponeRangoModificado($id, $inicio, $fin){
+        $reputaciones = Reputacion::getInstance()->getReputaciones();
+        foreach ($reputaciones as $reputacion) {
+            if ( ($reputacion->getInicio() >= $inicio) && ($reputacion->getFin() <= $fin) && ($reputacion->getId() != $id) ){
                 return true;
             }
         }

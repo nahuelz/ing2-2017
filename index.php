@@ -9,7 +9,6 @@ require_once('controller/ReputacionController.php');
 require_once('controller/CategoriaController.php');
 
 
-
 /* MODEL */
 require_once('model/PDORepository.php');
 require_once('model/Usuario.php');
@@ -43,6 +42,7 @@ require_once('view/ConfirmarEliminacion.php');
 require_once('view/EditarFavor.php');
 require_once('view/VerReputacion.php');
 require_once('view/AltaReputacion.php');
+require_once('view/ModificarReputacion.php');
 require_once('view/VerCategorias.php');
 require_once('view/ModificarCategoria.php');
 require_once('view/AltaCategoria.php');
@@ -97,7 +97,8 @@ if (isset($_GET["action"])){
         case 'altaReputacion': { ReputacionController::getInstance()->altaReputacion(); break; }
         case 'altaReputacionAction': { ReputacionController::getInstance()->altaReputacionAction(); break; }
         case 'eliminarReputacion': { ReputacionController::getInstance()->eliminarReputacion(); break; }
-        //case 'modificarReputacion': { ReputacionController::getInstance()->modificarReputacion(); break; }
+        case 'modificarReputacion': { ReputacionController::getInstance()->modificarReputacion(); break; }
+        case 'modificarReputacionAction' : { ReputacionController::getInstance()->modificarReputacionAction(); break; }
 
         /* CATEGORIA */
         case 'categoria': {CategoriaController::getInstance()->categorias();break;}

@@ -88,7 +88,7 @@ class Message {
             case 38:
                 return ['message' => 'Se encontraron ganancias entre esas fechas', 'tipo' => 'success'];
             case 39:
-                return ['message' => 'No se puede borrar la Categoria, ya que tiene favores', 'tipo' => 'warning'];
+                return ['message' => 'Reputacion modificada', 'tipo' => 'success'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }
