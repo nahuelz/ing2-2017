@@ -11,7 +11,7 @@
                     <select class="form-control" name="categoria">
                         <option value="">Categoria</option>
                         {% for categoria in categorias %}
-                            <option value="{{categoria.id}}">{{categoria.nombre}}</option>
+                            <option {% if categoria.id == categ %} selected {% endif %} value="{{categoria.id}}">{{categoria.nombre}}</option>
                         {% endfor %}         
                     </select>
                     <button class="btn btn-info">Buscar</button>

@@ -268,7 +268,7 @@ class FavorController {
             if ($favores == []) {
                 $args = Message::getMessage(16);
             }else{
-                $args = array_merge($args, ['favores' => $favores,'titulo' => $titulo, 'localidad' => $localidad, 'categoria' => $categoria]);
+                $args = array_merge($args, ['favores' => $favores,'titulo' => $titulo, 'localidad' => $localidad, 'categ' => $categoria]);
             } 
             ResourceController::getInstance()->home($args);
         }
@@ -371,7 +371,6 @@ class FavorController {
      */
     public function eliminarFavorConPostulante($args = []){
         if (UsuarioController::getInstance()->usuarioLogeado()){
-            UsuarioController::getInstance()->descontarCreditos(1);
             $this->eliminarFavor();
         }else{
             ResourceController::getInstance()->home(Message::getMessage(0));
@@ -487,12 +486,16 @@ class FavorController {
         if (UsuarioController::getInstance()->usuarioLogeado()){
             if (isset($_POST['idFavor']) && !empty($_POST['idFavor'])){
                 $idFavor = $_POST['idFavor'];
-                $favor = Favor::getInstance()->getFavor($idFavor);
-                $categorias = Categoria::getInstance()->categoriasHabilitadas();
-                $localidad  = $favor->getLocalidad();
-                $args = array_merge($args, ['localidad' => $localidad, 'user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favor' => $favor]);
-                $view = new EditarFavor();
-                $view->show($args);
+                if (Favor::getInstance()->postulantes($idFavor)){
+                    $this->misFavores(Message::getMessage(40));
+                }else{
+                    $favor = Favor::getInstance()->getFavor($idFavor);
+                    $categorias = Categoria::getInstance()->categoriasHabilitadas();
+                    $localidad  = $favor->getLocalidad();
+                    $args = array_merge($args, ['localidad' => $localidad, 'user' => UsuarioController::getInstance()->usuarioLogeado(), 'categorias' => $categorias, 'favor' => $favor]);
+                    $view = new EditarFavor();
+                    $view->show($args);
+                }
             }else{
                  $this->misFavores($args);
             }

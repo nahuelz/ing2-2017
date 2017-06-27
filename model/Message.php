@@ -89,6 +89,8 @@ class Message {
                 return ['message' => 'Se encontraron ganancias entre esas fechas', 'tipo' => 'success'];
             case 39:
                 return ['message' => 'Reputacion modificada', 'tipo' => 'success'];
+            case 40:
+                return ['message' => 'No puede modificar esta publicacion porque ya posee postulantes', 'tipo' => 'warning'];
             default:
                 return ['message' => 'Ups! No hay un case para este numero de mensaje de error.', 'tipo' => 'warning'];
         }

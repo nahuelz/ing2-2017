@@ -118,8 +118,7 @@ class UsuarioController {
 
             if ( isset($_POST['nombre']) AND isset($_POST['apellido']) AND isset($_POST['password']) AND isset($_POST['email']) AND isset($_POST['telefono']) AND !empty($_POST['nombre']) AND !empty($_POST['apellido']) AND !empty(['password']) AND !empty($_POST['email']) AND !empty($_POST['telefono'])) {
                 
-                $userMod = new Usuario($user->getId(), $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono'], $_POST['creditos'], $_POST['localidad']);
-
+                $userMod = new Usuario($user->getId(), $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['password'], $_POST['telefono'], $_POST['creditos'], $user->getPuntos(), $_POST['localidad']);
                 if($user->getPassword() == $userMod->getPassword()){
                     if ($user->getEmail() == $userMod->getEmail()){
                         if ($user->getCreditos() == $userMod->getCreditos()){
